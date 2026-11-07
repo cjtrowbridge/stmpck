@@ -1,0 +1,68 @@
+# STMPCK — Agent Instructions
+
+## Repository purpose and authority
+
+Build STMPCK: a small, offline collection of games for self-directed cognitive and sensory pleasure, primarily for neurodivergent people and welcoming to everyone. This is a private development repository intended for eventual app-store distribution.
+
+[README.md](README.md) is the canonical product direction and set of promises. The rules below translate those commitments into development practice. Keep the two documents consistent. [ROADMAP.md](ROADMAP.md) defines the agreed foundation work and first five game specifications; proposed defaults and open decisions remain labeled there. `chat.md` is historical exploration, not a backlog of approved features. Inherited boilerplate plans remain historical scaffolding until explicitly revised for STMPCK.
+
+The current app contains five playable games with shared game-driven previews and local saves. Audio and working settings overrides remain future work; the gear screen is still a mockup. Distinguish implemented behavior, verified behavior, and intended commitments in documentation and reports.
+
+## Foundational development rules
+
+1. **Demoscene first.** Build the simplest possible codebase and app. Prefer small, readable implementations, procedural visuals and sound, minimal assets, few dependencies, and efficient use of memory, CPU, GPU, storage, and battery. Add an abstraction or dependency only when a concrete requirement justifies it. Share code where it makes the implementation simpler; avoid speculative engines, plugin systems, and service infrastructure. Do not trade clarity for code golf. Rich sensory output remains compatible with small code.
+
+2. **The simplest possible path to play.** Preserve the path from opening the app to seeing games, choosing one, and playing. Keep navigation shallow and controls consistent. Avoid unnecessary intermediate screens and setup. Growth of the catalog must not require growth of interface complexity.
+
+3. **Show instead of explain.** Make gameplay previews the primary selection interface; prefer rendering them with the game's code over maintaining video assets. Minimize visible text and use clear visual feedback. Do not add search. Provide accessible names, optional explanations, and readable purchase information where needed. Icons and gestures must have accessible alternatives; hidden gestures must not be the only route to essential actions. The text-minimization rule applies to the app, not developer documentation.
+
+4. **Neurodivergent people are the primary audience.** Design for varied sensory, attention, motor, and cognitive needs from the start. Do not require a diagnosis, infer one, or assume everyone wants calm or intensity. Use redundant cues rather than color alone, support the relevant assistive technologies and input methods, and verify accessibility on the platforms being shipped. Do not claim universal accessibility from a visual design alone.
+
+5. **The player controls the sensation.** Keep rules and game state independent of presentation. Support a range from monochrome wireframes to extravagant audiovisual delight. Persist explicit preferences locally after the first five games, as scheduled in the roadmap. Until then, each new session starts at the default animated intensity with autoplay on and sound off; do not restore prior sensory settings. During gameplay, intensity changes only through explicit clicks/taps on the more/less intensity controls. Keep these controls separated on the sorting-tab row and aligned to its left and right edges; reserve screen swipes for game input. Intensity navigation is bounded, with the least intense presentation at the left and the most intense at the right. Preview autoplay is determined by intensity, with no separate play/pause button or shortcut: all levels left of the default are still, and the default and higher levels autoplay unless the future global menu-animation override disables them. The gear settings screen is a mockup until its roadmap logic is implemented; its switches must not be presented as working or persistent. Immediately left of default is the same visual style without autoplay; monochrome wireframe is one more step left. Sound and haptics remain independent of intensity. Reduced-motion preferences apply to previews and transitions as well as gameplay effects. Keep the default colors available without motion; intensity must not force sound, haptics, or flashing.
+
+6. **Pleasure is enough.** Support repetition, exploration, and play without productive justification. Do not add therapeutic claims, diagnostic framing, or demands for self-improvement.
+
+7. **Fully offline operation.** Bundle everything needed for available games, previews, and presentation. Opening the app, playing, saving, loading, and changing settings must work without connectivity or a server response. Do not introduce periodic online authorization checks, remote assets required for play, or runtime inference dependencies. Validate offline behavior for releases. Keep any explicitly selected purchase, restoration, or update mechanism from becoming a dependency of ordinary play.
+
+8. **No ads, spyware, or surveillance.** Do not add ad SDKs, behavioral analytics, tracking identifiers, device fingerprinting, or gameplay telemetry. Keep saves, preferences, and any counts used for local ordering on the device. Do not transmit them for popularity rankings or personalization. Apply these protections equally to free and paid play and inspect new dependencies for conflicts with them.
+
+9. **Respect the player's attention.** Do not add streak pressure, manufactured urgency, energy timers, nagging notifications, or spending prompts during play. Make pausing, leaving, and returning straightforward. Preserve the player's place and preferences; avoid unexpected reshuffling while browsing. Optimize for satisfying play, not time spent in the app.
+
+10. **Preserve familiar experiences.** New games and optional presentations must preserve existing rules, saves, and chosen settings. Keep persistent game identifiers stable. Treat bug fixes and compatibility changes as continuity work; offer deliberate gameplay changes as optional variants. Use focused regression checks when shared code or persistence changes could affect existing games.
+
+## Roadmap and plan correspondence
+
+This is the canonical planning rule for STMPCK:
+
+- **One-to-one mapping:** each roadmap deliverable being actively planned or worked on must have its own plan file. Each individual requirement under that deliverable being actively planned or worked on must also have its own plan file. Each plan owns exactly one roadmap entry; a deliverable-level plan may coordinate and link its requirement plans, but does not replace them. Do not use one broad plan as the plan for multiple entries or create competing plans for the same entry.
+- **Plan only active scope:** create and cite the corresponding plan when detailed planning begins, and before implementation starts. Unstarted roadmap entries may remain without plans. Activating a deliverable does not require creating plans for all of its requirements in advance; only requirements being actively planned or worked on need them.
+- **Cite plans at their entries:** the roadmap must include a Markdown link showing the repository-relative path to the plan at the corresponding deliverable or requirement. Place a deliverable's plan link immediately below its heading and a requirement's plan link on its checklist item. A general link to the plans directory or a plan index is not sufficient.
+- **Explain the work first:** immediately after its title, each plan must explain the deliverable and the specific roadmap requirement it addresses, the problem to solve, and the intended outcome. A deliverable-level plan must explain the overall deliverable and how its requirements fit together. Identify and link back to the corresponding roadmap section and quote or name the exact mapped entry so the scope is unambiguous.
+- **Keep both directions current:** updating a plan must include reviewing and synchronizing its roadmap entry, citation, and scope. Renaming, moving, archiving, splitting, or merging plans must update affected roadmap links in the same change, including moves between `plans/future/`, `plans/current/`, and `plans/past/`. If the path is unchanged, verify the existing link; if scope changes, update the plan introduction and roadmap mapping together to preserve one-to-one correspondence.
+- **Preserve traceability:** completed entries retain their links to the completed plans at their current paths. Check that affected roadmap links resolve after every plan lifecycle change. Do not leave stale paths or claim active work is covered by an unrelated inherited plan.
+
+## Unresolved product decisions
+
+Pricing, subscriptions, permanent ownership, accounts, cross-device purchases, and a guaranteed release cadence remain open. Do not invent commitments or build infrastructure for them from historical chat suggestions. Any selected model must uphold the README's offline and privacy promises. Global popularity currently uses explicitly labeled, bundled placeholder familiarity scores authorized by the user. Keep these distinct from measured market share or live player counts. Any future measured ranking needs an honest source consistent with no gameplay surveillance. Discovery includes only never-played games, ordered by global popularity.
+
+## Build and deployment contract
+
+- **Build entrypoint:** `scripts/build.py`, or `make build` on Unix. No target flags, environment variables, or config files are required for the ordinary build. `python scripts/build.py --verify` builds and verifies locally feasible targets.
+- **Build ownership:** only `scripts/build.py` and its direct callers perform builds. `pipeline.py run` is optional governance scaffolding and never performs a host build.
+- **Artifacts:** `releases/{goos}/{goarch}/app/latest[.exe]`; Windows uses `.exe`, and the Android arm64 debug target uses `.apk`.
+- **Target feedback:** build preflight lists every matrix target, its intended output, local feasibility, and reason. Do not claim platform or store support without verification.
+- **Pinned stack:** Go 1.26.4 and Ebitengine v2.9.9, as recorded in `go.mod`.
+- **Canonical development launch:** `.vscode/launch.json` builds and pushes the current Android debug APK to the authorized test phone through `scripts/build.py --verify --launch-android`. Require a successful Android build from the current invocation before deploying; never launch a stale APK after build failure. This device-testing workflow is authorized and separate from store publishing.
+- **Deployment:** keep deployment unconfigured until the operator selects the target, credentials mechanism, signing policy, and release destination. App-store intent alone does not select these details.
+
+Use this session's review and deterministic local checks for ordinary work. Scale verification to the change; documentation-only edits do not require building the app.
+
+## Optional development scaffolding
+
+`agentic-pipelines/`, `pipeline.yaml`, and the Ollama configuration files are optional development scaffolding. They are not required to build, verify, review, or play STMPCK and are not part of the app's runtime.
+
+Do not contact a configured Ollama or other inference endpoint unless the operator explicitly requests that operation. `api.sample.yaml` is an example; host-local `api.yaml` remains ignored. Consult [agentic-pipelines/AGENTS.md](agentic-pipelines/AGENTS.md) only when operating or changing that optional subsystem. Its instructions do not turn ordinary app development into a governance-pipeline operation.
+
+## Reference-only content
+
+`third_party/apparat/` is a local reference checkout only. It and nested submodules must remain ignored and untracked; they are never imported, built, or executed.

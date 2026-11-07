@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "STMPCK: Launch on test phone",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "python3 \"${workspaceFolder}/scripts/build.py\" --verify --launch-android",
+      "windows": {
+        "command": "python \"${workspaceFolder}\\scripts\\build.py\" --verify --launch-android"
+      },
+      "cwd": "${workspaceFolder}",
+      "presentation": {
+        "group": "stmpck",
+        "order": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Linear
+
+Implement the [Linear deliverable](../../ROADMAP.md#4-linear) as a playable offline game with rules, input, presentation, shared controls, and local saves. Its individual requirement plans own the entries below.
+
+## Work
+
+Use small deterministic state models in `internal/play`, shared rendering for live games and demonstrations, and the existing menu/intensity system. Keep mechanical time separate from decorative animation. Verify rules with pure Go tests and build/deploy through the canonical command. Preserve pending accessibility/device verification explicitly.
+
+## Status
+
+Playable implementation complete; shared release acceptance remains open.
+
+Implemented in `internal/play/linear.go`: 7×6 board, gravity, full-column rejection, four-direction wins, draws, computer-only play (local two-player mode deferred to future PvP), landing preview, alternating starts, and immediate-win/block/center-preference AI. Tests cover legal drops and horizontal/vertical/diagonal wins plus opponent priority. Phone human input and computer response pass.
+
+Every game uses the same renderer for demonstrations and play, shares pause/new/back controls, and persists its model through `internal/storage`. Broader accessibility, physical controller verification, and extended playtesting remain pending. Evidence: `reports/five-games/checks.json`, game screenshots in the same directory, and `.tools/five-games-final.log`.

@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1024 1024"
+     width="1024" height="1024"
+     role="img"
+     aria-label="STMPCK rainbow stimpack icon">
+
+ <defs>
+  <clipPath id="app">
+   <rect width="1024" height="1024" rx="205"/>
+  </clipPath>
+
+  <linearGradient id="rainbowVial" x1="0" y1="0" x2="0.15" y2="1">
+   <stop offset="0" stop-color="#f20a9b"/>
+   <stop offset=".23" stop-color="#ff7914"/>
+   <stop offset=".42" stop-color="#ffe300"/>
+   <stop offset=".62" stop-color="#04d857"/>
+   <stop offset=".80" stop-color="#02b9ef"/>
+   <stop offset="1" stop-color="#8e0af1"/>
+  </linearGradient>
+ </defs>
+
+ <g clip-path="url(#app)">
+  <rect width="1024" height="1024" rx="205" fill="#030305"/>
+
+  <!-- Rainbow fan -->
+  <path fill="#f51ca3"
+        d="M364 503 C315 365 134 362 153 148
+           C160 77 180 20 222 -25
+           L730 -25 C608 95 550 211 483 345
+           C443 422 419 476 364 503Z"/>
+
+  <path fill="#e80079"
+        d="M364 503 C350 373 267 291 296 155
+           C314 67 356 12 395 -25
+           L730 -25 C608 95 550 211 483 345
+           C443 422 419 476 364 503Z"/>
+
+  <path fill="#ff8517"
+        d="M364 503 C431 310 526 205 649 107
+           C750 27 811 -6 885 -25
+           L1070 -25 L1070 167
+           C841 171 665 252 537 371
+           C473 430 415 480 364 503Z"/>
+
+  <path fill="#ffe500"
+        d="M364 503 C434 371 563 291 691 228
+           C814 167 934 123 1080 118
+           L1080 293 C834 319 722 351 589 419
+           C476 477 413 487 364 503Z"/>
+
+  <path fill="#02d849"
+        d="M364 503 C468 422 552 403 703 349
+           C809 311 920 292 1080 282
+           L1080 420 C887 429 740 465 606 494
+           C476 517 427 500 364 503Z"/>
+
+  <path fill="#08c9ed"
+        d="M364 503 C476 457 552 459 692 457
+           C827 457 957 403 1080 408
+           L1080 590 C897 634 755 588 615 540
+           C486 497 416 483 364 503Z"/>
+
+  <path fill="#078efa"
+        d="M364 503 C473 474 535 503 677 533
+           C827 567 968 561 1080 533
+           L1080 646 C934 683 791 637 636 575
+           C491 517 423 493 364 503Z"/>
+
+  <path fill="#9515f7"
+        d="M364 503 C488 479 566 520 683 580
+           C828 655 948 639 1080 606
+           L1080 772 C948 795 815 756 682 684
+           C553 613 506 518 364 503Z"/>
+
+  <!-- Gem -->
+  <path fill="#fff"
+        d="M378 128 493 72 573 126 490 234 Z
+           M405 131 460 105 439 152Z
+           M471 99 529 127 467 151Z
+           M453 163 490 213 497 151Z
+           M508 157 547 133 509 145Z"/>
+
+  <!-- Cherries -->
+  <path fill="#fff"
+        d="M728 168
+           C775 123 792 94 786 69
+           L802 73
+           C812 117 794 147 767 178
+           C787 181 807 204 801 230
+           C793 267 751 272 726 250
+           C704 229 703 190 728 168Z"/>
+
+  <circle cx="680" cy="190" r="43" fill="#fff"/>
+
+  <path fill="#fff"
+        d="M783 68 Q835 18 890 68 Q847 107 783 68Z"/>
+
+  <!-- Mushroom -->
+  <path fill="#fff"
+        d="M514 367
+           C505 340 524 315 547 305
+           C583 286 620 306 636 335
+           C647 359 640 379 629 379
+           L604 370 611 401
+           C618 444 572 448 562 420
+           L568 373
+           C540 381 517 390 514 367Z"/>
+
+  <!-- Sparkles -->
+  <path fill="#fff"
+        d="M239 149
+           C248 195 263 206 300 211
+           C260 222 244 237 239 278
+           C228 236 209 223 171 211
+           C213 204 228 190 239 149Z"/>
+
+  <path fill="#fff"
+        d="M377 231
+           C385 260 399 275 428 281
+           C399 288 383 301 377 330
+           C370 300 353 288 325 281
+           C355 276 369 260 377 231Z"/>
+
+  <path fill="#fff"
+        d="M669 356
+           C678 411 700 432 745 439
+           C698 450 678 473 669 532
+           C659 473 637 453 594 439
+           C637 430 659 410 669 356Z"/>
+
+  <path fill="#fff"
+        d="M857 133
+           C866 166 879 177 911 184
+           C880 191 864 205 857 239
+           C848 204 834 191 804 184
+           C835 176 848 163 857 133Z"/>
+
+  <path fill="#fff"
+        d="M918 423
+           C924 450 939 464 962 469
+           C937 474 922 490 918 517
+           C909 489 899 476 872 469
+           C902 463 911 450 918 423Z"/>
+
+  <path fill="#fff"
+        d="M800 587
+           C809 625 826 643 863 651
+           C828 662 809 679 800 716
+           C791 680 773 661 737 651
+           C771 644 792 626 800 587Z"/>
+
+  <!-- Number -->
+  <text x="740" y="405"
+        font-family="DejaVu Sans,Arial,sans-serif"
+        font-weight="900"
+        font-style="italic"
+        font-size="102"
+        letter-spacing="-10"
+        fill="#fff"
+        transform="rotate(-9 740 405)">128</text>
+
+  <!-- Stimpack body -->
+  <g transform="translate(361 503) rotate(-46)">
+
+   <!-- Ergonomic finger grips: lavender shadow -->
+   <path
+     d="M-480 -83
+        Q-530 -83 -535 -36
+        L-535 39
+        Q-535 83 -486 83
+        L-193 83
+        Q-170 83 -166 67
+        Q-159 51 -141 50
+        Q-116 49 -113 27
+        Q-110 6 -90 0
+        L-90 -77
+        Q-116 -82 -139 -83Z"
+     fill="#aa8de2"/>
+
+   <!-- White ergonomic housing -->
+   <path
+     d="M-480 -91
+        Q-530 -91 -535 -48
+        L-535 31
+        Q-535 73 -486 73
+        L-196 73
+        Q-170 73 -167 50
+        Q-164 29 -145 30
+        Q-119 32 -116 9
+        Q-114 -10 -91 -12
+        L-91 -72
+        Q-117 -90 -142 -91Z"
+     fill="#fffaf2"/>
+
+   <!-- Rainbow-filled chamber -->
+   <rect x="-510" y="-61"
+         width="343" height="117"
+         rx="48" fill="#171126"/>
+
+   <rect x="-504" y="-54"
+         width="330" height="104"
+         rx="45" fill="url(#rainbowVial)"/>
+
+   <!-- Glass reflection -->
+   <path d="M-476 -36 H-215"
+         stroke="#fff"
+         stroke-width="12"
+         stroke-linecap="round"
+         opacity=".94"/>
+
+   <!-- Sparkle inside chamber -->
+   <path fill="#fff"
+         d="M-363 -24
+            C-358 -4 -347 7 -325 12
+            C-350 18 -359 30 -363 50
+            C-369 28 -381 18 -404 12
+            C-381 5 -370 -6 -363 -24Z"/>
+
+   <!-- Bubbles -->
+   <circle cx="-460" cy="25" r="11" fill="#fff"/>
+   <circle cx="-432" cy="24" r="9" fill="#fff"/>
+   <circle cx="-270" cy="26" r="9" fill="#fff"/>
+   <circle cx="-236" cy="26" r="7" fill="#fff"/>
+
+   <!-- Three chunky finger grooves -->
+   <path
+     d="M-410 72
+        C-398 87 -374 87 -362 72
+        C-348 54 -332 53 -318 72
+        C-305 90 -283 90 -269 72
+        C-255 53 -236 53 -223 72"
+     fill="none"
+     stroke="#a68cd8"
+     stroke-width="24"
+     stroke-linecap="round"/>
+
+   <path
+     d="M-410 65
+        C-398 77 -374 77 -362 65
+        C-348 47 -332 47 -318 65
+        C-305 78 -283 78 -269 65
+        C-255 47 -236 47 -223 65"
+     fill="none"
+     stroke="#fffaf2"
+     stroke-width="19"
+     stroke-linecap="round"/>
+
+   <!-- Pink activation button -->
+   <rect x="-173" y="-107"
+         width="67" height="35"
+         rx="13" fill="#a20068"/>
+
+   <rect x="-178" y="-115"
+         width="68" height="35"
+         rx="13" fill="#ff158e"/>
+
+   <path d="M-167 -107 H-140"
+         stroke="#fff"
+         stroke-width="5"
+         stroke-linecap="round"/>
+
+   <!-- Nozzle collars -->
+   <rect x="-122" y="-87"
+         width="62" height="165"
+         rx="18" fill="#8b6cc7"/>
+
+   <rect x="-128" y="-94"
+         width="62" height="160"
+         rx="18" fill="#fffaf2"/>
+
+   <path d="M-124 -70 H-67 M-124 41 H-67"
+         stroke="#23143f"
+         stroke-width="11"/>
+
+   <!-- Emitter tip -->
+   <path
+     d="M-66 -39
+        L-1 -22
+        Q11 -12 11 0
+        Q11 12 -1 22
+        L-66 39Z"
+     fill="#fffaf2"
+     stroke="#261643"
+     stroke-width="5"/>
+
+  </g>
+ </g>
+</svg>

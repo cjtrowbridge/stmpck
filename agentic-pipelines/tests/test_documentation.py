@@ -1,0 +1,169 @@
+from pathlib import Path
+import unittest
+
+
+class DocumentationTests(unittest.TestCase):
+    def test_authority_and_evidence_governance_is_routed(self) -> None:
+        agents = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Deterministic methods may establish only properties exactly computable", agents)
+        self.assertIn("references/deterministic_and_semantic_authority.md", agents)
+        self.assertIn("references/run_evidence_and_continuous_improvement.md", agents)
+        self.assertIn("playbooks/how_to_audit_existing_pipeline_conformance.md", agents)
+        audit = Path("playbooks/how_to_audit_existing_pipeline_conformance.md").read_text(encoding="utf-8")
+        self.assertIn("Do not mutate host files", audit)
+        self.assertIn("rejected candidates", audit)
+
+    def test_few_shot_semantic_design_is_canonical_governance(self) -> None:
+        agents = Path("AGENTS.md").read_text(encoding="utf-8")
+        authority = Path("references/deterministic_and_semantic_authority.md").read_text(encoding="utf-8")
+        prompts = Path("references/prompt_authoring.md").read_text(encoding="utf-8")
+        design = Path("playbooks/how_to_design_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("LLMs are few-shot learners.", agents)
+        self.assertIn("LLMs are few-shot learners.", authority)
+        self.assertIn("past inputs and their accepted outputs, followed by the new input", authority)
+        self.assertIn("smallest coherent semantic decision", authority)
+        self.assertIn("Semantic laundering", authority)
+        self.assertIn("minimum sufficient context", prompts)
+        self.assertIn("requested delta", prompts)
+        self.assertIn("trusted past input/accepted-output pairs", design)
+
+    def test_independent_review_is_risk_justified_not_universal(self) -> None:
+        authority = Path("references/deterministic_and_semantic_authority.md").read_text(encoding="utf-8")
+        architecture = Path("docs/pipelines_architecture.md").read_text(encoding="utf-8")
+        builder = Path("playbooks/how_to_build_pipeline_prompts.md").read_text(encoding="utf-8")
+        self.assertIn("optional high-assurance", authority)
+        self.assertIn("conditional, not universal", architecture)
+        self.assertIn("Independent review requires a high-assurance justification", builder)
+
+    def test_pipeline_progress_rule_requires_query_counts_and_eta(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("completed and remaining query counts", text)
+        self.assertIn("static-template and assembled-request sizes", text)
+        self.assertIn("ETA derived from elapsed time", text)
+        self.assertIn("without exposing credentials or protected inputs", text)
+
+    def test_pdf_sources_must_be_converted_before_model_use(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Never provide a PDF directly to an LLM", text)
+        self.assertIn("linked Markdown/text derivative", text)
+        design = Path("playbooks/how_to_design_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("derived text—not the PDF", design)
+
+    def test_ctrl_c_rule_requires_controlled_exit(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Ctrl+C as a controlled interruption", text)
+        self.assertIn("exit with status 130", text)
+        operation = Path("playbooks/how_to_operate_and_resume_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("return exit status 130", operation)
+
+    def test_prompt_rule_requires_limits_and_reasoning_justification(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("completion-token limit", text)
+        self.assertIn("context-window limit (`num_ctx`)", text)
+        self.assertIn("`num_predict` does not limit context/KV-cache allocation", text)
+        self.assertIn("Reasoning is opt-in", text)
+        prompts = Path("playbooks/how_to_build_pipeline_prompts.md").read_text(encoding="utf-8")
+        self.assertIn("completion-token limit", prompts)
+        self.assertIn("context-window limit (`num_ctx`)", prompts)
+        self.assertIn("never mistake `num_predict` for a context/KV-cache limit", prompts)
+        self.assertIn("disable it for clear, constrained transformations", prompts)
+
+    def test_prompt_rule_requires_bounded_corrective_retries(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("finite retry budget", text)
+        self.assertIn("parse/schema/validator rejection", text)
+        self.assertIn("never silently normalize an invalid model result", text)
+        prompts = Path("playbooks/how_to_build_pipeline_prompts.md").read_text(encoding="utf-8")
+        self.assertIn("finite stage retry budget", prompts)
+        self.assertIn("include that reason with the unchanged original inputs", prompts)
+
+    def test_entity_instances_default_to_interactive_sessions(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("one interactive LLM session by default", text)
+        self.assertIn("distinguish session steps from transport/schema retries", text)
+        prompts = Path("playbooks/how_to_build_pipeline_prompts.md").read_text(encoding="utf-8")
+        self.assertIn("finite session-step budget", prompts)
+        operation = Path("playbooks/how_to_operate_and_resume_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("Record session ID, step count, and retries separately", operation)
+
+    def test_execution_rule_requires_persisted_retry_reports(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("persist a structured, non-secret run report", text)
+        self.assertIn("every rejection/retry reason", text)
+        self.assertIn("byte-for-byte", text)
+        self.assertIn("`.explanation.md` sidecar", text)
+        operation = Path("playbooks/how_to_operate_and_resume_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("persisted structured run report", operation)
+        self.assertIn("root cause", operation)
+        self.assertIn("sidecar hash matches", operation)
+        reference = Path("references/run_evidence_and_continuous_improvement.md").read_text(encoding="utf-8")
+        self.assertIn("run-evidence schema version 5", reference)
+        self.assertIn("legacy_appended", reference)
+
+    def test_bootstrap_is_required_before_pipeline_operation(self) -> None:
+        text = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Bootstrap is the first stage", text)
+        self.assertIn("Never alter system Python", text)
+        operation = Path("playbooks/how_to_operate_and_resume_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("Run bootstrap first", operation)
+        self.assertIn("Do not process source", operation)
+        readme = Path("README.md").read_text(encoding="utf-8")
+        self.assertIn("bootstrap_pipeline_environment.py", readme)
+
+    def test_bootstrap_requires_a_tracked_host_api_sample(self) -> None:
+        text = Path("playbooks/how_to_bootstrap_framework_submodule_into_host_repo.md").read_text(encoding="utf-8")
+        self.assertIn("tracked root `api.sample.yaml`", text)
+        self.assertIn("copied from the framework sample", text)
+        self.assertIn("only `api.yaml` is ignored", text)
+        self.assertIn("`.agentic-pipelines/`", text)
+        self.assertIn(".agentic-pipelines/", Path(".gitignore").read_text(encoding="utf-8"))
+
+    def test_vscode_entrypoint_policy_is_host_owned(self) -> None:
+        agents = Path("AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("Every operator entrypoint declared by a host pipeline", agents)
+        self.assertIn("Exactly one host-selected ordinary, non-recovery entrypoint", agents)
+        self.assertIn("host-owned platform-native prerequisite/bootstrap script", agents)
+        self.assertIn("direct commands remain available for CI, schedulers", agents)
+        playbook = Path("playbooks/how_to_set_up_pipeline_entrypoints_in_vscode.md").read_text(encoding="utf-8")
+        self.assertIn("Do not infer the host's entrypoints from the framework reference CLI", playbook)
+        self.assertIn("Do not invent a package manager", playbook)
+        self.assertIn("never replace the file from a framework example", playbook)
+        self.assertNotIn("run_pipeline_entrypoint.ps1", playbook)
+        self.assertNotIn("run_pipeline_entrypoint.sh", playbook)
+        bootstrap = Path("playbooks/how_to_bootstrap_framework_submodule_into_host_repo.md").read_text(encoding="utf-8")
+        update = Path("playbooks/how_to_update_submodule_and_synthesize_host_overrides.md").read_text(encoding="utf-8")
+        operation = Path("playbooks/how_to_operate_and_resume_a_pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("host's actual interactive entrypoints", bootstrap)
+        self.assertIn("Never install upstream VS Code examples over host files", update)
+        self.assertIn("select the applicable host-owned VS Code task or primary play action", operation)
+        readme = Path("README.md").read_text(encoding="utf-8")
+        self.assertIn("framework reference runtime", readme)
+        self.assertIn("adaptable examples, not installable defaults", readme)
+
+    def test_readme_explains_pipeline_entry_points_after_introduction(self) -> None:
+        text = Path("README.md").read_text(encoding="utf-8")
+        heading = "## Pipeline entry points"
+        self.assertIn(heading, text)
+        self.assertLess(text.index("Agentic Pipelines is"), text.index(heading))
+        self.assertLess(text.index(heading), text.index("## How agents use the framework"))
+        for command in ("validate_pipeline_package.py", "preflight", "discover", "run", "inspect-entity", "report", "analyze", "retry-cohort", "rollback-entity"):
+            self.assertIn(command, text)
+
+    def test_migration_guide_names_required_boundaries(self) -> None:
+        text = Path("docs/migrating_from_agents.md").read_text(encoding="utf-8")
+        for term in ("./agentic-pipelines", "AGENTS.md", "TODO.md", "journal", "api.yaml", "schema version 2", "rollback", "LLM stage"):
+            self.assertIn(term, text)
+
+    def test_active_product_files_do_not_reference_removed_systems(self) -> None:
+        roots = (Path("AGENTS.md"), Path("README.md"), Path("playbooks"), Path("prompts"), Path("references"), Path("templates"))
+        for root in roots:
+            paths = [root] if root.is_file() else list(root.rglob("*.md"))
+            for path in paths:
+                text = path.read_text(encoding="utf-8").lower()
+                self.assertNotIn("kanban/", text, path)
+                self.assertNotIn("./agents/", text, path)
+                self.assertNotIn("rules.md", text, path)
+
+
+if __name__ == "__main__":
+    unittest.main()
