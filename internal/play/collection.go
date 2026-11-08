@@ -15,6 +15,12 @@ type Collection struct {
 	Territory Territory
 	Linear    Linear
 	Bounce    Bounce
+	Flow      Flow
+	Caliban   Caliban
+	Bloom     Bloom
+	Echo      Echo
+	Brick     Brick
+	Planets   Planets
 }
 
 func NewCollection() Collection { return Collection{Version: 1} }
@@ -34,13 +40,29 @@ func (c *Collection) New(id, option int, seed uint64) {
 		c.Linear = NewLinear(false, start)
 	case BounceID:
 		c.Bounce = NewBounce(option, seed)
+	case FlowID:
+		c.Flow = NewFlow(seed)
+	case CalibanID:
+		c.Caliban = NewCaliban(seed)
+	case BloomID:
+		c.Bloom = NewBloom()
+	case EchoID:
+		c.Echo = NewEcho(seed)
+	case BrickID:
+		c.Brick = NewBrick(option)
+	case PlanetsID:
+		c.Planets = NewPlanets(option)
 	default:
 		return
 	}
 	c.Ready[id] = true
 	c.Plays[id]++
 }
-func (c *Collection) Pause()                  { c.Snake.Running = false; c.Bounce.Running = false }
+func (c *Collection) Pause() {
+	c.Snake.Running = false
+	c.Bounce.Running = false
+	c.Brick.Running = false
+}
 func (c *Collection) Encode() ([]byte, error) { return json.Marshal(c) }
 func Decode(data []byte) (Collection, error) {
 	var c Collection
@@ -183,5 +205,5 @@ func (c *Collection) Validate() error {
 			}
 		}
 	}
-	return nil
+	return c.validateAdditions()
 }

@@ -86,7 +86,7 @@ func TestPersonalSortingAndPreviewSelection(t *testing.T) {
 	s.RecordPlay(3)
 	s.RecordPlay(3)
 	s.RecordPlay(1)
-	want := []int{3, 1, 0, 2, 4}
+	want := []int{3, 1, 0, 2, 4, 5, 6, 7, 8, 9, 10}
 	if got := s.Order(); !slices.Equal(got, want) {
 		t.Fatalf("personal: %v", got)
 	}
@@ -100,21 +100,21 @@ func TestWorldwideAndDiscovery(t *testing.T) {
 	s := New()
 	s.RecordPlay(3)
 	s.SetTab(Worldwide)
-	if s.HasGlobalRanking || !slices.Equal(s.Order(), []int{1, 0, 4, 3, 2}) {
+	if s.HasGlobalRanking || !slices.Equal(s.Order(), []int{1, 0, 9, 4, 8, 3, 7, 2, 10, 5, 6}) {
 		t.Fatal("placeholder order", s.Order())
 	}
 	if s.SetGlobalRanking([]int{0, 1, 1, 3, 4}) || s.SetGlobalRanking([]int{0}) {
 		t.Fatal("invalid ranking")
 	}
-	if !s.SetGlobalRanking([]int{4, 3, 2, 1, 0}) {
+	if !s.SetGlobalRanking([]int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}) {
 		t.Fatal("valid ranking")
 	}
 	s.SetTab(Discover)
-	if !slices.Equal(s.Order(), []int{4, 2, 1, 0}) {
+	if !slices.Equal(s.Order(), []int{10, 9, 8, 7, 6, 5, 4, 2, 1, 0}) {
 		t.Fatal("discovery must filter played and preserve global ranking", s.Order())
 	}
 	s.RecordPlay(4)
-	if !slices.Equal(s.Order(), []int{2, 1, 0}) {
+	if !slices.Equal(s.Order(), []int{10, 9, 8, 7, 6, 5, 2, 1, 0}) {
 		t.Fatal("newly played game remains discoverable")
 	}
 	for id := 0; id < Count; id++ {
@@ -137,7 +137,7 @@ func TestResponsiveRows(t *testing.T) {
 		t.Fatal("row scroll bounds", s.Scroll)
 	}
 	s.SetTab(Discover)
-	for i := 0; i < 4; i++ {
+	for i := 0; i < Count-1; i++ {
 		s.RecordPlay(i)
 	}
 	s.Clamp(800)
@@ -190,8 +190,8 @@ func TestMosaicHitTargets(t *testing.T) {
 	s := New()
 	width := 450
 	s.RowHeight = int(TileWidth(width)) + 14
-	if s.Rows() != 2 {
-		t.Fatal("five games should occupy two rows")
+	if s.Rows() != (Count+Columns-1)/Columns {
+		t.Fatal("catalog row count")
 	}
 	for i := 0; i < Count; i++ {
 		x, y, w, h := s.TileRect(i, width)
@@ -199,7 +199,7 @@ func TestMosaicHitTargets(t *testing.T) {
 			t.Fatalf("wrong tile %d", i)
 		}
 	}
-	x, y, w, h := s.TileRect(5, width)
+	x, y, w, h := s.TileRect(Count, width)
 	if s.TileAt(x+w/2, y+h/2, width) != -1 {
 		t.Fatal("empty last cell opens a game")
 	}

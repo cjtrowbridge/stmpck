@@ -81,7 +81,7 @@ func (g *Game) Open(row int) {
 	id := g.Selected
 	g.setup = !g.games.Ready[id]
 	created := false
-	if id == play.LinearID && g.setup {
+	if (id == play.LinearID || id >= play.FlowID && id != play.PlanetsID) && g.setup {
 		g.games.New(id, 0, rand.Uint64())
 		created = true
 		g.setup = false
@@ -103,6 +103,9 @@ func (g *Game) Open(row int) {
 	}
 	g.cursor = 0
 	g.paused = id == play.SnakeID || id == play.BounceID || id == play.TerritoryID
+	if id >= play.CalibanID {
+		g.paused = true
+	}
 	g.restartConfirm = false
 	g.pressed = false
 	if !g.setup {
@@ -141,7 +144,7 @@ func (g *Game) gameRect() (x, y, w, h float64) {
 	y = menu.Header + 8
 	h = math.Max(80, float64(g.height)-y-155)
 	switch g.Selected {
-	case play.MergeID:
+	case play.MergeID, play.FlowID, play.CalibanID, play.BloomID, play.EchoID, play.PlanetsID:
 		w = math.Min(w, h)
 		h = w
 	case play.SnakeID:
@@ -158,6 +161,10 @@ func (g *Game) gameRect() (x, y, w, h float64) {
 	return
 }
 func (g *Game) gameAction(slot int) {
+	if g.Selected >= play.FlowID && !g.setup && g.additionAction(slot) {
+		g.saveGames()
+		return
+	}
 	if g.setup {
 		switch slot {
 		case 0:
@@ -180,7 +187,7 @@ func (g *Game) gameAction(slot int) {
 			if g.Selected == play.TerritoryID {
 				g.prepareTerritorySetup()
 			}
-			if g.Selected == play.LinearID {
+			if g.Selected == play.LinearID || g.Selected >= play.FlowID && g.Selected != play.PlanetsID {
 				g.startGame()
 			}
 			return
@@ -242,7 +249,11 @@ func (g *Game) direction(d int) {
 		}
 		return
 	}
-	if g.paused || g.restartConfirm {
+	if (g.paused && g.Selected != play.BloomID) || g.restartConfirm {
+		return
+	}
+	if g.Selected >= play.FlowID {
+		g.additionDirection(d)
 		return
 	}
 	switch g.Selected {
@@ -294,8 +305,17 @@ func (g *Game) confirmGame() {
 		g.gameAction(0)
 		return
 	}
+	if g.Selected == play.BloomID && g.paused {
+		g.games.Bloom.Toggle(g.cursor)
+		g.saveGames()
+		return
+	}
 	if g.paused {
-		g.paused = false
+		g.gameAction(0)
+		return
+	}
+	if g.Selected >= play.FlowID {
+		g.additionConfirm()
 		g.saveGames()
 		return
 	}
@@ -323,7 +343,7 @@ func (g *Game) dropLinear(col int) {
 }
 func (g *Game) optionCount() int {
 	switch g.Selected {
-	case play.MergeID, play.SnakeID, play.BounceID:
+	case play.MergeID, play.SnakeID, play.BounceID, play.PlanetsID:
 		return 3
 	case play.TerritoryID:
 		return 3
@@ -331,6 +351,17 @@ func (g *Game) optionCount() int {
 	return 1
 }
 func (g *Game) playTap(x, y float64) {
+	if g.setup && g.Selected == play.PlanetsID {
+		for i := 0; i < 3; i++ {
+			bx, by, bw, bh := g.planetChoiceRect(i)
+			if x >= bx && x < bx+bw && y >= by && y < by+bh {
+				g.option = i
+				g.startGame()
+				return
+			}
+		}
+		return
+	}
 	if g.setup && g.Selected == play.MergeID {
 		for i := 0; i < 3; i++ {
 			bx, by, bw, bh := g.mergeChoiceRect(i)
@@ -357,6 +388,10 @@ func (g *Game) playTap(x, y float64) {
 		if y >= menu.Header+45 && y < menu.Header+145 {
 			g.option = min(g.optionCount()-1, max(0, int(x*float64(g.optionCount())/float64(g.width))))
 		}
+		return
+	}
+	if g.Selected >= play.FlowID {
+		g.additionTap(x, y)
 		return
 	}
 	if g.paused || g.restartConfirm {
@@ -417,6 +452,14 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
 		g.gameAction(1)
 	}
+	if g.Selected >= play.FlowID {
+		if inpututil.IsKeyJustPressed(ebiten.KeyN) {
+			g.gameAction(2)
+		}
+		if inpututil.IsKeyJustPressed(ebiten.KeyV) {
+			g.gameAction(3)
+		}
+	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyU) && g.Selected == play.MergeID {
 		g.gameAction(2)
 	}
@@ -428,6 +471,10 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 		return
 	}
 	changed := false
+	if g.Selected >= play.FlowID {
+		g.updateAddition()
+		changed = true
+	}
 	switch g.Selected {
 	case play.SnakeID:
 		changed = g.games.Snake.Tick()
@@ -468,7 +515,7 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 	if changed {
 		g.snapshot()
 		g.saveClock++
-		if g.Selected == play.LinearID || g.saveClock >= 30 || g.games.Snake.Over || !g.games.Bounce.Running && g.Selected == play.BounceID {
+		if g.Selected == play.LinearID || g.saveClock >= 30 || g.games.Snake.Over && g.Selected == play.SnakeID || !g.games.Bounce.Running && g.Selected == play.BounceID {
 			g.saveClock = 0
 			g.Flush()
 		}
@@ -482,7 +529,13 @@ func (g *Game) statusText() string {
 		return "Choose, then start"
 	}
 	if g.paused {
+		if g.Selected == play.BloomID {
+			return "Paint cells / Play / Step"
+		}
 		return "Paused - press play to resume"
+	}
+	if g.Selected >= play.FlowID {
+		return g.additionStatus()
 	}
 	switch g.Selected {
 	case play.MergeID:

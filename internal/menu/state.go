@@ -2,6 +2,7 @@
 package menu
 
 import (
+	"ebe-boilerplate/internal/play"
 	"math"
 	"sort"
 )
@@ -9,16 +10,16 @@ import (
 const (
 	Columns = 3
 	Gap     = 8
-	Count   = 5
+	Count   = play.Count
 	Header  = 100
 	Row     = 214
 	Footer  = 24
 )
 
 // Synthetic familiarity weights, not measured market share. See menu-tabs plan.
-var PlaceholderPopularity = [Count]int{90, 100, 60, 70, 80}
+var PlaceholderPopularity = [Count]int{90, 100, 60, 70, 80, 55, 50, 65, 75, 85, 58}
 
-var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce"}
+var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce", "Flow", "Caliban", "Bloom", "Echo", "Brick", "Planets"}
 
 const (
 	Personal = iota
@@ -62,7 +63,10 @@ func New() State {
 
 // Order never treats browsing previews as playing games.
 func (s *State) Order() []int {
-	order := []int{0, 1, 2, 3, 4}
+	order := make([]int, Count)
+	for i := range order {
+		order[i] = i
+	}
 	switch s.Tab {
 	case Personal:
 		sort.SliceStable(order[:], func(i, j int) bool { return s.Plays[order[i]] > s.Plays[order[j]] })

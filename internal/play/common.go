@@ -9,10 +9,16 @@ const (
 	TerritoryID
 	LinearID
 	BounceID
+	FlowID
+	CalibanID
+	BloomID
+	EchoID
+	BrickID
+	PlanetsID
 	Count
 )
 
-var IDs = [Count]string{"merge", "snake", "territory", "linear", "bounce"}
+var IDs = [Count]string{"merge", "snake", "territory", "linear", "bounce", "flow", "caliban", "bloom", "echo", "brick", "planets"}
 
 // RNG's serialized state makes undo and save/resume reproducible.
 type RNG uint64

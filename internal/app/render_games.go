@@ -33,7 +33,7 @@ func (g *Game) renderGame(dst *ebiten.Image, c *play.Collection, id int, x, y, w
 		ratio = float64(play.SnakeW) / play.SnakeH
 	case play.LinearID:
 		ratio = 7.0 / 6
-	case play.TerritoryID, play.BounceID:
+	case play.TerritoryID, play.BounceID, play.BrickID:
 		ratio = 1.2
 	}
 	rw := math.Min(w, h*ratio)
@@ -42,6 +42,10 @@ func (g *Game) renderGame(dst *ebiten.Image, c *play.Collection, id int, x, y, w
 	y += (h - rh) / 2
 	w, h = rw, rh
 	rect(dst, x, y, w, h, p.panel)
+	if id >= play.FlowID {
+		g.renderAddition(dst, c, id, x, y, w, h, p, active)
+		return
+	}
 	switch id {
 	case play.MergeID:
 		m := &c.Merge
@@ -203,6 +207,10 @@ func (g *Game) renderGame(dst *ebiten.Image, c *play.Collection, id int, x, y, w
 }
 
 func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
+	if g.setup && g.Selected == play.PlanetsID {
+		g.drawPlanetChoices(dst, p)
+		return
+	}
 	if g.setup && g.Selected == play.MergeID {
 		g.drawMergeChoices(dst, p)
 		return
@@ -259,6 +267,9 @@ func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
 		names[1] = "Back"
 	}
 	if !g.setup {
+		if g.Selected >= play.FlowID {
+			g.additionFooter(names)
+		}
 		switch g.Selected {
 		case play.MergeID:
 			names[2] = "Undo"

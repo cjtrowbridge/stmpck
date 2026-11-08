@@ -50,6 +50,8 @@ type Game struct {
 	travel         float64
 	wheelCooldown  int
 	gesture        string
+	planetDragFrom int
+	bloomPaint     bool
 }
 
 func NewGame() *Game {
@@ -94,7 +96,7 @@ func (g *Game) Update() error {
 	down := inpututil.IsKeyJustPressed(ebiten.KeyArrowDown)
 	left := inpututil.IsKeyJustPressed(ebiten.KeyArrowLeft)
 	right := inpututil.IsKeyJustPressed(ebiten.KeyArrowRight)
-	enter := inpututil.IsKeyJustPressed(ebiten.KeyEnter)
+	enter := inpututil.IsKeyJustPressed(ebiten.KeyEnter) || inpututil.IsKeyJustPressed(ebiten.KeyNumpadEnter)
 	back := inpututil.IsKeyJustPressed(ebiten.KeyEscape)
 	for _, id := range ebiten.AppendGamepadIDs(nil) {
 		if !ebiten.IsStandardGamepadLayoutAvailable(id) {
@@ -108,6 +110,17 @@ func (g *Game) Update() error {
 		back = back || inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightRight)
 		if g.Selected >= 0 && !g.Settings && inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightTop) {
 			g.gameAction(0)
+		}
+		if g.Selected >= play.FlowID && !g.Settings {
+			if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightLeft) {
+				g.gameAction(2)
+			}
+			if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonLeftStick) {
+				g.gameAction(3)
+			}
+			if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightStick) {
+				g.gameAction(1)
+			}
 		}
 		if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonCenterRight) {
 			g.Settings = !g.Settings
@@ -227,12 +240,25 @@ func (g *Game) Update() error {
 			g.games.Bounce.Move(g.games.Bounce.Player + delta/bh)
 		}
 
+		if held && g.Selected >= play.FlowID {
+			g.additionDrag(fx, fy)
+		}
 		g.lx, g.ly = fx, fy
 		if !held {
 			g.pressed = false
 			if g.travel < 12 {
 				g.activate(fx, fy)
 			} else if g.Selected >= 0 && !g.Settings {
+				if !g.setup && !g.paused && !g.restartConfirm && g.Selected == play.PlanetsID {
+					bx, by, bw, bh := g.gameRect()
+					if g.games.Planets.Order(1, g.planetDragFrom, g.games.Planets.At((fx-bx)/bw, (fy-by)/bh)) {
+						g.games.Planets.Source = -1
+						g.saveGames()
+					}
+				}
+				if g.Selected == play.BloomID {
+					g.saveGames()
+				}
 				dx, dy := fx-g.sx, fy-g.sy
 				if g.Selected == play.TerritoryID {
 					g.territorySwipe(g.sx, g.sy, fx, fy)
@@ -272,6 +298,19 @@ func (g *Game) begin(x, y float64) {
 	g.ly = y
 	g.travel = 0
 	g.gesture = ""
+	g.planetDragFrom = -1
+	if g.Selected >= play.FlowID && !g.setup && !g.Settings {
+		bx, by, bw, bh := g.gameRect()
+		u, v := (x-bx)/bw, (y-by)/bh
+		if u >= 0 && u < 1 && v >= 0 && v < 1 {
+			if g.Selected == play.PlanetsID {
+				g.planetDragFrom = g.games.Planets.At(u, v)
+			}
+			if g.Selected == play.BloomID {
+				g.bloomPaint = !g.games.Bloom.Cells[int(v*play.BloomN)*play.BloomN+int(u*play.BloomN)]
+			}
+		}
+	}
 }
 func (g *Game) activate(x, y float64) {
 	if g.Settings {

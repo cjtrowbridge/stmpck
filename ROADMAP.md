@@ -1,10 +1,12 @@
 # STMPCK Roadmap
 
-Build one small, complete app containing five games: Merge, Snake, Territory, Linear, and Bounce.
+Build one small, complete app, starting with Merge, Snake, Territory, Linear, and Bounce and expanding with the six selected additions below.
 
 The [README's foundational principles and promises](README.md#foundational-principles-and-promises) govern every milestone. [AGENTS.md](AGENTS.md) translates them into development rules. Demoscene first: keep the codebase and the app as simple as possible, and make every milestone runnable.
 
 **Current state:** Merge, Snake, Territory, Linear, and Bounce are playable, with a three-column mosaic of game-driven previews, placeholder global popularity and never-played discovery, eight intensity levels, local session saves, pause/resume, deliberate new-game controls, and Android Back navigation. Android and WebAssembly builds pass; all five were exercised on the Pixel 10 Pro XL. Territory is real-time with immutable fixed-speed orders, one starting territory per player, and neutral territory expansion. Territory accepts swipe/drag orders on release as well as tap selection. Merge supports immediate grid selection and quick tile slides with swipe/drag or keyboard/controller input; its on-screen directional arrows are removed. Linear is computer-only. The gear screen previews 1–8 columns but remains non-functional. Model tests cover rules, movement, opponents, collisions, sorting/filtering, mosaic hit targets, save round trips, and corrupt-save recovery. Physical controller/screen-reader verification, broader accessibility, long playtests, the audio suite, working settings overrides, and store packaging remain open. Native Linux compilation still needs X11 headers.
+
+**Additional games:** Flow, Caliban, Bloom, Echo, Brick, and Planets are now implemented, bringing the catalog to eleven. Their rule/save tests and race checks pass; Android and WebAssembly build. Browser smoke checks exercise all six, Flow rotation, Bloom edit/step, timed play, system selection and restart persistence. The phone is disconnected, so these additions have not received phone verification. Initial balance and wider input/device checks remain open.
 
 **Checklist meaning:** checked items have their stated implementation scope completed with recorded checks. This does not imply every device/input/accessibility check has passed; remaining verification has explicit unchecked entries. Requirements that previously combined completed menu work with future gameplay have been split, preserving both scopes. Historical phone checks describe the revision tested, not automatic verification of later changes.
 
@@ -86,7 +88,7 @@ Plan: [plans/current/local-persistence.md](plans/current/local-persistence.md)
 
 ### 7. Define when a game is complete
 
-These are recurring acceptance criteria for each game, not claims that the foundation menu already implements gameplay. Apply this completion checklist to each of the five games:
+These are recurring acceptance criteria for each game, including all six additions, not claims of completed release acceptance. Apply this completion checklist to every game:
 
 - [ ] Rules work correctly and controls feel good on the target device.
 - [ ] The preview demonstrates actual gameplay using the game's own rendering code.
@@ -101,11 +103,11 @@ These are recurring acceptance criteria for each game, not claims that the found
 
 Plan: [plans/future/audio-suite.md](plans/future/audio-suite.md)
 
-Audio is planned, not implemented. Build one small, offline audio system shared by the menu and all five games. Sound stays off by default; enabling it is independent of intensity. The requirements below remain unstarted and receive individual plans when detailed planning or implementation begins.
+Audio is planned, not implemented. Build one small, offline audio system shared by the menu and the full game collection. Sound stays off by default; enabling it is independent of intensity. The requirements below remain unstarted and receive individual plans when detailed planning or implementation begins.
 
 - [ ] **Shared sound vocabulary:** Define recognizable core riffs for related actions across the app: navigation/selection, accepted actions, unavailable or invalid actions, progress, success, and failure. Similar events in different games should sound related, with success and failure clearly distinguishable. Failure feedback should be informative rather than punitive.
 - [ ] **Intensity-dependent effects:** Give each core riff a consistent identity across intensity levels. Lower levels use simpler, sparser arrangements; higher levels progressively add rhythmic detail, harmony, timbral richness, and ornamentation. Cover all eight current levels and preserve the progression when new levels are added. Increased intensity must not simply mean increased volume.
-- [ ] **Per-game background music:** Give each of the five games its own recognizable, looping musical theme. Preserve its core motif while lower intensity reduces pace and ornamentation and higher intensity adds pace, layers, and musical detail. Music tempo must not change gameplay speed or rules. Choose each theme's tempo range during its audio planning; do not automatically equate music tempo with the border-breathing rate.
+- [ ] **Per-game background music:** Give each game its own recognizable, looping musical theme, including the six additions. Preserve its core motif while lower intensity reduces pace and ornamentation and higher intensity adds pace, layers, and musical detail. Music tempo must not change gameplay speed or rules. Choose each theme's tempo range during its audio planning; do not automatically equate music tempo with the border-breathing rate.
 - [ ] **Coordinated playback:** Make action riffs and background music work together so feedback remains recognizable. Transition smoothly between intensity arrangements and game themes, without clicks, abrupt volume jumps, restarting the game, or resetting its state. Prevent rapid repeated actions from creating an uncontrolled pileup of sounds.
 - [ ] **Player control and lifecycle:** Provide independent controls for sound effects and music, with a clear way to silence all audio. Changing intensity must never unmute either. Stop or suspend audio appropriately when the app loses focus or is interrupted. Audio preferences remain session-only until the already scheduled post-five-games persistence work.
 - [ ] **Demoscene implementation:** Prefer compact procedural synthesis, reusable riffs, and shared sequencing over large recordings or a general-purpose audio engine. Keep all sounds and music local, with no downloads, tracking, or runtime network dependency. Bound simultaneous voices and measure CPU, memory, battery, and artifact-size costs.
@@ -227,6 +229,75 @@ Plan: [plans/current/bounce.md](plans/current/bounce.md)
 ## After the first five games
 
 - [ ] Persist menu-animation, master-audio, haptics, and decorative-effect overrides alongside sound-effects, music, and intensity settings (with autoplay derived from intensity unless overridden) across closing and reopening the app. Until this is implemented, each new session starts at the default animated intensity with autoplay on and sound off. Plan: [plans/future/menu-preferences.md](plans/future/menu-preferences.md)
+
+## Next game additions
+
+The selected additions **Flow, Caliban, Bloom, Echo, Brick, and Planets** now have initial playable implementations, shared previews, controls, and local saves. Checked entries below mean implemented with deterministic rule/save checks and successful Android/WebAssembly builds. Phone testing of these six games is pending because the device is disconnected; balance, physical-controller, screen-reader, and release acceptance work remain open. Deliverable and requirement plans below record the initial defaults and evidence.
+
+All six inherit offline operation, no ads or telemetry, minimal visible text, accessible input alternatives, intensity-independent rules, silent play, shared navigation, local saves, and previews driven by actual game code. Reuse existing code where it keeps the implementation simple.
+
+### Flow
+
+Plan: [plans/current/flow.md](plans/current/flow.md)
+
+Inspired by rotating-pipe/network puzzles.
+
+- [x] **Connections:** Rotate pieces to connect a complete network, with clear visual feedback for connected and disconnected pieces. Plan: [plans/current/flow-connections.md](plans/current/flow-connections.md).
+- [x] **Controls and goal:** Use tap/click rotation with keyboard/controller alternatives and show completion visually. Initial version: a solvable 5×5 spanning tree with closed endpoints. Plan: [plans/current/flow-controls-and-goal.md](plans/current/flow-controls-and-goal.md).
+- [x] **Integration:** Save the puzzle and piece orientations, provide deliberate restart and a real gameplay preview, and keep connection cues understandable without color alone. Plan: [plans/current/flow-integration.md](plans/current/flow-integration.md).
+
+### Caliban
+
+Plan: [plans/current/caliban.md](plans/current/caliban.md)
+
+A Tempest-inspired twelve-lane shooter. Tap/drag selects a rim lane; left/right or D-pad moves around it. Firing is automatic, three missed enemies end the round, and Next advances after a cleared wave. Gameplay pace is independent of presentation.
+
+- [x] **Arena and action:** Build a small procedural arena with readable lanes, player movement around the rim, and enemies approaching along the arena. Plan: [plans/current/caliban-arena-and-action.md](plans/current/caliban-arena-and-action.md).
+- [x] **Controls and progression:** Define simple touch controls with input alternatives, firing behavior, collisions, and wave completion. Keep gameplay pace independent of sensory intensity. Plan: [plans/current/caliban-controls-and-progression.md](plans/current/caliban-controls-and-progression.md).
+- [x] **Integration:** Provide pause, deliberate restart, saved progression, and a real gameplay preview. Preserve clear threats and hitboxes in still and monochrome presentations. Plan: [plans/current/caliban-integration.md](plans/current/caliban-integration.md).
+
+### Bloom
+
+Plan: [plans/current/bloom.md](plans/current/bloom.md)
+
+A cellular-automaton sandbox based on Conway's Game of Life, with Bloom as the STMPCK name.
+
+- [x] **Simulation:** Implement the familiar live/dead-cell evolution rules in a small deterministic model. Make the simulation's actual rate an explicit gameplay choice independent of decorative intensity. Plan: [plans/current/bloom-simulation.md](plans/current/bloom-simulation.md).
+- [x] **Interaction:** Let the player create and erase cells, run/pause the simulation, step one generation, and reset deliberately. Prefer direct interaction over instructions; the initial grid wraps at 24×24. Plan: [plans/current/bloom-interaction.md](plans/current/bloom-interaction.md).
+- [x] **Integration:** Save the cell arrangement and simulation state, offer a game-driven preview, and support open-ended exploration without a required win condition or score. Plan: [plans/current/bloom-integration.md](plans/current/bloom-integration.md).
+
+### Echo
+
+Plan: [plans/current/echo.md](plans/current/echo.md)
+
+A sequence-memory game inspired by Simon.
+
+- [x] **Sequence:** Present a short sequence of distinguishable visual cues for the player to repeat, extending the sequence after success. Plan: [plans/current/echo-sequence.md](plans/current/echo-sequence.md).
+- [x] **Controls and feedback:** Use large tap/click targets with keyboard/controller equivalents. Shape and position cues must make the entire game playable silently; audio can reinforce them when the future audio suite is available. Plan: [plans/current/echo-controls-and-feedback.md](plans/current/echo-controls-and-feedback.md).
+- [x] **Integration:** Clearly distinguish demonstration from player input, provide deliberate replay and pause, save the round state, and demonstrate the actual interaction in the gallery. Cues last 0.5 seconds with 0.25-second gaps; failure offers the same sequence again. Plan: [plans/current/echo-integration.md](plans/current/echo-integration.md).
+
+### Brick
+
+Plan: [plans/current/brick.md](plans/current/brick.md)
+
+A Breakout-style paddle-and-ball game, reusing Bounce's physics where useful.
+
+- [x] **Arena and collisions:** Deflect a ball with a paddle to clear brick arrangements. Keep collisions reliable at the chosen speeds and make remaining bricks readable. Plan: [plans/current/brick-arena-and-collisions.md](plans/current/brick-arena-and-collisions.md).
+- [x] **Controls and rounds:** Define direct paddle movement, deliberate serving, missed-ball behavior, and board completion. Initial version: three lives, three layouts, four collision substeps per tick, and deliberate serves. Plan: [plans/current/brick-controls-and-rounds.md](plans/current/brick-controls-and-rounds.md).
+- [x] **Integration:** Save the remaining bricks and round state, provide pause/restart and real gameplay previews, and preserve visibility of the paddle, ball, and bricks across intensity levels. Plan: [plans/current/brick-integration.md](plans/current/brick-integration.md).
+
+### Planets
+
+Plan: [plans/current/planets.md](plans/current/planets.md)
+
+A planetary conquest game inspired by Risk and the existing real-time Territory game. Planets is a separate addition to the collection.
+
+- [x] **Planetary systems:** Each level is one planetary system. Planets move continuously in their orbits during active play; show their positions, ownership, and stationed units clearly. Plan: [plans/current/planets-planetary-systems.md](plans/current/planets-planetary-systems.md).
+- [x] **Unrestricted destinations:** Allow forces to travel from any owned planet to any other planet in the system, including friendly transfers and neutral/enemy destinations. Territory adjacency does not limit movement. Plan: [plans/current/planets-unrestricted-destinations.md](plans/current/planets-unrestricted-destinations.md).
+- [x] **Orders and travel:** Use source-to-destination taps and swipe/drag orders. Retain real-time, fixed-rate travel, immediate source deductions, and irreversible issued orders. Lock the destination body's identity while it moves. Fleets pursue the destination's current position at 0.28 normalized board widths per second, faster than orbital motion. Plan: [plans/current/planets-orders-and-travel.md](plans/current/planets-orders-and-travel.md).
+- [x] **Conquest:** Define unit production, force selection, arrival combat, computer opponents, and system victory using the simplest rules that fit unrestricted travel. Balance these explicitly rather than assuming Territory's current values transfer unchanged. Plan: [plans/current/planets-conquest.md](plans/current/planets-conquest.md).
+- [x] **Moons:** Include moons orbiting some planets. Systems two and three include one and two capturable moons respectively, using the same production/combat rules. Plan: [plans/current/planets-moons.md](plans/current/planets-moons.md).
+- [x] **Integration:** Save the system/level, orbital phases, ownership, units, production clocks, and forces in transit. Pause orbital motion and gameplay together on pause/backgrounding; do not advance while closed. Provide game-driven previews and clear non-color ownership cues. Select one of three system previews; victory offers the next system. Plan: [plans/current/planets-integration.md](plans/current/planets-integration.md).
 
 ## Future PvP modes
 

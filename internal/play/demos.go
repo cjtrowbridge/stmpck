@@ -65,4 +65,5 @@ func (c *Collection) Demonstrate(n int) {
 		b.Serve()
 	}
 	b.Tick()
+	c.demonstrateAdditions(n)
 }
