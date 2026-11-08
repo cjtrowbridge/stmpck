@@ -4,11 +4,17 @@ This plan owns the [Caliban deliverable](../../ROADMAP.md#caliban): add a small,
 
 ## Initial implementation
 
-Twelve procedural lanes; rim movement, automatic inward shots and approaching enemies. Touch/drag chooses lane; left/right alternatives; three lives, deterministic waves; fixed gameplay speed independent of intensity. Save wave, enemies, bullets, clocks and RNG. Pause/resume and restart; model preview and outlined threats.
+Twelve procedural lanes; rim movement, automatic inward shots and approaching enemies. Arena taps choose a lane; relative horizontal dragging anywhere moves around the rim; left/right alternatives; three lives, deterministic waves; fixed gameplay speed independent of intensity. Save wave, enemies, bullets, clocks and RNG. Pause/resume and restart; model preview and outlined threats.
 
 - [Arena and action](caliban-arena-and-action.md)
 - [Controls and progression](caliban-controls-and-progression.md)
 - [Integration](caliban-integration.md)
+
+- [Drag anywhere](caliban-drag-anywhere.md)
+
+## Refinements implemented 2026-11-08
+
+One screen width spans twelve lanes, relative to the lane at gesture start. Focused rules/save/race tests, browser interactions and Android/WebAssembly builds pass. Evidence is recorded in the refinement requirement plans linked above; phone verification remains pending.
 
 ## Evidence and remaining work
 

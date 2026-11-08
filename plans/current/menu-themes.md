@@ -1,6 +1,6 @@
 # Menu sensory presentations
 
-This plan addresses the [foundation deliverable](../../ROADMAP.md#4-define-the-smallest-shared-experience) requirement: **Move through intensity levels in order, one adjacent level per navigation action. Left means less intense; right means more intense. Stop at the least and most intense levels without wrapping. Preserve this behavior as more levels are added.** The intended outcome and work are described below.
+This plan addresses the [foundation deliverable](../../ROADMAP.md#7-define-the-smallest-shared-experience) requirement: **Move through intensity levels in order, one adjacent level per navigation action. Left means less intense; right means more intense. Stop at the least and most intense levels without wrapping. Preserve this behavior as more levels are added.** The intended outcome and work are described below.
 
 ## Work and validation
 

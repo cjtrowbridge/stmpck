@@ -11,6 +11,10 @@ import (
 )
 
 func (g *Game) renderAddition(dst *ebiten.Image, c *play.Collection, id int, x, y, w, h float64, p palette, active bool) {
+	if id >= play.DriftID {
+		g.renderExpansion(dst, c, id, x, y, w, h, p, active)
+		return
+	}
 	switch id {
 	case play.FlowID:
 		f := &c.Flow

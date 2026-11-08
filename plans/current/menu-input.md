@@ -1,6 +1,6 @@
 # Menu input mappings
 
-For [Define the smallest shared experience](../../ROADMAP.md#4-define-the-smallest-shared-experience), address **Implement menu touch/mouse browsing and selection, horizontal intensity navigation, keyboard equivalents, and standard controller directional/confirmation/back mappings.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
+For [Define the smallest shared experience](../../ROADMAP.md#7-define-the-smallest-shared-experience), address **Implement menu touch/mouse browsing and selection, horizontal intensity navigation, keyboard equivalents, and standard controller directional/confirmation/back mappings.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
 
 ## Implementation and evidence
 

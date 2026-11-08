@@ -1,6 +1,6 @@
 # Menu launch defaults
 
-For the [foundation deliverable](../../ROADMAP.md#4-define-the-smallest-shared-experience), address **Open each new session at the default animated intensity, autoplay on, and sound off.**
+For the [foundation deliverable](../../ROADMAP.md#7-define-the-smallest-shared-experience), address **Open each new session at the default animated intensity, autoplay on, and sound off.**
 
 ## Work and validation
 

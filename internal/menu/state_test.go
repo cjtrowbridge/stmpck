@@ -87,6 +87,9 @@ func TestPersonalSortingAndPreviewSelection(t *testing.T) {
 	s.RecordPlay(3)
 	s.RecordPlay(1)
 	want := []int{3, 1, 0, 2, 4, 5, 6, 7, 8, 9, 10}
+	for id := 11; id < Count; id++ {
+		want = append(want, id)
+	}
 	if got := s.Order(); !slices.Equal(got, want) {
 		t.Fatalf("personal: %v", got)
 	}
@@ -100,21 +103,27 @@ func TestWorldwideAndDiscovery(t *testing.T) {
 	s := New()
 	s.RecordPlay(3)
 	s.SetTab(Worldwide)
-	if s.HasGlobalRanking || !slices.Equal(s.Order(), []int{1, 0, 9, 4, 8, 3, 7, 2, 10, 5, 6}) {
+	if s.HasGlobalRanking || !slices.Equal(s.Order(), []int{1, 12, 13, 0, 9, 15, 4, 11, 16, 8, 14, 3, 17, 7, 2, 10, 5, 6}) {
 		t.Fatal("placeholder order", s.Order())
 	}
 	if s.SetGlobalRanking([]int{0, 1, 1, 3, 4}) || s.SetGlobalRanking([]int{0}) {
 		t.Fatal("invalid ranking")
 	}
-	if !s.SetGlobalRanking([]int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}) {
+	ranking := make([]int, Count)
+	for i := range ranking {
+		ranking[i] = Count - 1 - i
+	}
+	if !s.SetGlobalRanking(ranking) {
 		t.Fatal("valid ranking")
 	}
 	s.SetTab(Discover)
-	if !slices.Equal(s.Order(), []int{10, 9, 8, 7, 6, 5, 4, 2, 1, 0}) {
+	expected := slices.DeleteFunc(slices.Clone(ranking), func(id int) bool { return id == 3 })
+	if !slices.Equal(s.Order(), expected) {
 		t.Fatal("discovery must filter played and preserve global ranking", s.Order())
 	}
 	s.RecordPlay(4)
-	if !slices.Equal(s.Order(), []int{10, 9, 8, 7, 6, 5, 2, 1, 0}) {
+	expected = slices.DeleteFunc(expected, func(id int) bool { return id == 4 })
+	if !slices.Equal(s.Order(), expected) {
 		t.Fatal("newly played game remains discoverable")
 	}
 	for id := 0; id < Count; id++ {

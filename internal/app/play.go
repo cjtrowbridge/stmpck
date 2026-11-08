@@ -55,6 +55,11 @@ func (g *Game) Back() {
 		g.Settings = false
 		return
 	}
+	if g.Selected == play.BloomID && (g.bloomPicker || g.bloomPlacing) {
+		g.bloomPicker = false
+		g.bloomPlacing = false
+		return
+	}
 	if g.Selected >= 0 {
 		g.pauseGame()
 		g.mergeQueue = nil
@@ -102,9 +107,14 @@ func (g *Game) Open(row int) {
 		}
 	}
 	g.cursor = 0
+	g.bloomPicker = false
+	g.bloomPlacing = false
 	g.paused = id == play.SnakeID || id == play.BounceID || id == play.TerritoryID
 	if id >= play.CalibanID {
 		g.paused = true
+	}
+	if id == play.DeductionID || id == play.ShiftID || id == play.ClusterID {
+		g.paused = false
 	}
 	g.restartConfirm = false
 	g.pressed = false
@@ -144,7 +154,7 @@ func (g *Game) gameRect() (x, y, w, h float64) {
 	y = menu.Header + 8
 	h = math.Max(80, float64(g.height)-y-155)
 	switch g.Selected {
-	case play.MergeID, play.FlowID, play.CalibanID, play.BloomID, play.EchoID, play.PlanetsID:
+	case play.MergeID, play.FlowID, play.CalibanID, play.BloomID, play.EchoID, play.PlanetsID, play.DriftID, play.DeductionID, play.ClusterID, play.WaveID, play.ShiftID:
 		w = math.Min(w, h)
 		h = w
 	case play.SnakeID:
@@ -153,6 +163,12 @@ func (g *Game) gameRect() (x, y, w, h float64) {
 	case play.LinearID:
 		h = math.Min(h, w*6/7)
 		w = h * 7 / 6
+	case play.StackID:
+		h = math.Min(h, w*2)
+		w = h / 2
+	case play.CrossingID:
+		h = math.Min(h, w*11/9)
+		w = h * 9 / 11
 	default:
 		h = math.Min(h, w/1.2)
 		w = h * 1.2
@@ -297,6 +313,10 @@ func (g *Game) direction(d int) {
 	}
 }
 func (g *Game) confirmGame() {
+	if g.Selected == play.BloomID && (g.bloomPicker || g.bloomPlacing) {
+		g.confirmBloomPattern()
+		return
+	}
 	if g.setup {
 		g.startGame()
 		return
@@ -351,6 +371,10 @@ func (g *Game) optionCount() int {
 	return 1
 }
 func (g *Game) playTap(x, y float64) {
+	if g.Selected == play.BloomID && g.bloomPicker {
+		g.bloomPickerTap(x, y)
+		return
+	}
 	if g.setup && g.Selected == play.PlanetsID {
 		for i := 0; i < 3; i++ {
 			bx, by, bw, bh := g.planetChoiceRect(i)
@@ -416,6 +440,9 @@ func (g *Game) playTap(x, y float64) {
 	}
 }
 func (g *Game) updatePlay(up, down, left, right, enter bool) {
+	if g.Selected == play.BloomID && inpututil.IsKeyJustPressed(ebiten.KeyP) {
+		g.toggleBloomPicker()
+	}
 	if g.setup && g.Selected == play.TerritoryID {
 		g.territorySetupKeys()
 	}
@@ -470,10 +497,13 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 	if g.setup || g.paused || g.restartConfirm {
 		return
 	}
+	if g.Selected == play.DeductionID {
+		g.deductionKeys()
+	}
 	changed := false
 	if g.Selected >= play.FlowID {
 		g.updateAddition()
-		changed = true
+		changed = g.Selected != play.FlowID && g.Selected != play.DeductionID && g.Selected != play.ShiftID
 	}
 	switch g.Selected {
 	case play.SnakeID:
@@ -530,6 +560,12 @@ func (g *Game) statusText() string {
 	}
 	if g.paused {
 		if g.Selected == play.BloomID {
+			if g.bloomPicker {
+				return "Choose a pattern"
+			}
+			if g.bloomPlacing {
+				return play.BloomPatterns[g.bloomChoice].Name + " / choose a cell"
+			}
 			return "Paint cells / Play / Step"
 		}
 		return "Paused - press play to resume"

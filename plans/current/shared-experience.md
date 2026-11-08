@@ -1,6 +1,6 @@
 # Smallest shared experience
 
-This plan addresses the [Smallest shared experience](../../ROADMAP.md#4-define-the-smallest-shared-experience) as a whole. The intended outcome and work are described below.
+This plan addresses the [Smallest shared experience](../../ROADMAP.md#7-define-the-smallest-shared-experience) as a whole. The intended outcome and work are described below.
 
 ## Work and validation
 

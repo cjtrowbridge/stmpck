@@ -218,6 +218,7 @@ func TestPlanetsOrdersOrbitAndArrival(t *testing.T) {
 }
 func TestPlanetsFriendlyEnemyAndInFlightVictory(t *testing.T) {
 	p := NewPlanets(0)
+	p.Started = true
 	for i := range p.Bodies {
 		p.Bodies[i].Owner = 1
 		p.Bodies[i].Units = 5

@@ -1,12 +1,12 @@
 # STMPCK Roadmap
 
-Build one small, complete app, starting with Merge, Snake, Territory, Linear, and Bounce and expanding with the six selected additions below.
+Build one small, complete app, starting with Merge, Snake, Territory, Linear, and Bounce and expanding with the selected additions below.
 
 The [README's foundational principles and promises](README.md#foundational-principles-and-promises) govern every milestone. [AGENTS.md](AGENTS.md) translates them into development rules. Demoscene first: keep the codebase and the app as simple as possible, and make every milestone runnable.
 
 **Current state:** Merge, Snake, Territory, Linear, and Bounce are playable, with a three-column mosaic of game-driven previews, placeholder global popularity and never-played discovery, eight intensity levels, local session saves, pause/resume, deliberate new-game controls, and Android Back navigation. Android and WebAssembly builds pass; all five were exercised on the Pixel 10 Pro XL. Territory is real-time with immutable fixed-speed orders, one starting territory per player, and neutral territory expansion. Territory accepts swipe/drag orders on release as well as tap selection. Merge supports immediate grid selection and quick tile slides with swipe/drag or keyboard/controller input; its on-screen directional arrows are removed. Linear is computer-only. The gear screen previews 1–8 columns but remains non-functional. Model tests cover rules, movement, opponents, collisions, sorting/filtering, mosaic hit targets, save round trips, and corrupt-save recovery. Physical controller/screen-reader verification, broader accessibility, long playtests, the audio suite, working settings overrides, and store packaging remain open. Native Linux compilation still needs X11 headers.
 
-**Additional games:** Flow, Caliban, Bloom, Echo, Brick, and Planets are now implemented, bringing the catalog to eleven. Their rule/save tests and race checks pass; Android and WebAssembly build. Browser smoke checks exercise all six, Flow rotation, Bloom edit/step, timed play, system selection and restart persistence. The phone is disconnected, so these additions have not received phone verification. Initial balance and wider input/device checks remain open.
+**Additional games:** Flow, Caliban, Bloom, Echo, Brick, and Planets are implemented, followed by Drift, Stack, Deduction, Cluster, Wave, Crossing, and Shift, bringing the catalog to eighteen. Rule/save/race tests and Android/WebAssembly builds pass. Browser checks exercise all additions and persistence across reload. Phone verification, initial balancing and wider input/device checks remain open. The Planets start/reaction, Caliban drag-anywhere and Bloom pattern refinements are implemented and browser-checked; phone verification remains pending.
 
 **Checklist meaning:** checked items have their stated implementation scope completed with recorded checks. This does not imply every device/input/accessibility check has passed; remaining verification has explicit unchecked entries. Requirements that previously combined completed menu work with future gameplay have been split, preserving both scopes. Historical phone checks describe the revision tested, not automatic verification of later changes.
 
@@ -20,7 +20,7 @@ Define these requirements before expanding the collection. Implement the shared 
 - [ ] Keep every milestone runnable through the established build-and-run workflow.
 - [ ] Apply offline operation, no ads or surveillance, accessibility, minimal visible text, sensory control, and continuity of existing games throughout development.
 
-Subscriptions, accounts, global ranking services, and additional games remain outside the initial implementation until their requirements are decided. The 👥 tab uses bundled placeholder popularity estimates until a suitable ranking source is selected; ✨ shows only never-played games in that order. Pricing, permanent ownership, cross-device purchases, and guaranteed release cadence remain open; no proposed business model overrides the foundational promises.
+Performance telemetry, player profiles, cross-device synchronization, and subscription validation are now requested foundation work, recorded in sections 4–6 below. They are not implemented. This direction requires explicitly reconciling the README/AGENTS commitments to no transmitted gameplay history, device-only preferences/counts, and no periodic online authorization. Pricing, permanent ownership, store purchase/restoration mechanisms, and release cadence remain open. The 👥 tab continues to use bundled placeholder popularity estimates; ✨ shows only never-played games in that order. Performance telemetry is not a source of player-popularity rankings.
 
 ### 2. Choose the first release target
 
@@ -43,7 +43,45 @@ The first release platform is still an open decision. Build feasibility does not
 - [ ] Preserve a straightforward build-and-run workflow.
 - [ ] Measure starting executable size and startup time so growth can be tracked against a baseline.
 
-### 4. Define the smallest shared experience
+### 4. Simplification and demoscenization
+
+Follow boilerplate reduction with a continuing cycle of simplifying the app, measuring its real costs, improving quality, and reducing resource consumption. This includes a performance-data submission endpoint and a separate process that analyzes the collected data and turns findings into improvements.
+
+- [ ] **Streamline the implementation:** Review shared and game-specific code, remove duplication and unnecessary abstractions, simplify control/data flows, and reduce dependency and asset costs. Preserve rules, saves, accessible controls, and sensory choices while improving clarity and maintainability.
+- [ ] **Performance baselines and budgets:** Record startup/loading time, frame-time distributions and stalls, memory/allocations, CPU/GPU use, storage/I/O, network cost, artifact size, and battery/energy impact where measurable. Define representative devices, games, preview loads, and intensity levels so comparisons are meaningful; identify metrics unavailable on particular platforms rather than fabricating equivalents.
+- [ ] **Bounded instrumentation:** Collect versioned performance samples at a modest, configurable cadence with explicit CPU, memory, storage, and battery budgets. Define the minimum fields and useful aggregate measurements before adding instrumentation; keep profile/gameplay records separate from operational performance data.
+- [ ] **Telemetry endpoint:** Set up an API endpoint to accept performance batches, validate their schema and size, control abuse, and store enough build/platform context to compare releases. Select hosting, authentication, retention, and access controls during detailed planning; reuse the profile API's infrastructure where that keeps the system simpler.
+- [ ] **Regular submission:** Submit bounded batches on a defined regular interval when connectivity and the platform lifecycle allow. Queue locally while offline, cap queue growth, retry with backoff, and resume overdue submissions on a later eligible launch. Uploads must not block play, startup, saving, or suspension; exact sampling and upload intervals remain to be selected.
+- [ ] **Separate analysis process:** Establish a recurring analysis job or workflow distinct from ingestion and gameplay. Aggregate measurements, compare builds and baselines, identify regressions and costly paths, and produce actionable findings with supporting evidence. Define its schedule and how findings become prioritized roadmap requirements and plans.
+- [ ] **Iterative quality improvement:** Use the repeated cycle of measure → analyze → prioritize → simplify/optimize → verify → compare. Record the measured effect of each change on quality and resource consumption, using correctness/accessibility/save regressions alongside performance checks. Include the overhead of telemetry itself in every comparison.
+- [ ] **Privacy and product commitments:** Define collection disclosure, player controls/consent, allowed metadata, retention/deletion, and whether operational samples can be associated with a profile. Update README and AGENTS to accurately describe the selected policy before enabling remote collection. Preserve the no-ads/no-spyware commitment; do not quietly turn this endpoint into behavioral analytics.
+
+### 5. Cross-platform SQLite persistence
+
+SQLite is the requested local database for settings and player data on **Android, Linux, Windows, macOS, and iOS**. These are design and verification targets, not claims that all five platforms currently build or ship.
+
+- [ ] **Portable database integration:** Select a small SQLite integration compatible with the Go/app stack and each target's packaging, application-data directories, and lifecycle. Verify actual builds and database operations on all five targets. Decide how the existing WebAssembly build participates without assuming native SQLite support in the browser.
+- [ ] **Settings and player schema:** Store persistent sensory and menu settings, local/profile identity references, games played, per-game scores/results, and the player statistics needed by the app. Keep local settings functional offline and retain stable game identifiers. Coordinate with the existing settings-override and sensory-persistence milestones rather than creating competing implementations.
+- [ ] **Player statistics and central tendencies:** Define per-game counts and score summaries, including appropriate means, medians, and modes where meaningful. Specify how different rule versions, variants, grid sizes, and difficulty levels are separated, and how abandoned/restarted games affect counts. Treat these as player-owned records; do not infer diagnoses or combine incomparable scores.
+- [ ] **Migration and recovery:** Migrate existing local saves and play counts without losing progress. Use versioned schema migrations, transactional writes, backups/recovery, and interruption-safe behavior. Decide whether detailed game snapshots live in SQLite or remain in the current save store, with a clear ownership boundary.
+- [ ] **Offline changes and sync metadata:** Record pending profile changes locally so settings and player data can be synchronized after connectivity returns. Define identifiers, revisions, deduplication, and deletion handling so retries or multiple devices do not multiply play counts or lose results.
+- [ ] **Storage verification and resource limits:** Test upgrades, failed migrations, low storage, damaged data, concurrent operations, shutdown/backgrounding, and long-term data growth. Measure database size and I/O overhead, and define retention/aggregation without silently deleting information the player expects to keep.
+
+### 6. Player profile API, device synchronization, and subscription sessions
+
+Build the API needed to associate the player's devices with a profile, synchronize their data, and maintain long-lived authenticated sessions with cached subscription status. Local play and recording progress must tolerate several weeks off grid.
+
+- [ ] **Profile and device API:** Define profile creation/sign-in, linking and unlinking devices, and authorized access to the player's settings and records. Implement the API and select its hosting, credentials, and operational ownership during detailed planning. Keep account setup and sync failures from adding unnecessary steps to normal play.
+- [ ] **Cross-device synchronization:** Synchronize the selected settings and player data between each device's SQLite database and the profile API. Specify which preferences are shared versus device-specific, how concurrent/offline edits merge, how scores and counts deduplicate, and how deletions propagate. Make synchronization incremental, resumable, and independent of the gameplay update loop.
+- [ ] **Long-lived validated sessions:** Define session lifetime, renewal, secure credential storage on every target, logout/device revocation, and account recovery. Distinguish authentication from subscription entitlement so the app does not treat an expired access token or a network failure as proof that a subscription has ended.
+- [ ] **Weekly attempts and monthly validation:** Attempt subscription revalidation at least once per week when the app can run and reach the service, with successful validation at least monthly as the requested freshness target. Retry overdue checks when connectivity returns or the app resumes; exact intervals, calendar-month versus fixed-day interpretation, and refresh scheduling must be specified and tested. Platforms cannot guarantee a background check while a device is offline or the app cannot run.
+- [ ] **Off-grid continuity and expiry policy:** Cache the last validated entitlement locally and allow several weeks of offline play without interruption. Explicitly settle what happens beyond a month without successful validation, during service outages, after confirmed expiry/cancellation, and when clocks change. The monthly-validation requirement and the original unlimited-offline promise must be reconciled; do not silently introduce a hard cutoff or claim both guarantees simultaneously.
+- [ ] **Subscription verification backend:** Choose the subscription authority and purchase/restoration mechanisms, validate entitlement on the server, and return a verifiable cached result to the device. Define renewal, grace, expiry, cancellation, and revocation behavior without inventing pricing or ownership terms that have not been selected.
+- [ ] **End-to-end verification:** Exercise multiple devices on all five targets, offline edits followed by reconnection, duplicate/reordered requests, session renewal and revocation, weekly attempts, month-scale offline periods, and server failures. Verify that local progress survives every failure and that the documented access policy matches actual behavior.
+
+Sections 4–6 record the requested future foundation scope. No telemetry endpoint, SQLite migration, profile service, sync, or subscription gate is implemented by these entries. Create one deliverable plan per activated section and a separate linked plan for each requirement as detailed planning begins. Align the product promises and existing persistence/settings plans with the new direction in that work.
+
+### 7. Define the smallest shared experience
 
 Plan: [plans/current/shared-experience.md](plans/current/shared-experience.md)
 
@@ -62,7 +100,7 @@ Plan: [plans/current/shared-experience.md](plans/current/shared-experience.md)
 - [ ] Verify current touch, keyboard, and physical controller behavior, Android Back button/gesture behavior, and startup/lock/suspend transitions on supported devices. Earlier successful touch checks do not cover all later revisions. Specifically, the latest Territory swipe orders and Merge arrow removal are built and deployed but await live phone verification because the device was locked.
 - [x] Extend the same upward Back behavior to playable games when implemented, preserving unfinished game state. Plan: [plans/current/game-back.md](plans/current/game-back.md)
 
-### 5. Establish presentation and accessibility rules
+### 8. Establish presentation and accessibility rules
 
 Plan: [plans/current/presentation-rules.md](plans/current/presentation-rules.md)
 
@@ -77,7 +115,7 @@ Plan: [plans/current/presentation-rules.md](plans/current/presentation-rules.md)
 
 The complete left-to-right order is **still wireframe → still default style → animated default → vivid → palette breathing/sparkles → gentle rainbow → richer rainbow → full rainbow**. “Default” is the fixed launch view, not a recalculated midpoint as more levels are added. Sound stays off in the current app. Screen-reader integration, reduced-motion integration, and sustained effect-performance testing remain open.
 
-### 6. Define local persistence
+### 9. Define local persistence
 
 Plan: [plans/current/local-persistence.md](plans/current/local-persistence.md)
 
@@ -86,7 +124,7 @@ Plan: [plans/current/local-persistence.md](plans/current/local-persistence.md)
 - [x] Save safely when interrupted and recover gracefully from missing or damaged saves. Plan: [plans/current/save-recovery.md](plans/current/save-recovery.md)
 - [x] Keep everything needed for ordinary play on the device. Plan: [plans/current/offline-games.md](plans/current/offline-games.md)
 
-### 7. Define when a game is complete
+### 10. Define when a game is complete
 
 These are recurring acceptance criteria for each game, including all six additions, not claims of completed release acceptance. Apply this completion checklist to every game:
 
@@ -99,7 +137,7 @@ These are recurring acceptance criteria for each game, including all six additio
 - [ ] Adding the game preserves the behavior of previously completed games.
 - [ ] Executable size and performance costs have been checked, including startup and resource use on the target device.
 
-### 8. Build the shared audio output suite
+### 11. Build the shared audio output suite
 
 Plan: [plans/future/audio-suite.md](plans/future/audio-suite.md)
 
@@ -113,7 +151,7 @@ Audio is planned, not implemented. Build one small, offline audio system shared 
 - [ ] **Demoscene implementation:** Prefer compact procedural synthesis, reusable riffs, and shared sequencing over large recordings or a general-purpose audio engine. Keep all sounds and music local, with no downloads, tracking, or runtime network dependency. Bound simultaneous voices and measure CPU, memory, battery, and artifact-size costs.
 - [ ] **Verification:** Check every event category and game theme across intensity levels, including rapid input, intensity changes, game switching, mute, interruptions, and resume. Verify intelligibility and comfortable levels on phone speakers and headphones. Keep visual equivalents for meaningful audio cues so every game remains fully playable in silence.
 
-### 9. Implement settings overrides
+### 12. Implement settings overrides
 
 Plan: [plans/future/settings-overrides.md](plans/future/settings-overrides.md)
 
@@ -255,6 +293,7 @@ A Tempest-inspired twelve-lane shooter. Tap/drag selects a rim lane; left/right 
 - [x] **Arena and action:** Build a small procedural arena with readable lanes, player movement around the rim, and enemies approaching along the arena. Plan: [plans/current/caliban-arena-and-action.md](plans/current/caliban-arena-and-action.md).
 - [x] **Controls and progression:** Define simple touch controls with input alternatives, firing behavior, collisions, and wave completion. Keep gameplay pace independent of sensory intensity. Plan: [plans/current/caliban-controls-and-progression.md](plans/current/caliban-controls-and-progression.md).
 - [x] **Integration:** Provide pause, deliberate restart, saved progression, and a real gameplay preview. Preserve clear threats and hitboxes in still and monochrome presentations. Plan: [plans/current/caliban-integration.md](plans/current/caliban-integration.md).
+- [x] **Drag anywhere:** Relative horizontal dragging anywhere on the gameplay screen moves around the rim: right moves clockwise, left counterclockwise, and one screen width spans twelve lanes. Arena taps and keyboard/controller alternatives remain available; dragging never changes intensity. Plan: [plans/current/caliban-drag-anywhere.md](plans/current/caliban-drag-anywhere.md).
 
 ### Bloom
 
@@ -265,6 +304,8 @@ A cellular-automaton sandbox based on Conway's Game of Life, with Bloom as the S
 - [x] **Simulation:** Implement the familiar live/dead-cell evolution rules in a small deterministic model. Make the simulation's actual rate an explicit gameplay choice independent of decorative intensity. Plan: [plans/current/bloom-simulation.md](plans/current/bloom-simulation.md).
 - [x] **Interaction:** Let the player create and erase cells, run/pause the simulation, step one generation, and reset deliberately. Prefer direct interaction over instructions; the initial grid wraps at 24×24. Plan: [plans/current/bloom-interaction.md](plans/current/bloom-interaction.md).
 - [x] **Integration:** Save the cell arrangement and simulation state, offer a game-driven preview, and support open-ended exploration without a required win condition or score. Plan: [plans/current/bloom-integration.md](plans/current/bloom-integration.md).
+- [x] **Recognizable preview patterns:** Gallery playback cycles Glider, Blinker, Toad, Beacon, Block, and Pulsar every two seconds, evolving each with the actual simulation. Still-preview intensity levels freeze playback. Plan: [plans/current/bloom-preview-patterns.md](plans/current/bloom-preview-patterns.md).
+- [x] **Pattern picker and placement:** Patterns, P, or controller right shoulder opens a paused popup with six named visual thumbnails. Choose a pattern and grid position, inspect its placement preview, then Place/confirm or Cancel/Back. Centered stamps wrap around edges and add live cells without erasing existing ones. Keyboard/controller navigation is supported; native screen-reader verification remains pending. Plan: [plans/current/bloom-pattern-picker.md](plans/current/bloom-pattern-picker.md).
 
 ### Echo
 
@@ -298,6 +339,79 @@ A planetary conquest game inspired by Risk and the existing real-time Territory 
 - [x] **Conquest:** Define unit production, force selection, arrival combat, computer opponents, and system victory using the simplest rules that fit unrestricted travel. Balance these explicitly rather than assuming Territory's current values transfer unchanged. Plan: [plans/current/planets-conquest.md](plans/current/planets-conquest.md).
 - [x] **Moons:** Include moons orbiting some planets. Systems two and three include one and two capturable moons respectively, using the same production/combat rules. Plan: [plans/current/planets-moons.md](plans/current/planets-moons.md).
 - [x] **Integration:** Save the system/level, orbital phases, ownership, units, production clocks, and forces in transit. Pause orbital motion and gameplay together on pause/backgrounding; do not advance while closed. Provide game-driven previews and clear non-color ownership cues. Select one of three system previews; victory offers the next system. Plan: [plans/current/planets-integration.md](plans/current/planets-integration.md).
+- [x] **Player starts the match:** New matches move orbits but hold production and opponent orders until the first valid player dispatch. Selection or Play alone does not start opponents. Save/resume preserves this state; legacy matches migrate as already started. Plan: [plans/current/planets-player-start.md](plans/current/planets-player-start.md).
+- [x] **Opponent reaction progression:** New matches begin with a six-second decision interval, decreasing linearly to two seconds over three minutes of active match time. Each interval is scheduled at the previous decision. Timing persists, ignores paused/closed time, and is independent of intensity. Legacy matches retain their two-second cadence. These initial defaults remain subject to playtesting. Plan: [plans/current/planets-reaction-progression.md](plans/current/planets-reaction-progression.md).
+
+The five refinements above are implemented with rule/save/race tests, browser interaction checks, and Android/WebAssembly builds. Evidence is recorded in their separate requirement plans. Phone, physical-controller, native screen-reader and balance verification remain pending; earlier checked entries describe the initial versions.
+
+## Seven further game additions
+
+The seven further additions are **Drift (provisional name), Stack, Deduction, Cluster, Wave, Crossing, and Shift**. These seven games now have initial playable implementations. Rule/save tests and race checks pass; Android and WebAssembly builds succeed. Browser interaction and reload-persistence checks pass. Phone, physical-controller, accessibility and balance verification remain open. The linked plans record the implemented defaults.
+
+All seven inherit the shared completion criteria: offline and silent play, no ads or telemetry, minimal visible text, accessible input alternatives and non-color cues, intensity-independent rules, local saves, deliberate restart, shared navigation, and previews driven by actual game code.
+
+### Drift — provisional name
+
+Plan: [plans/current/drift.md](plans/current/drift.md)
+
+An Asteroids-inspired space shooter. **Drift** is a proposed replacement for the earlier name Orbit; the final name remains open.
+
+- [x] **Flight and action:** Wrapping space, inertial ship movement, automatic firing, and rocks splitting twice. Drag anywhere to steer/thrust; keyboard/controller steering and a thrust toggle. Plan: [plans/current/drift-flight-and-action.md](plans/current/drift-flight-and-action.md).
+- [x] **Rounds and integration:** Three lives and three waves with deliberate Next/restart, saved ship/rocks/shots/RNG, pause without catch-up and genuine model previews. Drift remains a provisional display name. Plan: [plans/current/drift-rounds-and-integration.md](plans/current/drift-rounds-and-integration.md).
+
+### Stack
+
+Plan: [plans/current/stack.md](plans/current/stack.md)
+
+A falling-block puzzle inspired by Tetris.
+
+- [x] **Placement and clearing:** 10×20 board, seven four-cell shapes, shuffled seven-piece bags, clockwise rotation with small horizontal kicks, row clearing and blocked-spawn failure. Plan: [plans/current/stack-placement-and-clearing.md](plans/current/stack-placement-and-clearing.md).
+- [x] **Pace and integration:** Explicit slow/medium/fast gravity, deliberate hard drop and a 40-line goal. Persist board, falling/next pieces, bag/RNG and clock. Preview uses actual placements. Plan: [plans/current/stack-pace-and-integration.md](plans/current/stack-pace-and-integration.md).
+
+### Deduction
+
+Plan: [plans/current/deduction.md](plans/current/deduction.md)
+
+A Sudoku game; **Deduction** is the selected STMPCK name.
+
+- [x] **Puzzle rules:** 9×9 Sudoku with 3×3 regions. Shuffle a valid completed grid, then remove clues only while a solver proves uniqueness; aim for 36 clues. Plan: [plans/current/deduction-puzzle-rules.md](plans/current/deduction-puzzle-rules.md).
+- [x] **Interaction and integration:** Cell selection and visible digit palette, keyboard digits and controller cycling, erase, one-step undo, immutable clues and conflict/completion feedback. Save clues/entries/solution/undo; actual solving preview. Notes/hints deferred. Plan: [plans/current/deduction-interaction-and-integration.md](plans/current/deduction-interaction-and-integration.md).
+
+### Cluster
+
+Plan: [plans/current/cluster.md](plans/current/cluster.md)
+
+A bubble-shooter-style matching game.
+
+- [x] **Aiming and matching:** Eight-column staggered hex grid, four marked colors, fixed-speed launched pieces with side-wall reflection. Snap to a free neighbor; clear connected matches of at least three and drop pieces disconnected from ceiling. Plan: [plans/current/cluster-aiming-and-matching.md](plans/current/cluster-aiming-and-matching.md).
+- [x] **Rounds and integration:** Five starting rows; clear all to win, reaching bottom row loses. Drag to aim and release to fire, directional aim/confirm and Fire button. Save board, shot and queued colors; deliberate replay and real-model preview. Plan: [plans/current/cluster-rounds-and-integration.md](plans/current/cluster-rounds-and-integration.md).
+
+### Wave
+
+Plan: [plans/current/wave.md](plans/current/wave.md)
+
+A Space Invaders-inspired arcade shooter.
+
+- [x] **Movement and action:** Eight columns by four rows of procedural enemies, horizontal formations descending at boundaries, automatic player fire and seeded enemy shots. Drag horizontally anywhere or use keyboard/controller movement. Plan: [plans/current/wave-movement-and-action.md](plans/current/wave-movement-and-action.md).
+- [x] **Waves and integration:** Three lives, three waves, deliberate Next/restart and pause; persist enemies/projectiles/clocks/RNG. Difficulty grows with wave, independent of intensity; game-driven gallery. Plan: [plans/current/wave-waves-and-integration.md](plans/current/wave-waves-and-integration.md).
+
+### Crossing
+
+Plan: [plans/current/crossing.md](plans/current/crossing.md)
+
+A Frogger-inspired crossing game; **Crossing** is the selected STMPCK name.
+
+- [x] **Traversal:** Nine-column crossing with three road lanes, five water lanes with moving logs, safe banks and median. Swipe or directional controls hop one cell; ride logs, avoid cars/water and reach three marked destinations. Plan: [plans/current/crossing-traversal.md](plans/current/crossing-traversal.md).
+- [x] **Levels and integration:** Three lives and three levels, with pace determined by level. Save positions, lane phases, destinations, lives and clocks; pause hazards together. Deliberate retry/Next and model-driven preview. Plan: [plans/current/crossing-levels-and-integration.md](plans/current/crossing-levels-and-integration.md).
+
+### Shift
+
+Plan: [plans/current/shift.md](plans/current/shift.md)
+
+A sliding-tile puzzle.
+
+- [x] **Sliding and solvability:** 4×4 numbered sliding puzzle; generate each scramble by legal moves from the solved board, avoiding immediate reversals and a solved start. Plan: [plans/current/shift-sliding-and-solvability.md](plans/current/shift-sliding-and-solvability.md).
+- [x] **Interaction and integration:** Tap a neighbor of the empty cell or use directional input; visual completion, one-step undo and confirmed new puzzle. Persist arrangement/initial/undo/move count; preview uses legal slides. Plan: [plans/current/shift-interaction-and-integration.md](plans/current/shift-interaction-and-integration.md).
 
 ## Future PvP modes
 

@@ -39,19 +39,22 @@ type Game struct {
 	setup, paused, restartConfirm, symbols, wasSettings bool
 	option, cursor, aiClock, flash, saveClock           int
 	menu.State
-	mockOptions    [4]bool
-	width, height  int
-	tick           float64
-	sparkleSeed    uint64
-	pressed        bool
-	touch          bool
-	touchID        ebiten.TouchID
-	sx, sy, lx, ly float64
-	travel         float64
-	wheelCooldown  int
-	gesture        string
-	planetDragFrom int
-	bloomPaint     bool
+	mockOptions               [4]bool
+	width, height             int
+	tick                      float64
+	sparkleSeed               uint64
+	pressed                   bool
+	touch                     bool
+	touchID                   ebiten.TouchID
+	sx, sy, lx, ly            float64
+	travel                    float64
+	wheelCooldown             int
+	gesture                   string
+	planetDragFrom            int
+	bloomPaint                bool
+	calibanDragStart          int
+	bloomPicker, bloomPlacing bool
+	bloomChoice               int
 }
 
 func NewGame() *Game {
@@ -112,6 +115,9 @@ func (g *Game) Update() error {
 			g.gameAction(0)
 		}
 		if g.Selected >= play.FlowID && !g.Settings {
+			if g.Selected == play.BloomID && inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonFrontTopRight) {
+				g.toggleBloomPicker()
+			}
 			if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonRightLeft) {
 				g.gameAction(2)
 			}
@@ -249,6 +255,9 @@ func (g *Game) Update() error {
 			if g.travel < 12 {
 				g.activate(fx, fy)
 			} else if g.Selected >= 0 && !g.Settings {
+				if g.Selected >= play.DriftID {
+					g.expansionSwipe(fx, fy)
+				}
 				if !g.setup && !g.paused && !g.restartConfirm && g.Selected == play.PlanetsID {
 					bx, by, bw, bh := g.gameRect()
 					if g.games.Planets.Order(1, g.planetDragFrom, g.games.Planets.At((fx-bx)/bw, (fy-by)/bh)) {
@@ -299,6 +308,7 @@ func (g *Game) begin(x, y float64) {
 	g.travel = 0
 	g.gesture = ""
 	g.planetDragFrom = -1
+	g.calibanDragStart = g.games.Caliban.Lane
 	if g.Selected >= play.FlowID && !g.setup && !g.Settings {
 		bx, by, bw, bh := g.gameRect()
 		u, v := (x-bx)/bw, (y-by)/bh

@@ -8,6 +8,13 @@ import (
 )
 
 func (g *Game) additionAction(slot int) bool {
+	if g.Selected == play.BloomID && (g.bloomPicker || g.bloomPlacing) {
+		g.bloomPatternAction(slot)
+		return true
+	}
+	if g.Selected >= play.DriftID {
+		return g.expansionAction(slot)
+	}
 	if g.restartConfirm {
 		if g.Selected == play.BloomID && slot == 0 {
 			g.games.Bloom.Clear()
@@ -63,6 +70,15 @@ func (g *Game) additionAction(slot int) bool {
 	return false
 }
 func (g *Game) additionDirection(d int) {
+	if g.Selected == play.BloomID && g.bloomPicker {
+		g.moveBloomChoice(d)
+		return
+	}
+	if g.Selected >= play.DriftID {
+		g.expansionDirection(d)
+		g.saveGames()
+		return
+	}
 	n := 0
 	switch g.Selected {
 	case play.FlowID:
@@ -107,6 +123,10 @@ func (g *Game) additionDirection(d int) {
 	}
 }
 func (g *Game) additionConfirm() {
+	if g.Selected >= play.DriftID {
+		g.expansionConfirm()
+		return
+	}
 	switch g.Selected {
 	case play.FlowID:
 		g.games.Flow.Rotate(g.cursor)
@@ -122,6 +142,18 @@ func (g *Game) additionTap(x, y float64) {
 	if g.restartConfirm || g.paused && g.Selected != play.BloomID {
 		return
 	}
+	if g.Selected == play.BloomID {
+		rx, ry, rw, rh := g.bloomButtonRect()
+		if x >= rx && x < rx+rw && y >= ry && y < ry+rh {
+			g.toggleBloomPicker()
+			return
+		}
+	}
+	if g.Selected >= play.DriftID {
+		g.expansionTap(x, y)
+		g.saveGames()
+		return
+	}
 	bx, by, bw, bh := g.gameRect()
 	u, v := (x-bx)/bw, (y-by)/bh
 	if u < 0 || u >= 1 || v < 0 || v >= 1 {
@@ -134,7 +166,9 @@ func (g *Game) additionTap(x, y float64) {
 	case play.BloomID:
 		if g.paused {
 			g.cursor = int(v*play.BloomN)*play.BloomN + int(u*play.BloomN)
-			g.games.Bloom.Toggle(g.cursor)
+			if !g.bloomPlacing {
+				g.games.Bloom.Toggle(g.cursor)
+			}
 		}
 	case play.EchoID:
 		g.cursor = int(v*2)*2 + int(u*2)
@@ -155,6 +189,10 @@ func laneAt(x, y float64) int {
 	return (int(math.Round(angle*play.CalibanLanes/(2*math.Pi))) + play.CalibanLanes) % play.CalibanLanes
 }
 func (g *Game) updateAddition() {
+	if g.Selected >= play.DriftID {
+		g.updateExpansion()
+		return
+	}
 	switch g.Selected {
 	case play.CalibanID:
 		g.games.Caliban.Tick()
@@ -182,6 +220,9 @@ func (g *Game) updateAddition() {
 	}
 }
 func (g *Game) additionStatus() string {
+	if g.Selected >= play.DriftID {
+		return g.expansionStatus()
+	}
 	switch g.Selected {
 	case play.FlowID:
 		if g.games.Flow.Won {
@@ -229,6 +270,9 @@ func (g *Game) additionStatus() string {
 		if g.games.Planets.Winner == 1 {
 			return "System yours!"
 		}
+		if !g.games.Planets.Started {
+			return "Send a fleet to begin"
+		}
 		if g.games.Planets.Winner > 1 {
 			return "Opponent wins"
 		}
@@ -237,6 +281,20 @@ func (g *Game) additionStatus() string {
 	return ""
 }
 func (g *Game) additionFooter(names []string) {
+	if g.Selected == play.BloomID && (g.bloomPicker || g.bloomPlacing) {
+		names[0] = "Select"
+		if g.bloomPlacing {
+			names[0] = "Place"
+		}
+		names[1] = "Cancel"
+		names[2] = ""
+		names[3] = ""
+		return
+	}
+	if g.Selected >= play.DriftID {
+		g.expansionFooter(names)
+		return
+	}
 	switch g.Selected {
 	case play.FlowID:
 		names[2] = "Replay"
@@ -268,6 +326,10 @@ func (g *Game) additionDrag(x, y float64) {
 	if g.Settings || g.setup || g.restartConfirm {
 		return
 	}
+	if g.Selected >= play.DriftID {
+		g.expansionDrag(x, y)
+		return
+	}
 	bx, by, bw, bh := g.gameRect()
 	if g.Selected == play.BrickID && !g.paused && g.gesture == "horizontal" {
 		delta := x - g.lx
@@ -276,10 +338,24 @@ func (g *Game) additionDrag(x, y float64) {
 		}
 		g.games.Brick.Move(g.games.Brick.Paddle + delta/bw)
 	}
-	if g.Selected == play.CalibanID && !g.paused && x >= bx && x <= bx+bw && y >= by && y <= by+bh {
-		g.games.Caliban.Lane = laneAt((x-bx)/bw, (y-by)/bh)
+	if g.Selected == play.CalibanID && !g.paused && g.travel >= 12 {
+		steps := int(math.Round((x - g.sx) * play.CalibanLanes / float64(g.width)))
+		lane := (g.calibanDragStart + steps) % play.CalibanLanes
+		if lane < 0 {
+			lane += play.CalibanLanes
+		}
+		g.games.Caliban.Lane = lane
+	}
+	if g.Selected == play.BloomID && (g.bloomPicker || g.bloomPlacing) {
+		if g.bloomPlacing && x >= bx && x < bx+bw && y >= by && y < by+bh {
+			g.cursor = int((y-by)/bh*play.BloomN)*play.BloomN + int((x-bx)/bw*play.BloomN)
+		}
+		return
 	}
 	if g.Selected == play.BloomID && g.paused && g.travel >= 12 {
+		if g.sx < bx || g.sx >= bx+bw || g.sy < by || g.sy >= by+bh {
+			return
+		}
 		// Paint the stroke with one value, including cells crossed between frames.
 		steps := max(1, int(math.Hypot(x-g.lx, y-g.ly)/(bw/play.BloomN/2)))
 		for i := 0; i <= steps; i++ {

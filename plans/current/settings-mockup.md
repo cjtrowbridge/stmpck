@@ -2,7 +2,7 @@
 
 For the [settings mockup requirement](../../ROADMAP.md), include non-functional override switches and a Games wide selector preview with choices 1–8 and 3 selected. The selector must not change or persist the gallery layout yet; that implementation is explicitly deferred in the settings roadmap.
 
-For [Define the smallest shared experience](../../ROADMAP.md#4-define-the-smallest-shared-experience), address **replace the question-mark help screen with a gear-emoji settings mockup containing clearly labeled, non-functional override switches**. Make the proposed settings visible and reviewable without implying that output controls or saving already work.
+For [Define the smallest shared experience](../../ROADMAP.md#7-define-the-smallest-shared-experience), address **replace the question-mark help screen with a gear-emoji settings mockup containing clearly labeled, non-functional override switches**. Make the proposed settings visible and reviewable without implying that output controls or saving already work.
 
 ## Implementation
 

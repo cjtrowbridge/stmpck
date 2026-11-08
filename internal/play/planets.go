@@ -13,15 +13,18 @@ type Fleet struct {
 }
 type Planets struct {
 	System, Players, Source, Winner, ProductionClock, AIClock int
+	TimingVersion, ActiveTicks, AIInterval                    int
+	Started                                                   bool
 	Bodies                                                    []OrbitalBody
 	Fleets                                                    []Fleet
 }
 
 const FleetSpeed = .28
+const PlanetsRampTicks = 180 * 60
 
 func NewPlanets(system int) Planets {
 	system = max(0, min(2, system))
-	p := Planets{System: system, Players: 2 + system, Source: -1}
+	p := Planets{System: system, Players: 2 + system, Source: -1, TimingVersion: 1, AIInterval: 360}
 	for i := 0; i < 5+system; i++ {
 		p.Bodies = append(p.Bodies, OrbitalBody{Parent: -1, Radius: .13 + float64(i)*.045, Phase: math.Mod(float64(i)*2.4, 2*math.Pi), Rate: .025 + float64(i)*.004})
 	}
@@ -57,12 +60,21 @@ func (p *Planets) At(x, y float64) int {
 	return best
 }
 func (p *Planets) Order(owner, from, to int) bool {
+	if owner != 1 && !p.Started {
+		return false
+	}
 	if p.Winner != 0 || from < 0 || from >= len(p.Bodies) || to < 0 || to >= len(p.Bodies) || from == to || len(p.Fleets) >= 256 {
 		return false
 	}
 	b := &p.Bodies[from]
 	if b.Owner != owner || b.Units < 2 {
 		return false
+	}
+	if !p.Started {
+		p.Started = true
+		p.ActiveTicks = 0
+		p.AIClock = 0
+		p.AIInterval = 360
 	}
 	pos := p.Position(from)
 	units := b.Units - 1
@@ -84,6 +96,9 @@ func (p *Planets) Choose(i int) {
 	}
 }
 func (p *Planets) ComputerOrder(owner int) {
+	if owner != 1 && !p.Started {
+		return
+	}
 	from := -1
 	for i, b := range p.Bodies {
 		if b.Owner == owner && (from < 0 || b.Units > p.Bodies[from].Units) {
@@ -119,6 +134,10 @@ func (p *Planets) Tick() {
 		b := &p.Bodies[i]
 		b.Phase = math.Mod(b.Phase+b.Rate/60, 2*math.Pi)
 	}
+	if !p.Started {
+		return
+	}
+	p.ActiveTicks = min(PlanetsRampTicks, p.ActiveTicks+1)
 	p.ProductionClock++
 	if p.ProductionClock >= 180 {
 		p.ProductionClock = 0
@@ -155,8 +174,9 @@ func (p *Planets) Tick() {
 	}
 	p.Fleets = fleets
 	p.AIClock++
-	if p.AIClock >= 120 {
+	if p.AIClock >= p.AIInterval {
 		p.AIClock = 0
+		p.AIInterval = p.ReactionTicks()
 		for owner := 2; owner <= p.Players; owner++ {
 			p.ComputerOrder(owner)
 		}
@@ -183,4 +203,8 @@ func (p *Planets) Tick() {
 	if p.Source >= 0 && p.Bodies[p.Source].Owner != 1 {
 		p.Source = -1
 	}
+}
+
+func (p *Planets) ReactionTicks() int {
+	return 360 - 240*min(PlanetsRampTicks, max(0, p.ActiveTicks))/PlanetsRampTicks
 }

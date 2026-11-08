@@ -23,6 +23,9 @@ func (c *Collection) demonstrateAdditions(n int) {
 		a.Lane = a.Enemies[0].Lane
 	}
 	a.Tick()
+	if n%120 == 0 {
+		c.Bloom = BloomDemonstration((n / 120) % len(BloomPatterns))
+	}
 	c.Bloom.Tick()
 	e := &c.Echo
 	e.Tick()

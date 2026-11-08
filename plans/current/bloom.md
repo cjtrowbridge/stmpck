@@ -10,6 +10,14 @@ Conway B3/S23 on a wrapping 24×24 board. Select 2, 6 or 12 generations per seco
 - [Interaction](bloom-interaction.md)
 - [Integration](bloom-integration.md)
 
+- [Recognizable preview patterns](bloom-preview-patterns.md)
+
+- [Pattern picker and placement](bloom-pattern-picker.md)
+
+## Refinements implemented 2026-11-08
+
+A six-pattern catalog now drives gallery examples and a paused picker with wrapped additive placement, preview and cancellation. Focused rules/save/race tests, browser interactions and Android/WebAssembly builds pass. Evidence is recorded in the refinement requirement plans linked above; phone verification remains pending.
+
 ## Evidence and remaining work
 
 Implemented in `internal/play/bloom.go`, with shared additions input/rendering, collection saves and actual-model demonstrations. The original five identifiers remain unchanged and older saves load with the six appended games unstarted. Tests in `internal/play/additions_test.go` cover rules, long-running validity, corruption rejection and save/resume; navigation/storage/presentation regressions and race-detector checks pass. Android debug and WebAssembly builds succeed. Linux is blocked by missing host X11 headers.

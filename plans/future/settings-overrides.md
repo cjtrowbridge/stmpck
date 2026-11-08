@@ -1,6 +1,6 @@
 # Settings overrides
 
-For [Implement settings overrides](../../ROADMAP.md#9-implement-settings-overrides), coordinate working app-wide menu-animation, master-audio, haptics, and decorative-effect controls. These must override intensity without changing game rules, with accessible controls and consistent lifecycle behavior.
+For [Implement settings overrides](../../ROADMAP.md#12-implement-settings-overrides), coordinate working app-wide menu-animation, master-audio, haptics, and decorative-effect controls. These must override intensity without changing game rules, with accessible controls and consistent lifecycle behavior.
 
 ## Status and boundaries
 

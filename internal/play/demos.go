@@ -8,6 +8,7 @@ func NewDemonstrations() Collection {
 	}
 	c.Snake.Running = true
 	c.Bounce.Serve()
+	c.Bloom = BloomDemonstration(0)
 	return c
 }
 func (c *Collection) Demonstrate(n int) {
@@ -66,4 +67,5 @@ func (c *Collection) Demonstrate(n int) {
 	}
 	b.Tick()
 	c.demonstrateAdditions(n)
+	c.demonstrateExpansion(n)
 }

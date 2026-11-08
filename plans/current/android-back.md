@@ -1,6 +1,6 @@
 # Android system Back
 
-For [Define the smallest shared experience](../../ROADMAP.md#4-define-the-smallest-shared-experience), address **Handle Android system Back one level at a time: close settings, return from a game to the home menu while preserving catalog position, and stay at home if already there. Share navigation with Escape/controller Back.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
+For [Define the smallest shared experience](../../ROADMAP.md#7-define-the-smallest-shared-experience), address **Handle Android system Back one level at a time: close settings, return from a game to the home menu while preserving catalog position, and stay at home if already there. Share navigation with Escape/controller Back.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
 
 ## Implementation and evidence
 

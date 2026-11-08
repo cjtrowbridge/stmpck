@@ -35,6 +35,10 @@ func (g *Game) renderGame(dst *ebiten.Image, c *play.Collection, id int, x, y, w
 		ratio = 7.0 / 6
 	case play.TerritoryID, play.BounceID, play.BrickID:
 		ratio = 1.2
+	case play.StackID:
+		ratio = .5
+	case play.CrossingID:
+		ratio = 9.0 / 11
 	}
 	rw := math.Min(w, h*ratio)
 	rh := rw / ratio
@@ -244,7 +248,19 @@ func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
 		x, y, w, h := g.gameRect()
 		g.breathingBorder(dst, x, y, w, h, p)
 		g.renderGame(dst, &g.games, g.Selected, x, y, w, h, p, true)
+		if g.Selected == play.BloomID {
+			g.drawBloomPlacement(dst, p)
+		}
 		centered(dst, g.statusText(), float64(g.width)/2, y+h+18, p.ink)
+		if g.Selected == play.DeductionID {
+			g.drawDeductionDigits(dst, p)
+		}
+		if g.Selected == play.StackID {
+			g.drawStackNext(dst, p)
+		}
+		if g.Selected == play.BloomID {
+			g.drawBloomButton(dst, p)
+		}
 
 		if g.Selected == play.TerritoryID && g.games.Territory.Dice[0] > 0 {
 			t := g.games.Territory
@@ -294,6 +310,9 @@ func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
 	}
 	if g.saveFailed.Load() {
 		label(dst, "Save unavailable - keep app open", 18, menu.Header+12, p.ink)
+	}
+	if g.Selected == play.BloomID && g.bloomPicker {
+		g.drawBloomPicker(dst, p)
 	}
 }
 

@@ -1,6 +1,6 @@
 # Visible menu controls and optional help
 
-For [Define the smallest shared experience](../../ROADMAP.md#4-define-the-smallest-shared-experience), address **Provide visible intensity arrows/faces, sorting tabs, settings, back, and focus cues with optional control explanations; no preview play/pause button or center intensity control.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
+For [Define the smallest shared experience](../../ROADMAP.md#7-define-the-smallest-shared-experience), address **Provide visible intensity arrows/faces, sorting tabs, settings, back, and focus cues with optional control explanations; no preview play/pause button or center intensity control.** This plan owns the implemented menu requirement; unfinished integration and verification retain separate roadmap entries.
 
 ## Implementation and evidence
 

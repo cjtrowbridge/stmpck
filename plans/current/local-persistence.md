@@ -1,6 +1,6 @@
 # Local persistence
 
-This plan addresses the [Local persistence](../../ROADMAP.md#6-define-local-persistence) as a whole. The intended outcome and work are described below.
+This plan addresses the [Local persistence](../../ROADMAP.md#9-define-local-persistence) as a whole. The intended outcome and work are described below.
 
 ## Work and validation
 

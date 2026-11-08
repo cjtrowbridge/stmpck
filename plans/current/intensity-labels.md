@@ -1,6 +1,6 @@
 # Intensity facial-expression controls
 
-For the [foundation deliverable](../../ROADMAP.md#5-establish-presentation-and-accessibility-rules), address **two edge-aligned facial-expression controls that move one intensity level at a time, without a center control**. Direct endpoint selection was confusing and would skip intermediate levels as more presentations are added.
+For the [foundation deliverable](../../ROADMAP.md#8-establish-presentation-and-accessibility-rules), address **two edge-aligned facial-expression controls that move one intensity level at a time, without a center control**. Direct endpoint selection was confusing and would skip intermediate levels as more presentations are added.
 
 ## Work and validation
 

@@ -13,6 +13,14 @@ Three selectable systems with five to seven planets and zero to two moons; orbit
 - [Moons](planets-moons.md)
 - [Integration](planets-integration.md)
 
+- [Player starts the match](planets-player-start.md)
+
+- [Opponent reaction progression](planets-reaction-progression.md)
+
+## Refinements implemented 2026-11-08
+
+New matches wait for a valid player order before production/opponents begin; opponents start at six-second intervals and approach two seconds over three active minutes. Timing persists; legacy matches retain their previous cadence. Focused rules/save/race tests, browser interactions and Android/WebAssembly builds pass. Evidence is recorded in the refinement requirement plans linked above; phone verification remains pending.
+
 ## Evidence and remaining work
 
 Implemented in `internal/play/planets.go`, with shared additions input/rendering, collection saves and actual-model demonstrations. The original five identifiers remain unchanged and older saves load with the six appended games unstarted. Tests in `internal/play/additions_test.go` cover rules, long-running validity, corruption rejection and save/resume; navigation/storage/presentation regressions and race-detector checks pass. Android debug and WebAssembly builds succeed. Linux is blocked by missing host X11 headers.

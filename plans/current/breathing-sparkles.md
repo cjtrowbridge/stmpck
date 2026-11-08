@@ -1,6 +1,6 @@
 # Breathing borders and progressive sparkles
 
-For [presentation and accessibility rules](../../ROADMAP.md#5-establish-presentation-and-accessibility-rules), address **extend the vivid view with breathing borders and random sparkles, then three progressively more intense rainbow/sparkle levels**. Add four opt-in levels to the right while preserving the existing views and default.
+For [presentation and accessibility rules](../../ROADMAP.md#8-establish-presentation-and-accessibility-rules), address **extend the vivid view with breathing borders and random sparkles, then three progressively more intense rainbow/sparkle levels**. Add four opt-in levels to the right while preserving the existing views and default.
 
 ## Implementation
 

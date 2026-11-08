@@ -21,6 +21,13 @@ type Collection struct {
 	Echo      Echo
 	Brick     Brick
 	Planets   Planets
+	Drift     Drift
+	Stack     Stack
+	Deduction Deduction
+	Cluster   Cluster
+	Wave      Wave
+	Crossing  Crossing
+	Shift     Shift
 }
 
 func NewCollection() Collection { return Collection{Version: 1} }
@@ -52,6 +59,20 @@ func (c *Collection) New(id, option int, seed uint64) {
 		c.Brick = NewBrick(option)
 	case PlanetsID:
 		c.Planets = NewPlanets(option)
+	case DriftID:
+		c.Drift = NewDrift(seed)
+	case StackID:
+		c.Stack = NewStack(seed)
+	case DeductionID:
+		c.Deduction = NewDeduction(seed)
+	case ClusterID:
+		c.Cluster = NewCluster(seed)
+	case WaveID:
+		c.Wave = NewWave(seed)
+	case CrossingID:
+		c.Crossing = NewCrossing(seed)
+	case ShiftID:
+		c.Shift = NewShift(seed)
 	default:
 		return
 	}

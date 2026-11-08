@@ -71,7 +71,16 @@ func (c *Collection) validateAdditions() error {
 	}
 	if c.Ready[PlanetsID] {
 		p := &c.Planets
-		if p.System < 0 || p.System > 2 || p.Players != 2+p.System || len(p.Bodies) != 5+2*p.System || p.Source < -1 || p.Source >= len(p.Bodies) || p.Winner < 0 || p.Winner > p.Players || p.ProductionClock < 0 || p.ProductionClock >= 180 || p.AIClock < 0 || p.AIClock >= 120 || len(p.Fleets) > 256 {
+		if p.TimingVersion == 0 {
+			p.TimingVersion = 1
+			p.Started = true
+			p.ActiveTicks = PlanetsRampTicks
+			p.AIInterval = 120
+		}
+		if p.TimingVersion != 1 || p.ActiveTicks < 0 || p.ActiveTicks > PlanetsRampTicks || p.AIInterval < 120 || p.AIInterval > 360 || !p.Started && (p.ActiveTicks != 0 || p.AIClock != 0 || p.ProductionClock != 0 || len(p.Fleets) != 0 || p.AIInterval != 360) {
+			return bad()
+		}
+		if p.System < 0 || p.System > 2 || p.Players != 2+p.System || len(p.Bodies) != 5+2*p.System || p.Source < -1 || p.Source >= len(p.Bodies) || p.Winner < 0 || p.Winner > p.Players || p.ProductionClock < 0 || p.ProductionClock >= 180 || p.AIClock < 0 || p.AIClock >= p.AIInterval || len(p.Fleets) > 256 {
 			return bad()
 		}
 		for i, b := range p.Bodies {
@@ -85,5 +94,5 @@ func (c *Collection) validateAdditions() error {
 			}
 		}
 	}
-	return nil
+	return c.validateExpansion()
 }

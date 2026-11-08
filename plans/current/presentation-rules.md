@@ -1,6 +1,6 @@
 # Presentation and accessibility rules
 
-For the [foundation deliverable](../../ROADMAP.md#5-establish-presentation-and-accessibility-rules), coordinate the presentation rules as a whole.
+For the [foundation deliverable](../../ROADMAP.md#8-establish-presentation-and-accessibility-rules), coordinate the presentation rules as a whole.
 
 ## Work and validation
 

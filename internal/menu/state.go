@@ -17,9 +17,9 @@ const (
 )
 
 // Synthetic familiarity weights, not measured market share. See menu-tabs plan.
-var PlaceholderPopularity = [Count]int{90, 100, 60, 70, 80, 55, 50, 65, 75, 85, 58}
+var PlaceholderPopularity = [Count]int{90, 100, 60, 70, 80, 55, 50, 65, 75, 85, 58, 78, 98, 92, 72, 82, 76, 68}
 
-var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce", "Flow", "Caliban", "Bloom", "Echo", "Brick", "Planets"}
+var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce", "Flow", "Caliban", "Bloom", "Echo", "Brick", "Planets", "Drift", "Stack", "Deduction", "Cluster", "Wave", "Crossing", "Shift"}
 
 const (
 	Personal = iota
