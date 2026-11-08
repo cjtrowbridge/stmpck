@@ -237,13 +237,7 @@ func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
 		g.breathingBorder(dst, x, y, w, h, p)
 		g.renderGame(dst, &g.games, g.Selected, x, y, w, h, p, true)
 		centered(dst, g.statusText(), float64(g.width)/2, y+h+18, p.ink)
-		if g.Selected == play.MergeID {
-			for i, d := range []string{"<", "^", "v", ">"} {
-				bx := x + float64(i)*w/4
-				rect(dst, bx+3, y+h+30, w/4-6, 38, p.panel)
-				centered(dst, d, bx+w/8, y+h+49, p.ink)
-			}
-		}
+
 		if g.Selected == play.TerritoryID && g.games.Territory.Dice[0] > 0 {
 			t := g.games.Territory
 			centered(dst, fmt.Sprintf("Dice: %d / %d", t.Dice[0], t.Dice[1]), float64(g.width)/2, y+h+45, p.muted)

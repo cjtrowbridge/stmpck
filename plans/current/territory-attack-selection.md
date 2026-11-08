@@ -1,9 +1,9 @@
-# Territory — Attack selection
+# Territory Attack Selection
 
-For the [Territory deliverable](../../ROADMAP.md#3-territory), implement **Attack selection:** Select an owned source, then an adjacent territory to issue an immediate order. Allow friendly transfers and movement into neutral or hostile territory.
+For the corresponding [roadmap game requirement](../../ROADMAP.md), implement **Attack selection:** Swipe or drag from an owned source to an adjacent destination to issue an order on release. Retain source-then-destination taps and keyboard/controller selection. Allow friendly transfers and neutral or hostile destinations; reject invalid endpoints without changing existing orders.
 
-## Implementation
+## Implementation and verification
 
-Replace the prior turn-based implementation with the real-time model and shared renderer. Preserve existing maps and armies on save migration. Validate deterministic movement, production, combat, persistence, and rendered borders; deploy through the canonical build pipeline.
+Update shared pointer handling and the game renderer. Territory gestures use actual map hit testing and existing immutable movement orders; do not act during setup, pause, settings, or restart confirmation. Verify valid and invalid endpoints and immediate source deductions with model tests; build and deploy through the canonical pipeline. Physical controller and broader accessibility checks remain separate release work.
 
-Status: implemented. Rules, geometry/border coverage, save migration, and mid-flight continuation tests pass, including the race detector. Android and WebAssembly builds pass. Final phone verification is recorded in reports/territory-realtime/. Broader accessibility and longer balance playtests remain release work.
+Status: implemented. Focused model tests pass, including the race detector. Android and WebAssembly builds pass and the APK was installed/launched on the authorized phone. The phone was locked during subsequent touch verification, so this revision’s live gesture/visual check remains pending.

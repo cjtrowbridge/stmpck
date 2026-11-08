@@ -192,3 +192,13 @@ func (t *Territory) Tick() bool {
 	t.Winner = winner
 	return true
 }
+
+// OrderBetween commits one gesture on release; crossing other regions does not issue orders.
+func (t *Territory) OrderBetween(player int, from, to Point) bool {
+	a, b := t.Terrain.At(from.X, from.Y), t.Terrain.At(to.X, to.Y)
+	if !t.Order(player, a, b) {
+		return false
+	}
+	t.Source, t.Target = -1, -1
+	return true
+}

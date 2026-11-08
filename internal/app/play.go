@@ -363,13 +363,7 @@ func (g *Game) playTap(x, y float64) {
 		return
 	}
 	bx, by, bw, bh := g.gameRect()
-	if y >= by+bh+28 && y < by+bh+72 && (g.Selected == play.MergeID) {
-		slot := int((x - bx) * 4 / bw)
-		if slot >= 0 && slot < 4 {
-			g.direction([4]int{0, 1, 3, 2}[slot])
-		}
-		return
-	}
+
 	if x < bx || x > bx+bw || y < by || y > by+bh {
 		return
 	}
@@ -547,4 +541,16 @@ func (g *Game) statusText() string {
 		}
 	}
 	return ""
+}
+
+func (g *Game) territorySwipe(x, y, endX, endY float64) {
+	if g.setup || g.paused || g.restartConfirm || g.Settings {
+		return
+	}
+	bx, by, bw, bh := g.gameRect()
+	from := play.Point{X: (x - bx) / bw, Y: (y - by) / bh}
+	to := play.Point{X: (endX - bx) / bw, Y: (endY - by) / bh}
+	if g.games.Territory.OrderBetween(1, from, to) {
+		g.saveGames()
+	}
 }

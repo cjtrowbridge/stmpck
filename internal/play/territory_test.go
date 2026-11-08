@@ -163,3 +163,38 @@ func TestTerritoryBordersCoverEveryAdjacency(t *testing.T) {
 		}
 	}
 }
+
+func TestTerritorySwipeOrder(t *testing.T) {
+	for _, owner := range []int{0, 1, 2} {
+		tr := territoryFixture()
+		tr.Owners[1] = owner
+		if owner > 0 {
+			tr.Units[1] = 3
+		}
+		a, b := tr.Terrain.Centers[0], tr.Terrain.Centers[1]
+		tr.Source = 2
+		if !tr.OrderBetween(1, a, b) || tr.Units[0] != 1 || len(tr.Movements) != 1 || tr.Source != -1 {
+			t.Fatal("swipe must issue one order and immediately debit source")
+		}
+		movement := tr.Movements[0]
+		if movement.From != 0 || movement.To != 1 || movement.Units != 9 {
+			t.Fatal("wrong gesture endpoints")
+		}
+		if tr.OrderBetween(1, a, b) || tr.Movements[0] != movement {
+			t.Fatal("repeat gesture spent unavailable units or changed order")
+		}
+	}
+	for _, pair := range [][2]int{{0, 0}, {0, 11}, {2, 1}} {
+		tr := territoryFixture()
+		before := tr
+		if tr.OrderBetween(1, tr.Terrain.Centers[pair[0]], tr.Terrain.Centers[pair[1]]) || !reflect.DeepEqual(before, tr) {
+			t.Fatal("invalid gesture changed state", pair)
+		}
+	}
+	tr := territoryFixture()
+	a := tr.Terrain.Centers[0]
+	outside := Point{-1, -1}
+	if tr.OrderBetween(1, a, outside) || tr.OrderBetween(1, outside, a) {
+		t.Fatal("off-map endpoint accepted")
+	}
+}

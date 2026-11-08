@@ -234,6 +234,9 @@ func (g *Game) Update() error {
 				g.activate(fx, fy)
 			} else if g.Selected >= 0 && !g.Settings {
 				dx, dy := fx-g.sx, fy-g.sy
+				if g.Selected == play.TerritoryID {
+					g.territorySwipe(g.sx, g.sy, fx, fy)
+				}
 				if g.Selected == play.MergeID || g.Selected == play.SnakeID {
 					if math.Abs(dx) > math.Abs(dy) {
 						if dx < 0 {
