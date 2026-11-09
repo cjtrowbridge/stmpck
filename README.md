@@ -48,6 +48,8 @@ python scripts/build.py --verify
 
 On Unix, `make build` is the no-flag convenience entrypoint. The build reports every target, its intended output, whether it can be built locally, and why. Artifacts go to `releases/{goos}/{goarch}/app/latest[.exe]` and are ignored by Git.
 
+On Windows, run `python scripts/build.py` (or add `--verify` to check outputs). A Windows/amd64 host produces `releases/windows/amd64/app/latest.exe` alongside WebAssembly, using the pinned Go toolchain without a C compiler. Both artifacts pass build verification; native interactive and accessibility checks remain pending. Run the executable directly or use `python scripts/run_artifact.py`. Other native platforms and architectures are reported as unsupported on that host; Android packaging currently requires Linux/amd64. Build reports are saved in `reports/build/`; a failed attempted build returns a nonzero exit code even without `--verify`.
+
 Run a built host artifact:
 
 ```bash

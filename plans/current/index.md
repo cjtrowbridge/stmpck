@@ -3,6 +3,7 @@
 Implementation status and evidence live in each mapped plan; release verification may remain open. Completed implementation plans remain here while the first-release acceptance work is open; “current” does not imply every linked requirement is unfinished. See the [2026-11-07 checkpoint](../../journal/2026-11-07.md).
 
 - [android-back](android-back.md)
+- [windows-build](windows-build.md)
 - [bounce-arena](bounce-arena.md)
 - [bounce-completion-controls](bounce-completion-controls.md)
 - [bounce-computer-opponent](bounce-computer-opponent.md)

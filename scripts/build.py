@@ -299,15 +299,13 @@ def _run_build(target: Target) -> bool:
         finally:
             target.build_seconds = time.monotonic() - start
 
-    # For js/wasm, use GOOS=js GOARCH=wasm with pure-Go.
+    # Windows and JS/WASM backends build without a C compiler.
     env = _go_environment()
-    if target.goos == "js" and target.goarch == "wasm":
-        env["GOOS"] = "js"
-        env["GOARCH"] = "wasm"
+    env["GOOS"] = target.goos
+    env["GOARCH"] = target.goarch
+    if target.goos == "windows" or (target.goos == "js" and target.goarch == "wasm"):
         env["CGO_ENABLED"] = "0"
     else:
-        env["GOOS"] = target.goos
-        env["GOARCH"] = target.goarch
         # Ebitengine requires CGO for most backends.
         env["CGO_ENABLED"] = "1"
 
@@ -482,7 +480,7 @@ def main() -> int:
             [sys.executable, str(Path(__file__).resolve().parent / "deploy_android.py")],
         ).returncode
 
-    return 0 if (verify_ok is None or verify_ok) else 1
+    return 0 if all(t.build_ok for t in feasible) and verify_ok is not False else 1
 
 
 if __name__ == "__main__":

@@ -11,3 +11,5 @@ Establish the target-device development workflow. ADB is now a prerequisite for 
 In progress. Android is now the first device-testing target: a signed arm64 debug APK runs on the authorized Pixel 10 Pro XL (Android 17). The ADB and debug-build requirement plans are completed under `plans/past/` and linked from the roadmap. Store release target selection, broader platform validation, and release signing remain open.
 
 The [canonical VS Code launch](test-phone-launch.md) now builds and deploys the debug app to the test phone; its underlying command has been verified.
+
+The [Windows build requirement](windows-build.md) adds a native executable to ordinary Windows-host builds, without selecting a store release target.

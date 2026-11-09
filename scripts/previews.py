@@ -34,7 +34,9 @@ def source_digest():
     for path in paths:
         if path.name.endswith("_test.go"):
             continue
-        h.update(str(path.relative_to(ROOT)).encode() + b"\0" + path.read_bytes())
+        # Git checkouts may use CRLF on Windows; neither line endings nor
+        # host path separators change the captured rules or rendering.
+        h.update(path.relative_to(ROOT).as_posix().encode() + b"\0" + path.read_bytes().replace(b"\r\n", b"\n"))
     return h.hexdigest()
 
 

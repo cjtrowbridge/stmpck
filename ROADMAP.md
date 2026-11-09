@@ -27,6 +27,7 @@ Performance telemetry, player profiles, cross-device synchronization, and subscr
 Plan: [plans/current/release-target.md](plans/current/release-target.md)
 
 - [ ] Select the first mobile platform and a desktop platform for development.
+- [x] Produce a native Windows executable automatically when the canonical build runs on Windows. Verified on Windows/amd64; native interactive and accessibility checks remain separate. Plan: [plans/current/windows-build.md](plans/current/windows-build.md)
 - [x] Set up ADB, connect and authorize the test phone, deploy the debug APK, and verify the first successful on-device launch. Plan: [plans/past/adb-setup.md](plans/past/adb-setup.md)
 - [x] Build a locally signed Android debug APK of the opening menu for the first phone test. Plan: [plans/past/android-debug-build.md](plans/past/android-debug-build.md)
 - [x] Make VS Code `launch.json` build, install, and launch the current Android debug app on the connected test phone as the canonical development launch action. Plan: [plans/current/test-phone-launch.md](plans/current/test-phone-launch.md)

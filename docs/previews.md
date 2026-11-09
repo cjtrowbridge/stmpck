@@ -15,6 +15,8 @@ Before marking a game update complete or deploying its artifact:
 
 Ordinary builds automatically check source freshness and manifest integrity. Visual accuracy, input behavior and the correspondence between the reviewed revision and deployed artifact still require the workflow above; the manifest alone does not prove them.
 
+Source fingerprints use repository-relative POSIX paths and normalize CRLF to LF so Windows and Unix checkouts agree. Actual source changes still invalidate the manifest. The development capture flushes draw commands after each frame to bound WebAssembly command-queue memory, including on software renderers.
+
 ## Adding or changing a game
 
 1. Keep its persistent identifier in `internal/play.IDs` stable. Add deterministic demonstration inputs to `internal/play/demos.go`, `additions_demos.go` or `expansion_demos.go`, reusing the game's real rules. The sequence should clearly show the main interaction and, when practical, an outcome. Never use the player's stored session.

@@ -61,6 +61,7 @@ func (c *PreviewCapture) Draw(screen *ebiten.Image) {
 	}
 	w, h := preview.Size*preview.Columns, preview.Size*((frames+preview.Columns-1)/preview.Columns)
 	sheet := ebiten.NewImage(w, h)
+	framePixels := make([]byte, preview.Size*preview.Size*4)
 	tick := 0
 	// Start with established play so static cards are informative too.
 	for tick < 120 {
@@ -84,6 +85,9 @@ func (c *PreviewCapture) Draw(screen *ebiten.Image) {
 		r := preview.FrameRect(c.id, frame)
 		tile := sheet.SubImage(r).(*ebiten.Image)
 		g.renderGame(tile, &demos, c.id, float64(r.Min.X), float64(r.Min.Y), preview.Size, preview.Size, p, false)
+		// Flush each frame rather than retaining an entire animation's draw
+		// commands, which can exhaust WebAssembly memory on software renderers.
+		tile.ReadPixels(framePixels)
 	}
 	pixels := image.NewRGBA(image.Rect(0, 0, w, h))
 	sheet.ReadPixels(pixels.Pix)
