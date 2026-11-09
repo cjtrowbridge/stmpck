@@ -172,8 +172,3 @@ func (g *Game) drawSettings(dst *ebiten.Image, p palette) {
 		label(dst, text, 20, 440+i*18, p.muted)
 	}
 }
-
-// Gallery demonstrations use the same state models and renderer as live games.
-func (g *Game) preview(dst *ebiten.Image, id int, x, y, w, h float64, p palette) {
-	g.renderGame(dst, &g.demos, id, x, y, w, h, p, false)
-}

@@ -16,7 +16,7 @@ func (g *Game) initGames() {
 	g.games = play.NewCollection()
 	g.store = &storage.Store{Root: storage.DefaultRoot()}
 	g.loadGames()
-	g.makeDemos()
+	g.initPreviews()
 	installLifecycle(g)
 }
 

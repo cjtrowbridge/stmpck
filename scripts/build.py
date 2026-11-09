@@ -21,6 +21,7 @@ Usage:
 from __future__ import annotations
 
 import build_android
+import previews
 import argparse
 import json
 import os
@@ -417,11 +418,21 @@ def main() -> int:
         "--target", action="store_true", default=False,
         help=argparse.SUPPRESS,  # hidden: we reject it
     )
+    parser.add_argument("--generate-previews", action="store_true", help="Regenerate bundled gallery sprites using the real renderer and local Firefox.")
     args = parser.parse_args()
 
     if args.target:
         print("✗ --target is not supported. This driver builds ALL possible targets.", file=sys.stderr)
         return 2
+
+    try:
+        if args.generate_previews:
+            previews.generate(_detect_go_toolchain(), _go_environment())
+            return 0
+        previews.validate()
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as exc:
+        print(f"✗ Preview assets: {exc}", file=sys.stderr)
+        return 1
 
     # Ctrl+C handler (framework invariant: exit 130).
     def _sigint_handler(signum, frame):

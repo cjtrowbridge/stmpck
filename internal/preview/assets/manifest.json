@@ -1,0 +1,750 @@
+{
+  "version": 1,
+  "source_sha256": "2cf685025b53c0165f099733d73b83d6cdaccbf94d3bde755ad334457d136ce7",
+  "size": 96,
+  "fps": 12,
+  "columns": 8,
+  "games": [
+    "merge",
+    "snake",
+    "territory",
+    "linear",
+    "bounce",
+    "flow",
+    "caliban",
+    "bloom",
+    "echo",
+    "brick",
+    "planets",
+    "drift",
+    "stack",
+    "deduction",
+    "cluster",
+    "wave",
+    "crossing",
+    "shift"
+  ],
+  "files": {
+    "merge-0-still.png": {
+      "sha256": "dbd704d9c09aa5a197b7445bc8a41a61c3be34120a6bd35a48d103fc39522617",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 772
+    },
+    "merge-1-still.png": {
+      "sha256": "96ce935c3fa26519cff87d553e7c2371e93300b1ba2913a8e3f33c4ce8b9e422",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 536
+    },
+    "merge-1-sheet.png": {
+      "sha256": "7a4b9c04dd7aa8eb7040fe9f711fa45ab0f7e786280c4a924d6b873d88a5edd5",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 20518
+    },
+    "merge-2-still.png": {
+      "sha256": "298fb9341784aa69fd9755c5bf6a7ba2917f65b8f46dbc54a13909bd4c37ea7e",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 529
+    },
+    "merge-2-sheet.png": {
+      "sha256": "f81259dc8eaa03dae762dc0d1c354c99a216aa64660de6a84f8aa86c545e91b4",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 20525
+    },
+    "snake-0-still.png": {
+      "sha256": "9060e3c9109157e87ea0c285a6cb5978f1d6969e571f08a2286a34bf9cc9e324",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 647
+    },
+    "snake-1-still.png": {
+      "sha256": "1c10407b1338092a82ff4416b716e4877fd4091ce947ec56af30ab580bd2e065",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 503
+    },
+    "snake-1-sheet.png": {
+      "sha256": "675bd9afa1609bf2193382ac155d61943f40a992db4fdc23faf94f63668e4172",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 11930
+    },
+    "snake-2-still.png": {
+      "sha256": "753a8f9da0f0da97b53b4035fcb26735f492227a4ca133d1c00c20ab0f05ac6d",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 506
+    },
+    "snake-2-sheet.png": {
+      "sha256": "c08164c41a1b083e8cf59050a819880f28eed4de969bfdff6183da1c50e67b0f",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 11944
+    },
+    "territory-0-still.png": {
+      "sha256": "ffd5fcf493a6cb0e1ddcb00350d84e0eae77485e2f95c431ecb4a4a6d2f904fe",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 8100
+    },
+    "territory-1-still.png": {
+      "sha256": "0199557935d45becdf25b13cd1c7fb75a6c5c7e7837b537e21d57cabcbaec566",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 9018
+    },
+    "territory-1-sheet.png": {
+      "sha256": "39b1d1e4c65a9223698ffa0ea43c9120785d611a5951efd861a8f9cc95c57c02",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 167936
+    },
+    "territory-2-still.png": {
+      "sha256": "0c7e7c62e722875adbdd5af605f9c3c8b2f46518325372a2e7405c2038ad4213",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 9032
+    },
+    "territory-2-sheet.png": {
+      "sha256": "060a281ffe8ccabfb0c3b778c1329e775ec4c8d20cbdf849a66c96a963e68c5f",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 168068
+    },
+    "linear-0-still.png": {
+      "sha256": "1052e96fb619742e704b1c1e3d2668e2cdc287f951c7f479cd9512120957e405",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 4927
+    },
+    "linear-1-still.png": {
+      "sha256": "47bcff261c43781830017df8396796740b56255cb04954932ee6222bfc613419",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3308
+    },
+    "linear-1-sheet.png": {
+      "sha256": "6e6483e0f9275b6d8234f949ecabbe01a8335ccc3bae09515fd1cf938ed0db4d",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 83298
+    },
+    "linear-2-sheet.png": {
+      "sha256": "278724e880126568675a8f03fc58f2a3d8848247dc6968b01f126ef3880ed461",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 82013
+    },
+    "linear-2-still.png": {
+      "sha256": "2db161f02d6890a95887ff4f0a590557ebeb8d2e34ece2ccfd14c148b23f545b",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3219
+    },
+    "bounce-0-still.png": {
+      "sha256": "7c39d0fd11e1098cc85c14ca20d634be5003204f8e0b538ae5c086ce7182c96e",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 758
+    },
+    "bounce-1-still.png": {
+      "sha256": "732e3b4fff2df4cae6b521c645f1d04eaf6d53aa73f6b2ef79da48b3a665fde9",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 681
+    },
+    "bounce-1-sheet.png": {
+      "sha256": "c00327932da6bb29c4a80113688e9a3a8b573765a164659bd614f941dcc20d7c",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 24479
+    },
+    "bounce-2-still.png": {
+      "sha256": "658e2268616b431a811d40e66d08924e7bd158888bdec266c1b25675778cd9eb",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 731
+    },
+    "bounce-2-sheet.png": {
+      "sha256": "548459c240f703e8670009a0b3e594a9b7314f84daf7414002def4546e68d1d1",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 27632
+    },
+    "flow-0-still.png": {
+      "sha256": "abfbff33f52c8c39ee21f8d95fbbae3febd4fc767e94a6afaece0488b50cab9b",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3556
+    },
+    "flow-1-still.png": {
+      "sha256": "c25a114eef73dfa17a4e53611a305a03aa45d269f3810067233ab22a94f2c4f2",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3601
+    },
+    "flow-1-sheet.png": {
+      "sha256": "8db4a14fadfac3220cd4c2a820b13d1a778619d652ccddbddc95024f1ea5dd50",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 66708
+    },
+    "flow-2-still.png": {
+      "sha256": "6c6c2d4319149be6c914c2a328f928913179826a734616017bc63028aec34ad4",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3606
+    },
+    "flow-2-sheet.png": {
+      "sha256": "3c4cdef7360fc27e12e41987ad5b42776781a303257508e5c2b1ad10894ea312",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 67062
+    },
+    "caliban-0-still.png": {
+      "sha256": "ab0d516692a09182d460c2a2ec06e85c8ff08fbda96e823930574811af9e3674",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3177
+    },
+    "caliban-1-still.png": {
+      "sha256": "3e7b981b99d8c3567684ca13a567b9d599698940e54e661fc77dd5200c0c1ccd",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3190
+    },
+    "caliban-1-sheet.png": {
+      "sha256": "00e44cb38854aac53faf756164fa3119ab8ade6ecb3c40f8d1dd62009379935f",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 79144
+    },
+    "caliban-2-still.png": {
+      "sha256": "b346acfc4cdae9eb8f9763ec886e9c3dc00bd8da7cff68dc534b70c0e15cf2c0",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3094
+    },
+    "caliban-2-sheet.png": {
+      "sha256": "785679434c9241ab5354eb2845d25d08be5a783e8308689541935231e9363919",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 78527
+    },
+    "bloom-0-still.png": {
+      "sha256": "40c22086c7a3e6c3e59d21d0c490c6a4bbf7a9227b68e10986640f312b7a0cef",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 403
+    },
+    "bloom-1-still.png": {
+      "sha256": "3224188bfc140f7eed11aa7cfc6d459b713571e354b4d7cdb13424d611cfb839",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 307
+    },
+    "bloom-1-sheet.png": {
+      "sha256": "d7a4042d7b41f9837cb3509c17aba6ed55b937e6b83605159c765581566d7e01",
+      "size": [
+        768,
+        1728
+      ],
+      "bytes": 10144
+    },
+    "bloom-2-still.png": {
+      "sha256": "67c34b1f1512428f3aefa341c3d79fdd6978c816ded0aa4fc90ad72f68719c8a",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 307
+    },
+    "bloom-2-sheet.png": {
+      "sha256": "8f4038bf3c00e1bd6a8d00d04c302b6d390460bec31895fc76ae4843a2dcab42",
+      "size": [
+        768,
+        1728
+      ],
+      "bytes": 10145
+    },
+    "echo-0-still.png": {
+      "sha256": "10218d7f1f7dd85be21b7acc3f58c3aabaadf3b2b94b65a590e5e4ac32ab700b",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1363
+    },
+    "echo-1-sheet.png": {
+      "sha256": "a705e580dd07ed9257a4b7762008f6d0f32ac135fa362559b8e62589a265037e",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 32270
+    },
+    "echo-1-still.png": {
+      "sha256": "ed45b5dfe699c827ad33af8b6b8524ba03e0bc035a7557c40770f096afe6c665",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1248
+    },
+    "echo-2-still.png": {
+      "sha256": "ebad0dba26cc3fee3094f38151b109b71cc5d31f0b929ea93fa5fa4bec0a7e88",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1260
+    },
+    "echo-2-sheet.png": {
+      "sha256": "a3007675c52470104a0a6563b9499b16ac24fee51a09d078b6b12d80652cdef0",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 32170
+    },
+    "brick-0-still.png": {
+      "sha256": "faea2a3118fb87d52e0902c8712adaaa5c6871669c93b08a880f70a2f0268f76",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1694
+    },
+    "brick-1-still.png": {
+      "sha256": "07da800927f3c2a6d3bfabcc6a7ddc347bf7df6c998ab6d2c20882887cbe1088",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 565
+    },
+    "brick-1-sheet.png": {
+      "sha256": "e4a680e3ea23ccd02bd493ec568f12d6f23bbec34236b38897f8e4da264e83ae",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 15392
+    },
+    "brick-2-still.png": {
+      "sha256": "1173bbba41b9fdfe229b9274beb94b0943425e4daca701c04f01f8203d20682d",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 564
+    },
+    "brick-2-sheet.png": {
+      "sha256": "b96a2304bbc8cd63da77be8480b1f3705bfa7c762c158474ff0b837483486266",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 15318
+    },
+    "planets-0-still.png": {
+      "sha256": "1f60f3c37681d27717f99f1e75fc4f45257103a8362c2a9add84542229644950",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3991
+    },
+    "planets-1-still.png": {
+      "sha256": "3eb94a53694ed04b5895931a00a9a3d8e951443cca556a2570a0baac85fbfbf4",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 4144
+    },
+    "planets-1-sheet.png": {
+      "sha256": "211d8aedc7f4dee0068a4155700310488d96cf18973301ca32306f75d25a837d",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 127426
+    },
+    "planets-2-still.png": {
+      "sha256": "bc96da2bff3b38590e7bbd444b818a2501eee064986063cc228b1b4a501cb66e",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 4049
+    },
+    "planets-2-sheet.png": {
+      "sha256": "b1e27fdfa9c793f94c0d2cd9d20107ed437640377c9cbee5788b256eaae84e13",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 126739
+    },
+    "drift-0-still.png": {
+      "sha256": "64833f6486d238a0144336f4f835348b8d9d31912e1737f0256541829cc2f9bb",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1387
+    },
+    "drift-1-still.png": {
+      "sha256": "180d64286a7597e5155cca6b2736e4823f7337a7927e7160f6cc2d78575becee",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1442
+    },
+    "drift-1-sheet.png": {
+      "sha256": "6d4b046b49c587d7f5327e4a48067215f5014be08d3a236df76816662fc06806",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 99232
+    },
+    "drift-2-sheet.png": {
+      "sha256": "fd6bae4ddffb873f4c4c95dad4e928854ecbe2be1faddc01b64e0412391e010f",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 97724
+    },
+    "drift-2-still.png": {
+      "sha256": "4ed59a2d85ef73e795d67636a76171802f87b9dd253bc81a5661833354fe0371",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1411
+    },
+    "stack-0-still.png": {
+      "sha256": "906209b2183fe5b26f7a49c5a5a1f80c033ccd071622741b4d51f0f513e4b899",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2643
+    },
+    "stack-1-still.png": {
+      "sha256": "35fc90f8f64e7fa03288db84f3209253296afb5781b08eabf86eefc0de12ddf7",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1988
+    },
+    "stack-1-sheet.png": {
+      "sha256": "55ed0f4e0fd07f7033a6d7b1663299cd58d08679a9ecdd726d5f3ec6d7d8d96c",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 62739
+    },
+    "stack-2-still.png": {
+      "sha256": "5e11fb56e7aa85d3c536509f4565eed9907c9f604fd23b8bb943017a682709d1",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2020
+    },
+    "stack-2-sheet.png": {
+      "sha256": "60dbe8e69683290b39bb53d520481174ec57110c40808b8ac53cb3ccd1afaa60",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 64326
+    },
+    "deduction-0-still.png": {
+      "sha256": "6cdb3d918cfb497f003ea28c89ea7aed59754a3f3fb63af1b37d5ba61421fd11",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1127
+    },
+    "deduction-1-still.png": {
+      "sha256": "0753da9f863c3409b898bfec8cefa9b52cec54f2520cfec2e94135ba563ab0f6",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1126
+    },
+    "deduction-1-sheet.png": {
+      "sha256": "20573c772807261bcf2ce48bb7dd990bdfdad7d8e795edaec1bdc5f2cab5586f",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 35399
+    },
+    "deduction-2-still.png": {
+      "sha256": "fefc3642c7fab0fd58b3acc306e31bb63bf957ed930e43267b0d6bd2a0d4439b",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1171
+    },
+    "deduction-2-sheet.png": {
+      "sha256": "3835ad5bc9422586a468d21855825f9efe16bf87403f34eb9997a2c67ef68e77",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 37098
+    },
+    "cluster-0-still.png": {
+      "sha256": "ed1221fff3dc34611ab409ecb3af4efec04042a26044bc3e76b4127c1255cad2",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 4605
+    },
+    "cluster-1-still.png": {
+      "sha256": "ae4a36997aacff3708251916838f5dddd54923221ad34b815dc1df5794e9a119",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 5257
+    },
+    "cluster-1-sheet.png": {
+      "sha256": "86411759bc022b591fc0cfab1fc46e7ed184e489f9c72a53644f05773c085e9e",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 97239
+    },
+    "cluster-2-still.png": {
+      "sha256": "131d7beffd9317ed50b4c87d2a77f018a0a0f406117ff6e5774280758ff70cac",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 5210
+    },
+    "cluster-2-sheet.png": {
+      "sha256": "0db25a816559b4da469fb7d008a64ed1b6e86712fd0315a4fe3e3d5fefd624ee",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 96150
+    },
+    "wave-0-still.png": {
+      "sha256": "18c65aad65dd40004981a44ddf0badd6fb1cd2be0c77fa2bde88f2a40404918c",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2991
+    },
+    "wave-1-sheet.png": {
+      "sha256": "7c4f7351073e14a08c694439254472fb045c80c59eeefa5ac37c6f0432357bb3",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 72848
+    },
+    "wave-1-still.png": {
+      "sha256": "9a63ec688dcbe3b5142dda66f57a26ac09ec5c183afd41a1b332f13dfb4d0df8",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2033
+    },
+    "wave-2-still.png": {
+      "sha256": "a9072f7aad40603a20e4f7cde36d3b35a64cf532aa0a307644f8b33dac0ef782",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1991
+    },
+    "wave-2-sheet.png": {
+      "sha256": "c13a561bc79cf856c1c2f965155d0d194da7f343aedc9d34bb49b7c6bfafd553",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 70963
+    },
+    "crossing-0-still.png": {
+      "sha256": "cc3b1ef173632dec5c90f8379f61cbaa997e3040e0ab58a0fdd7e6b8697354e0",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2576
+    },
+    "crossing-1-sheet.png": {
+      "sha256": "36227da5f541fe3f29365ccd2b77a52b9e30810706e21aae5657aa1b2c8f9e5b",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 43895
+    },
+    "crossing-1-still.png": {
+      "sha256": "28a8ffe2df8687358c0dd96a9af1399ba22be04afcecfdbc5853fdaf8d77ec76",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1231
+    },
+    "crossing-2-still.png": {
+      "sha256": "0ed5ec0a3a26d9f8da0c621bb99ed69048a2afea23be3fa5cfdbaf140e7cb19d",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1222
+    },
+    "crossing-2-sheet.png": {
+      "sha256": "4e456b51b351c9ebb7e866b53972d7af585ad65590e7c713feb72c6df868ec76",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 43589
+    },
+    "shift-0-still.png": {
+      "sha256": "233660f57623088b77d5d5c51bbc7c8575427a84dad3cc8d1577cd054b1f56f9",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 799
+    },
+    "shift-1-still.png": {
+      "sha256": "757f5c70f8f27dff8d4a1c27ab78587a352350a38445623e5986e2218dd861b0",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 650
+    },
+    "shift-1-sheet.png": {
+      "sha256": "242af6a7ff646e76e62bbbf16869c4c1cecd621a8789fbe266bd11c96cfa0f3c",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 16781
+    },
+    "shift-2-still.png": {
+      "sha256": "d894bdbaecad3d5aa77629df68ed1697f5b21dcb8481370e89d0bea218b9c6ce",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 649
+    },
+    "shift-2-sheet.png": {
+      "sha256": "b4941a65acca16cf5778ca7b534be3ad47219966037acf5c4f1b2354cd9f49c1",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 16848
+    }
+  },
+  "bytes": 2261134
+}

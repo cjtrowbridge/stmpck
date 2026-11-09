@@ -59,6 +59,7 @@ Implementation status and evidence live in each mapped plan; release verificatio
 - [offline-games](offline-games.md)
 - [play-counts](play-counts.md)
 - [playable-gallery](playable-gallery.md)
+- [sprite-previews](sprite-previews.md)
 - [presentation-rules](presentation-rules.md)
 - [release-target](release-target.md)
 - [save-recovery](save-recovery.md)

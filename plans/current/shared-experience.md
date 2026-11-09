@@ -16,6 +16,8 @@ Completed menu UI/mapping requirements are separated from actual gameplay, real 
 
 Working settings overrides belong to the new future settings deliverable. The mockup only exposes proposed controls.
 
+The [sprite gallery previews requirement](sprite-previews.md) now owns replacement of live gallery demonstrations with generated PNG assets and the repeatable workflow for future games. Its verification is separate from the original playable-gallery implementation.
+
 ## Current checkpoint — 2026-11-07
 
 The gallery is a three-column mosaic. Global ordering uses labeled, bundled placeholder familiarity scores; discovery contains only games with zero plays in that order. The gear screen includes a non-functional 1–8-column selector, with application and persistence deferred. All five games have saves and previews; Territory now runs in real time, Merge has quick tile interpolation, and Linear is computer-only. See the [journal](../../journal/2026-11-07.md) for scoped verification and remaining work.

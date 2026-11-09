@@ -24,6 +24,8 @@ def unavailable_reason():
 
 def build(output: Path, go: str, env: dict):
     env = dict(env)
+    # Match desktop/WASM builds: temporary gomobile packages do not need Git stamping.
+    env['GOFLAGS'] = (env.get('GOFLAGS', '') + ' -buildvcs=false').strip()
     binary = ROOT / '.tools/bin'
     binary.mkdir(exist_ok=True)
     env.update(ANDROID_HOME=str(SDK), ANDROID_NDK_HOME=str(NDK),

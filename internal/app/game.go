@@ -34,8 +34,7 @@ type Game struct {
 	saveFailed                                          atomic.Bool
 	store                                               *storage.Store
 	games                                               play.Collection
-	demos                                               play.Collection
-	demoClock                                           int
+	previews                                            galleryImages
 	setup, paused, restartConfirm, symbols, wasSettings bool
 	option, cursor, aiClock, flash, saveClock           int
 	menu.State
@@ -92,7 +91,7 @@ func (g *Game) Update() error {
 	if g.Autoplay() {
 		g.tick++
 		if g.Selected < 0 && !g.Settings {
-			g.updateDemos()
+			g.updatePreviews()
 		}
 	}
 	up := inpututil.IsKeyJustPressed(ebiten.KeyArrowUp)
