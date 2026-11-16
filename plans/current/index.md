@@ -158,3 +158,10 @@ Initial implementations and local verification complete; phone and broader relea
 - [Shift](shift.md)
 - [Shift: Sliding and solvability](shift-sliding-and-solvability.md)
 - [Shift: Interaction and integration](shift-interaction-and-integration.md)
+
+- [simplification](simplification.md)
+- [deliverable-driven-engineering](deliverable-driven-engineering.md)
+- [streamline-implementation](streamline-implementation.md)
+
+- [reduce-boilerplate](reduce-boilerplate.md)
+- [framework-submodule](framework-submodule.md)

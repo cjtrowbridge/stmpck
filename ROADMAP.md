@@ -39,6 +39,10 @@ The first release platform is still an open decision. Build feasibility does not
 
 ### 3. Reduce the inherited boilerplate
 
+Plan: [plans/current/reduce-boilerplate.md](plans/current/reduce-boilerplate.md)
+
+- [x] **Restore the upstream framework submodule:** Replace the copied framework with a real Git submodule, publish the approved framework changes upstream, preserve unrelated local work and pin a retrievable revision. Plan: [plans/current/framework-submodule.md](plans/current/framework-submodule.md)
+
 - [ ] Review imported files and identify what STMPCK actually needs.
 - [ ] Remove unused scaffolding and dependencies.
 - [ ] Preserve a straightforward build-and-run workflow.
@@ -46,9 +50,12 @@ The first release platform is still an open decision. Build feasibility does not
 
 ### 4. Simplification and demoscenization
 
+Plan: [plans/current/simplification.md](plans/current/simplification.md)
+
 Follow boilerplate reduction with a continuing cycle of simplifying the app, measuring its real costs, improving quality, and reducing resource consumption. This includes a performance-data submission endpoint and a separate process that analyzes the collected data and turns findings into improvements.
 
-- [ ] **Streamline the implementation:** Review shared and game-specific code, remove duplication and unnecessary abstractions, simplify control/data flows, and reduce dependency and asset costs. Preserve rules, saves, accessible controls, and sensory choices while improving clarity and maintainability.
+- [x] **Canonize deliverable-driven engineering:** Apply the approved upstream planning, implementation and bounded review/measurement guidance locally, preserving host mappings and runtime boundaries. Guidance has structural/manual scenario review; full prompt lint awaits its dependency and runtime performance improvement remains separate. Plan: [plans/current/deliverable-driven-engineering.md](plans/current/deliverable-driven-engineering.md)
+- [ ] **Streamline the implementation:** Review shared and game-specific code, remove duplication and unnecessary abstractions, simplify control/data flows, and reduce dependency and asset costs. Preserve rules, saves, accessible controls, and sensory choices while improving clarity and maintainability. First active scope: save-path ownership, ordering and cost review; runtime correction and measurement remain pending. Plan: [plans/current/streamline-implementation.md](plans/current/streamline-implementation.md)
 - [ ] **Performance baselines and budgets:** Record startup/loading time, frame-time distributions and stalls, memory/allocations, CPU/GPU use, storage/I/O, network cost, artifact size, and battery/energy impact where measurable. Define representative devices, games, preview loads, and intensity levels so comparisons are meaningful; identify metrics unavailable on particular platforms rather than fabricating equivalents.
 - [ ] **Bounded instrumentation:** Collect versioned performance samples at a modest, configurable cadence with explicit CPU, memory, storage, and battery budgets. Define the minimum fields and useful aggregate measurements before adding instrumentation; keep profile/gameplay records separate from operational performance data.
 - [ ] **Telemetry endpoint:** Set up an API endpoint to accept performance batches, validate their schema and size, control abuse, and store enough build/platform context to compare releases. Select hosting, authentication, retention, and access controls during detailed planning; reuse the profile API's infrastructure where that keeps the system simpler.

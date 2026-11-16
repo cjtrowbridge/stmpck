@@ -30,6 +30,12 @@ The current app contains eighteen playable games with bundled gameplay sprite pr
 
 10. **Preserve familiar experiences.** New games and optional presentations must preserve existing rules, saves, and chosen settings. Keep persistent game identifiers stable. Treat bug fixes and compatibility changes as continuity work; offer deliberate gameplay changes as optional variants. Use focused regression checks when shared code or persistence changes could affect existing games.
 
+## Deliverable-driven implementation and refinement
+
+Use [the shared simplicity guidance](agentic-pipelines/references/deliverable_driven_simplicity.md) for planning, implementation and review. Plan observable outcomes and acceptance conditions; decompose only until the next useful implementation and check are clear. Requirement plans preserve traceability and need not create components or recursive workstreams.
+
+Prefer direct control flow, one owner for mutable state and bounded, justified concurrency. Remove unnecessary work before accelerating it. Review complete paths, including failure and interruption, for redundant state, checks and abstractions. Give material findings an explicit fix/defer/reject/no-change disposition. Selected optimizations need comparable measurements and regression evidence; stop at acceptance. Ordinary app work still uses local deterministic checks, not an inference pipeline. Existing user authorization covers routine implementation decisions within the agreed outcome.
+
 ## Roadmap and plan correspondence
 
 This is the canonical planning rule for STMPCK:
@@ -60,9 +66,9 @@ Use this session's review and deterministic local checks for ordinary work. Scal
 
 ## Optional development scaffolding
 
-`agentic-pipelines/`, `pipeline.yaml`, and the Ollama configuration files are optional development scaffolding. They are not required to build, verify, review, or play STMPCK and are not part of the app's runtime.
+`agentic-pipelines/` is a real Git submodule. Commit and push approved framework changes in that repository before updating the host pointer; never copy upstream source back into the host index. The submodule, `pipeline.yaml`, and the Ollama configuration files are optional development scaffolding. They are not required to build, verify, review, or play STMPCK and are not part of the app's runtime.
 
-Do not contact a configured Ollama or other inference endpoint unless the operator explicitly requests that operation. `api.sample.yaml` is an example; host-local `api.yaml` remains ignored. Consult [agentic-pipelines/AGENTS.md](agentic-pipelines/AGENTS.md) only when operating or changing that optional subsystem. Its instructions do not turn ordinary app development into a governance-pipeline operation.
+Do not contact a configured Ollama or other inference endpoint unless the operator explicitly requests that operation. `api.sample.yaml` is an example; host-local `api.yaml` remains ignored. Consult [agentic-pipelines/AGENTS.md](agentic-pipelines/AGENTS.md) only when operating or changing that optional subsystem. Its instructions do not turn ordinary app development into a governance-pipeline operation. A submodule update does not adopt newer framework-wide source/build/bootstrap policies for this app; host policy remains authoritative, and any such migration requires its own scoped work. Audit the optional host pipeline against the pinned framework before running it.
 
 ## Reference-only content
 

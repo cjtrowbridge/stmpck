@@ -36,6 +36,10 @@ Global popularity needs an honest source compatible with no gameplay surveillanc
 
 [chat.md](chat.md) records the exploration that led here, including ideas that were not adopted. This README is the canonical product direction, and [AGENTS.md](AGENTS.md) translates it into development rules. [ROADMAP.md](ROADMAP.md) defines the foundation work, shared completion criteria, and requirements for the eighteen games and their pending refinements.
 
+## Engineering method
+
+Plan coherent deliverables, implement the direct path with clear state ownership, and review complete behavior for opportunities to remove unnecessary work. Selected improvements follow measure → simplify → verify → compare, with explicit finding dispositions and a stopping condition. The [shared guidance](agentic-pipelines/references/deliverable_driven_simplicity.md) defines the method; [Foundation 4](ROADMAP.md#4-simplification-and-demoscenization) tracks its application. Local improvement does not depend on future telemetry services, and measured results remain specific to the tested revision and environment.
+
 ## Local development
 
 The application uses Go 1.26.4 and Ebitengine v2.9.9, pinned in `go.mod`. Build tooling requires Python 3.10+ and the native prerequisites for the target platform.
@@ -141,6 +145,6 @@ Emoji labels are bundled locally from Twemoji; see the [asset attribution](inter
 
 ## Imported tooling
 
-This repository was initialized from `cjtrowbridge/ebe-boilerplate` at commit `e741e1c22bb329698fc3235c3f78710e26dcaa10`. Its `agentic-pipelines` dependency is copied as regular files from commit `6b272ea4cb1a5a28213545222a66005a73d900b1`.
+This repository was initialized from `cjtrowbridge/ebe-boilerplate` at commit `e741e1c22bb329698fc3235c3f78710e26dcaa10`. Its `agentic-pipelines/` dependency is a Git submodule of [cjtrowbridge/agentic-pipelines](https://github.com/cjtrowbridge/agentic-pipelines), pinned by the parent repository. Initialize it after cloning with `git submodule update --init --recursive` (or clone with `--recurse-submodules`). Framework edits are committed and pushed inside the submodule first; then commit the updated submodule pointer in STMPCK. VS Code can show each repository separately in Source Control.
 
 `agentic-pipelines/`, `pipeline.yaml`, and `api.sample.yaml` are optional development scaffolding. They are not app features or prerequisites for building, testing, or playing STMPCK. Inference endpoints are used only when the operator explicitly requests that operation.
