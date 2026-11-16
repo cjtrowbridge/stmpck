@@ -13,3 +13,7 @@ Implemented: five density-specific PNGs rendered from the unchanged root SVG, ma
 Checks: all five PNGs decode as RGBA at 48/72/96/144/192px; manifest reference resolves. Four existing build-driver regressions pass. Canonical `python3 scripts/build.py --verify` passes preview freshness/integrity and WebAssembly (14,371,824 bytes), but exits nonzero because Linux lacks X11 headers. Android is unavailable because the SDK/NDK prerequisites are missing. Report: `reports/build/build-report-20261116T221504Z.json`. No APK or deployment is claimed.
 
 Remaining work and closure: build Android with AAPT2 to verify packaged resources, then inspect the installed launcher icon on the phone. Archive after those checks pass. No game/capture sources changed, and no deployment was attempted.
+
+## Closure — 2026-11-16
+
+Complete. Canonical Android packaging passes in `reports/build/build-report-20261116T223000Z.json`. AAPT2 badging resolves all five density icons. Visual checks on the installed Pixel 4a confirm the original logo in both App info and the launcher (`reports/android-updates/phone-icon.png`, `phone-launcher.png`). The signed 0.3-dev build containing the icon is published with the [development updater](android-updates.md). Earlier toolchain limitations above describe the initial attempt, not the final result.

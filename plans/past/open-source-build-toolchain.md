@@ -17,3 +17,9 @@ The user approved aligning setup and packaging. Resolve one JDK directory (canon
 ## Remaining work and closure — 2026-11-16
 
 Build and launch Android with the selected canonical toolchain and record actual packaging/device evidence. Archive when the unchecked roadmap requirement has that evidence; mocked toolchain tests alone do not close it.
+
+## Closure — 2026-11-16
+
+The remaining Android packaging/launch evidence now exists. Debian OpenJDK 21.0.13+9 packages were unpacked under ignored `.tools/jdk-unpack`, with the documented `.tools/jdk` fallback and repo-local resolution of packaged configuration links. Setup/build selection validates that runtime/compiler and sibling tools; the canonical Android helper uses the same JDK. Existing SDK/NDK tooling is reused read-only. Debian `/usr/bin/adb` provides the device workflow. Ten build/toolchain Python checks pass, including mismatch/rejection regressions.
+
+Canonical Android/Linux/WebAssembly build and fresh install/launch pass in `reports/build/build-report-20261116T222812Z.json`; final version-3 packaging passes in `reports/build/build-report-20261116T223000Z.json`. Pixel 4a subsequently updated from version 2 through the app's public feed, with saved game bytes preserved. See [updater evidence](android-updates.md). No system Java installation or sudo operation was performed. The requirement's executable-selection and Android evidence scope is complete; archive it without claiming all target-platform verification.

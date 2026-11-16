@@ -16,8 +16,8 @@ The [Windows build requirement](../past/windows-build.md) adds a native executab
 
 ## Remaining work and closure — 2026-11-16
 
-Coordinate the outstanding toolchain and launch checks. Full deliverable closure requires platform selection, builds/runs and broader native/device verification plus the mapped packaging decisions. Unstarted requirements stay in the roadmap without placeholder plans.
+The toolchain and updater/icon requirements are complete; retain the specific interactive VS Code launch check. Full deliverable closure requires platform selection, builds/runs and broader native/device verification plus the mapped packaging decisions. Unstarted requirements stay in the roadmap without placeholder plans.
 
-The [Android app icon requirement](android-app-icon.md) packages the existing root logo; Android resource/launcher verification remains part of its own acceptance.
+The [Android app icon requirement](../past/android-app-icon.md) packages the existing root logo; Android resource and Pixel 4a launcher verification are complete.
 
-The [Android development updater](android-updates.md) is authorized for an artifacts-only public GitHub feed. It does not select a store release target or replace ADB diagnostics.
+The [Android development updater](../past/android-updates.md) is authorized for an artifacts-only public GitHub feed. It does not select a store release target or replace ADB diagnostics.

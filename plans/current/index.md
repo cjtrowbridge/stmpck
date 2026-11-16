@@ -16,7 +16,6 @@ Active planning, implementation or specific outstanding acceptance. Each plan st
 - [Intensity facial-expression controls](intensity-labels.md)
 - [Menu launch defaults](menu-defaults.md)
 - [Menu sensory presentations](menu-themes.md)
-- [Canonical open-source build toolchain](open-source-build-toolchain.md)
 - [Planets](planets.md)
 - [Presentation and accessibility rules](presentation-rules.md)
 - [Choose the first release target](release-target.md)
@@ -27,5 +26,3 @@ Active planning, implementation or specific outstanding acceptance. Each plan st
 - [Streamline the implementation](streamline-implementation.md)
 - [Canonical test-phone launch](test-phone-launch.md)
 - [Wave](wave.md)
-- [Android app icon from the root logo](android-app-icon.md)
-- [Android development updates through GitHub](android-updates.md)
