@@ -46,3 +46,7 @@ Canonical `scripts/build.py --generate-previews` regenerated all 90 images and t
 `python3 scripts/check_gallery.py --label save-refinement --checks` passes still freeze, wireframe, same-frame return, autoplay resume, maximum intensity, scrolling, settings, entry/return and absence of preview saves/counts. Host Firefox viewport 500x914: default and maximum median 17.08ms, p99 17.14ms, no frames above 50ms in the samples. This is a smoke/performance observation, not a before/after gameplay FPS comparison or phone guarantee.
 
 Canonical `scripts/build.py --verify` passes Linux/amd64 (13,888,280 bytes) and WASM (14,371,824 bytes); report `reports/build/build-report-20261116T015937Z.json`. Native verification used locally unpacked X11 headers/libraries and Xvfb under ignored `.tools`, without installing system packages. Go 1.26.4 was downloaded and verified against the official release manifest. Android is infeasible here: SDK/NDK, Java and ADB are missing. Setup now fails before downloads with the canonical apt remedy. No deployment occurred. Phone memory, cold loading, sustained frame stalls and energy measurements remain explicitly open.
+
+## Remaining work and closure — 2026-11-16
+
+Complete the documented Android packaging/phone checks and correlate save costs with phone frame stalls and energy use. Record comparison and disposition; archive when this accepted optimization scope is verified or explicitly revised with its remaining limitations.

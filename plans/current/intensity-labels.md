@@ -21,3 +21,7 @@ Revision validation: state tests cover both still levels, both animated levels, 
 Move the existing less/more controls to the sorting-tab row, with clear gaps and outer-edge alignment. Reduce unused header height and update rendering and hit targets together.
 
 Implementation and focused regression checks are active. Previous verification describes the earlier revision.
+
+## Remaining work and closure — 2026-11-16
+
+Reconcile the sorting-row refinement with its implementation and focused regression evidence, then verify current control placement and adjacent-step behavior. Archive when that refinement has recorded acceptance; prior-layout evidence is insufficient.

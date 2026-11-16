@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source_sha256": "b7fcd3a5df9eeab1b59c119bf630f6c3f2b9a12ff6f772e1f0ca204b58153f19",
+  "source_sha256": "e3b476394b8b4e5379bcdd0ee4e83515a4482962775658dd65a91279a4be34f8",
   "size": 96,
   "fps": 12,
   "columns": 8,
@@ -33,14 +33,6 @@
       ],
       "bytes": 797
     },
-    "merge-1-sheet.png": {
-      "sha256": "7a4b9c04dd7aa8eb7040fe9f711fa45ab0f7e786280c4a924d6b873d88a5edd5",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 20518
-    },
     "merge-1-still.png": {
       "sha256": "96ce935c3fa26519cff87d553e7c2371e93300b1ba2913a8e3f33c4ce8b9e422",
       "size": [
@@ -48,6 +40,14 @@
         96
       ],
       "bytes": 536
+    },
+    "merge-1-sheet.png": {
+      "sha256": "7a4b9c04dd7aa8eb7040fe9f711fa45ab0f7e786280c4a924d6b873d88a5edd5",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 20518
     },
     "merge-2-still.png": {
       "sha256": "298fb9341784aa69fd9755c5bf6a7ba2917f65b8f46dbc54a13909bd4c37ea7e",
@@ -73,14 +73,6 @@
       ],
       "bytes": 636
     },
-    "snake-1-still.png": {
-      "sha256": "18cff8cff92a680bbb5f78f8f871d911ce42c9fb91f9c253d0c0e9e888a62d07",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 515
-    },
     "snake-1-sheet.png": {
       "sha256": "369267b982151c5109b93524f97c1837b0cc402ed6f83487360dee5c90110eb1",
       "size": [
@@ -88,6 +80,14 @@
         1152
       ],
       "bytes": 11995
+    },
+    "snake-1-still.png": {
+      "sha256": "18cff8cff92a680bbb5f78f8f871d911ce42c9fb91f9c253d0c0e9e888a62d07",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 515
     },
     "snake-2-still.png": {
       "sha256": "42db16344af10da20e04e415c2e2ad02e7bda09ae9aaf1cc9977e3a1bd520fe8",
@@ -289,14 +289,6 @@
       ],
       "bytes": 78125
     },
-    "caliban-2-sheet.png": {
-      "sha256": "4899e4fe78281f5d639478989d77a0344bc857a67c9a78cc5fa6c117ec40e603",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 78096
-    },
     "caliban-2-still.png": {
       "sha256": "418490c2a7fe734cec062dff83b3401d72eb02e20e0647f8a6610496c41268b8",
       "size": [
@@ -304,6 +296,14 @@
         96
       ],
       "bytes": 3098
+    },
+    "caliban-2-sheet.png": {
+      "sha256": "4899e4fe78281f5d639478989d77a0344bc857a67c9a78cc5fa6c117ec40e603",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 78096
     },
     "bloom-0-still.png": {
       "sha256": "1cfd1b57e3b02f480e25572de89da62e6607c88692cb584d5a0a451389b5f651",
@@ -313,14 +313,6 @@
       ],
       "bytes": 403
     },
-    "bloom-1-sheet.png": {
-      "sha256": "d7a4042d7b41f9837cb3509c17aba6ed55b937e6b83605159c765581566d7e01",
-      "size": [
-        768,
-        1728
-      ],
-      "bytes": 10144
-    },
     "bloom-1-still.png": {
       "sha256": "3224188bfc140f7eed11aa7cfc6d459b713571e354b4d7cdb13424d611cfb839",
       "size": [
@@ -328,6 +320,14 @@
         96
       ],
       "bytes": 307
+    },
+    "bloom-1-sheet.png": {
+      "sha256": "d7a4042d7b41f9837cb3509c17aba6ed55b937e6b83605159c765581566d7e01",
+      "size": [
+        768,
+        1728
+      ],
+      "bytes": 10144
     },
     "bloom-2-still.png": {
       "sha256": "67c34b1f1512428f3aefa341c3d79fdd6978c816ded0aa4fc90ad72f68719c8a",
@@ -369,14 +369,6 @@
       ],
       "bytes": 31892
     },
-    "echo-2-sheet.png": {
-      "sha256": "d134ed8a2988dcbbb591063b530be196528c640a3b1894004a1c7575cb529be7",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 31793
-    },
     "echo-2-still.png": {
       "sha256": "db275e77c793ff240b64f9bf2c003ccab39440c4eb180b961bbde30fc0b5cd9d",
       "size": [
@@ -384,6 +376,14 @@
         96
       ],
       "bytes": 1224
+    },
+    "echo-2-sheet.png": {
+      "sha256": "d134ed8a2988dcbbb591063b530be196528c640a3b1894004a1c7575cb529be7",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 31793
     },
     "brick-0-still.png": {
       "sha256": "ca12579087f17830547d4b2a9875d2ca030ac8d63f47c83b339688e7797c311e",
@@ -649,14 +649,6 @@
       ],
       "bytes": 67326
     },
-    "wave-2-sheet.png": {
-      "sha256": "c2902a4515438ea9b34b6bae6bec0a37f1ca1331e46c068945db1211ea65141a",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 66381
-    },
     "wave-2-still.png": {
       "sha256": "8a7be7ef8ec9b79c970d06e576acc6748baf623ae938921f852d2eeeee49375e",
       "size": [
@@ -664,6 +656,14 @@
         96
       ],
       "bytes": 1813
+    },
+    "wave-2-sheet.png": {
+      "sha256": "c2902a4515438ea9b34b6bae6bec0a37f1ca1331e46c068945db1211ea65141a",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 66381
     },
     "crossing-0-still.png": {
       "sha256": "47af7feacddadb91176eb42d964dd5091fbeb26ce63bed591dcf47f726eb9745",
@@ -689,14 +689,6 @@
       ],
       "bytes": 43463
     },
-    "crossing-2-still.png": {
-      "sha256": "490aadff031a4ee23235b021b1b13e179141338bf155a4689b41913ba8317c84",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 1196
-    },
     "crossing-2-sheet.png": {
       "sha256": "1ed1bf73ab0c63702173b376b1f82768935bef695f6dcf9a02e3643d78f73e9d",
       "size": [
@@ -704,6 +696,14 @@
         1152
       ],
       "bytes": 43149
+    },
+    "crossing-2-still.png": {
+      "sha256": "490aadff031a4ee23235b021b1b13e179141338bf155a4689b41913ba8317c84",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 1196
     },
     "shift-0-still.png": {
       "sha256": "d764bb9ec4b92fabcee1a592fc1698abc14594bfda7c26b0b33668387fc91723",
@@ -729,14 +729,6 @@
       ],
       "bytes": 16781
     },
-    "shift-2-still.png": {
-      "sha256": "d894bdbaecad3d5aa77629df68ed1697f5b21dcb8481370e89d0bea218b9c6ce",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 649
-    },
     "shift-2-sheet.png": {
       "sha256": "b4941a65acca16cf5778ca7b534be3ad47219966037acf5c4f1b2354cd9f49c1",
       "size": [
@@ -744,6 +736,14 @@
         1152
       ],
       "bytes": 16848
+    },
+    "shift-2-still.png": {
+      "sha256": "d894bdbaecad3d5aa77629df68ed1697f5b21dcb8481370e89d0bea218b9c6ce",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 649
     }
   },
   "bytes": 2218104

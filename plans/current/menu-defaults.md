@@ -9,3 +9,7 @@ Stop loading/saving the previous native sensory-preference file. Initialize the 
 ## Status
 
 New-session and intensity-sequence tests pass. Android and WebAssembly builds pass, and the updated APK installs and launches through the canonical device command. The default is now level 2 of four (zero-based), with two still levels to its left. Earlier evidence in `reports/menu-tabs/` tested the superseded independent autoplay control; touch/visual verification of the new four-level arrangement remains pending. No audio implementation is present; the app remains silent.
+
+## Remaining work and closure — 2026-11-16
+
+Record current-revision restart/default and still/default visual interaction evidence. Archive when the documented superseded-layout verification gap is closed.

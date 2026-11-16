@@ -8,4 +8,8 @@ Deferred by explicit user direction. Current builds start each new session at th
 
 When activated, store sound-effects, music, and intensity settings locally and derive autoplay from intensity, validate saved values, recover safely from missing/damaged data, and verify restart behavior on supported platforms. Game-session saves are separate roadmap requirements.
 
-Persist the working settings overrides from [settings-overrides.md](settings-overrides.md) in this same post-five-games milestone. Validate stored values and restore the selected still/muted behavior before output begins. Mockup switch state must never be mistaken for implemented preferences.
+Persist the working settings overrides from [settings overrides](../../ROADMAP.md#12-implement-settings-overrides) in this same post-five-games milestone. Validate stored values and restore the selected still/muted behavior before output begins. Mockup switch state must never be mistaken for implemented preferences.
+
+## Deferral review — 2026-11-16
+
+Retain this previously active scope as deferred: preference loading/saving was disabled by explicit user direction, as recorded in the local-persistence plan. Resume when sensory-preference persistence is selected for active work alongside the working override requirements. Completion requires validated local restoration and restart/recovery checks; the roadmap’s post-five-games timing does not itself reactivate execution.

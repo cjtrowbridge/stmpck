@@ -7,3 +7,7 @@ Current work: [canonize deliverable-driven engineering](deliverable-driven-engin
 ## Acceptance and status
 
 The user approved the November 15 proposal. Guidance is published upstream and consumed through the submodule. The first save corrections pass local race/build/preview checks and matched host benchmarks; the linked requirement plan records measurements and remaining Android/phone checks. Preserve existing rules, saves, sensory choices, build ownership and preview gates. Deliverable completion requires its remaining roadmap requirements, not just this checkpoint.
+
+## Remaining work and closure — 2026-11-16
+
+Coordinate the remaining engineering-guidance and save-path acceptance in their own requirement plans. The full deliverable remains unfinished; do not activate its telemetry or infrastructure requirements merely to complete the plan inventory.

@@ -15,3 +15,7 @@ Eight presentations, clickable faces, keyboard/gamepad actions, and horizontal g
 In-game intensity changes only through explicit more/less button clicks/taps. Swipes and directional keys/controllers operate gameplay only.
 
 Implementation and focused regression checks are active. Previous verification describes the earlier revision.
+
+## Remaining work and closure — 2026-11-16
+
+Reconcile the in-game button-only refinement with implementation and focused regression evidence. Archive when swipes and directional input are verified to remain game input while explicit intensity buttons work.

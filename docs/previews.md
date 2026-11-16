@@ -39,4 +39,4 @@ Source fingerprints use repository-relative POSIX paths and normalize CRLF to LF
 
 ## Evidence
 
-Implementation validation and measured sizes are recorded in [the mapped plan](../plans/current/sprite-previews.md) and the development journal. Browser timing is diagnostic evidence for that browser/host, not an Android battery or performance guarantee.
+Implementation validation and measured sizes are recorded in [the mapped plan](../plans/past/sprite-previews.md) and the development journal. Browser timing is diagnostic evidence for that browser/host, not an Android battery or performance guarantee.

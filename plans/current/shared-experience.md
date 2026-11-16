@@ -12,12 +12,16 @@ Opening gallery implemented with five previews, selection/back navigation, theme
 
 ## Roadmap reconciliation — 2026-11-07
 
-Completed menu UI/mapping requirements are separated from actual gameplay, real ranking data, assistive technology, and physical input verification. Requirement plans retain one-to-one mappings. Android system Back is owned by [android-back.md](android-back.md). The parent deliverable remains in progress until the unchecked shared-experience scope is complete.
+Completed menu UI/mapping requirements are separated from actual gameplay, real ranking data, assistive technology, and physical input verification. Requirement plans retain one-to-one mappings. Android system Back is owned by [android-back.md](../past/android-back.md). The parent deliverable remains in progress until the unchecked shared-experience scope is complete. Completed requirement plans are archived independently.
 
 Working settings overrides belong to the new future settings deliverable. The mockup only exposes proposed controls.
 
-The [sprite gallery previews requirement](sprite-previews.md) now owns replacement of live gallery demonstrations with generated PNG assets and the repeatable workflow for future games. Its verification is separate from the original playable-gallery implementation.
+The [sprite gallery previews requirement](../past/sprite-previews.md) now owns replacement of live gallery demonstrations with generated PNG assets and the repeatable workflow for future games. Its verification is separate from the original playable-gallery implementation.
 
 ## Current checkpoint — 2026-11-07
 
 The gallery is a three-column mosaic. Global ordering uses labeled, bundled placeholder familiarity scores; discovery contains only games with zero plays in that order. The gear screen includes a non-functional 1–8-column selector, with application and persistence deferred. All five games have saves and previews; Territory now runs in real time, Merge has quick tile interpolation, and Linear is computer-only. See the [journal](../../journal/2026-11-07.md) for scoped verification and remaining work.
+
+## Remaining work and closure — 2026-11-16
+
+Complete the unchecked shared-experience input and accessibility verification at the mapped roadmap entries. Close this coordinator when those entries are satisfied; completed menu implementation plans are archived independently.

@@ -1,6 +1,7 @@
 """Android debug packaging, called only by the canonical build driver."""
 from pathlib import Path
 import os
+import re
 import shutil
 import subprocess
 import zipfile
@@ -26,6 +27,10 @@ def unavailable_reason():
 
 def build(output: Path, go: str, env: dict):
     env = java_environment(env)
+    key = ROOT / '.tools/android-debug.keystore'
+    if not key.exists():
+        raise RuntimeError('STMPCK signing key missing: restore .tools/android-debug.keystore from the original build host')
+    expected_signer = (ROOT / 'android/update-signer.sha256').read_text().strip()
     # Match desktop/WASM builds: temporary gomobile packages do not need Git stamping.
     env['GOFLAGS'] = (env.get('GOFLAGS', '') + ' -buildvcs=false').strip()
     binary = ROOT / '.tools/bin'
@@ -56,14 +61,16 @@ def build(output: Path, go: str, env: dict):
         shutil.rmtree(directory, ignore_errors=True)
         directory.mkdir()
     run(['javac', '-source', '8', '-target', '8', '-bootclasspath', PLATFORM,
-         '-classpath', extracted / 'classes.jar', '-d', classes, ROOT / 'android/MainActivity.java'])
+         '-classpath', extracted / 'classes.jar', '-d', classes, *sorted((ROOT / 'android').glob('*.java'))])
     activity_jar = work / 'activity.jar'
     run(['jar', 'cf', activity_jar, '-C', classes, '.'])
     run([BUILD_TOOLS / 'd8', '--lib', PLATFORM, '--min-api', '23', '--output', dex,
          extracted / 'classes.jar', activity_jar])
+    resources = work / 'resources.zip'
+    run([BUILD_TOOLS / 'aapt2', 'compile', '--dir', ROOT / 'android/res', '-o', resources])
     unsigned = work / 'unsigned.apk'
     run([BUILD_TOOLS / 'aapt2', 'link', '-I', PLATFORM, '--manifest',
-         ROOT / 'android/AndroidManifest.xml', '-o', unsigned])
+         ROOT / 'android/AndroidManifest.xml', '-R', resources, '-o', unsigned])
     with zipfile.ZipFile(unsigned, 'a', compression=zipfile.ZIP_DEFLATED) as bundle:
         for path in dex.glob('*.dex'):
             bundle.write(path, path.name)
@@ -78,11 +85,15 @@ def build(output: Path, go: str, env: dict):
     run([BUILD_TOOLS / 'zipalign', '-f', '-P', '16', '4', unsigned, aligned])
     key = ROOT / '.tools/android-debug.keystore'
     if not key.exists():
-        run(['keytool', '-genkeypair', '-keystore', key, '-storepass', 'android',
-             '-keypass', 'android', '-alias', 'androiddebugkey', '-keyalg', 'RSA',
-             '-keysize', '2048', '-validity', '3650', '-dname', 'CN=STMPCK Debug,O=Development,C=US'])
-        key.chmod(0o600)
+        raise RuntimeError('STMPCK update signing key missing: restore .tools/android-debug.keystore; never generate a replacement for existing installs')
     output.parent.mkdir(parents=True, exist_ok=True)
     run([BUILD_TOOLS / 'apksigner', 'sign', '--ks', key, '--ks-pass', 'pass:android',
          '--key-pass', 'pass:android', '--out', output, aligned])
-    run([BUILD_TOOLS / 'apksigner', 'verify', '--verbose', output])
+    verification = subprocess.run([str(BUILD_TOOLS / 'apksigner'), 'verify', '--verbose',
+                                   '--print-certs', str(output)], env=env, check=True,
+                                  capture_output=True, text=True, timeout=30)
+    signers = re.findall(r'Signer #\d+ certificate SHA-256 digest: ([0-9a-fA-F]+)', verification.stdout)
+    if signers != [expected_signer]:
+        output.unlink(missing_ok=True)
+        raise RuntimeError('APK signer differs from the original STMPCK update identity; refusing artifact')
+    print('  Android: APK signature matches the original update identity', flush=True)

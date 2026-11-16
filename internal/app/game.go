@@ -19,6 +19,9 @@ import (
 )
 
 type Game struct {
+	updateMu                                            sync.Mutex
+	updateCheck                                         func()
+	updateStatus                                        atomic.Pointer[string]
 	territoryDrafts                                     [3]play.Territory
 	territoryMaps                                       [3]uint64
 	territoryStarts                                     uint64
@@ -138,6 +141,9 @@ func (g *Game) Update() error {
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyH) || inpututil.IsKeyJustPressed(ebiten.KeyF1) {
 		g.Settings = !g.Settings
+	}
+	if g.Settings && (enter || inpututil.IsKeyJustPressed(ebiten.KeyU)) {
+		g.checkForUpdate()
 	}
 	if !g.Settings && g.Selected < 0 {
 		if inpututil.IsKeyJustPressed(ebiten.Key1) {
@@ -327,6 +333,10 @@ func (g *Game) activate(x, y float64) {
 	if g.Settings {
 		if y < 52 && (x < 64 || x >= float64(g.width-56)) {
 			g.Back()
+			return
+		}
+		if x >= 16 && x <= float64(g.width-16) && y >= 430 && y < 482 {
+			g.checkForUpdate()
 			return
 		}
 		row := int((y - 100) / 58)

@@ -19,3 +19,7 @@ Roadmap audit: the implemented timing constants are now explicit in the mapped r
 ## Breathing tempo revision
 
 The breathing-rate progression is 15, 45, 120, and 180 complete cycles per minute: resting-style breathing at the first effect level, then accelerating to happy-hardcore tempo. A cycle is one full expansion/contraction, not a half-cycle. The continuous cosine envelope controls border width and accent blending; backgrounds remain stable. These are aesthetic animation settings, not a guided breathing exercise. Android/WebAssembly builds and test-phone installation/launch pass for this timing revision (`.tools/breathing-tempo-build.log`). Visual assessment of the revised tempo remains pending.
+
+## Remaining work and closure — 2026-11-16
+
+Visually assess the revised 15/45/120/180-cycle tempo and record the result. Archive when that specific visual acceptance is resolved; sustained performance and accessibility remain separate release checks.

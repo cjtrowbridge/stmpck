@@ -13,3 +13,7 @@ Ten Python regressions pass, including runtime/compiler mismatch, failed/unparse
 ## Authorized alignment — 2026-11-15
 
 The user approved aligning setup and packaging. Resolve one JDK directory (canonical PATH compiler, with the documented local fallback only if no PATH compiler exists); verify java and javac major 21 plus jar/keytool availability from that directory. Use the same resolved directory as JAVA_HOME and first on PATH during packaging. Reject malformed/nonzero version results and mixed Java/compiler majors. Setup checks this before downloading SDK archives. Add focused mocked regressions without downloading tools in tests. This validates the selected executable toolchain; it does not prove Debian package provenance.
+
+## Remaining work and closure — 2026-11-16
+
+Build and launch Android with the selected canonical toolchain and record actual packaging/device evidence. Archive when the unchecked roadmap requirement has that evidence; mocked toolchain tests alone do not close it.

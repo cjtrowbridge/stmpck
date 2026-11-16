@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.cjtrowbridge.stmpck.debug" android:versionCode="1" android:versionName="0.1-dev">
+    package="dev.cjtrowbridge.stmpck.debug" android:versionCode="3" android:versionName="0.3-dev">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="35" />
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
-    <application android:label="STMPCK (dev)" android:debuggable="true"
+    <application android:label="STMPCK (dev)" android:icon="@mipmap/ic_launcher" android:debuggable="true"
         android:enableOnBackInvokedCallback="true" android:allowBackup="false" android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
         <activity android:name=".MainActivity" android:exported="true"
@@ -13,5 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider android:name=".UpdateApkProvider"
+            android:authorities="dev.cjtrowbridge.stmpck.debug.update"
+            android:exported="false" android:grantUriPermissions="true" />
     </application>
 </manifest>

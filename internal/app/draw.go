@@ -158,6 +158,10 @@ func (g *Game) drawSettings(dst *ebiten.Image, p palette) {
 		}
 		centered(dst, fmt.Sprint(i), x+(choiceWidth-4)/2, 386, p.ink)
 	}
+	rect(dst, 16, 430, float64(g.width-32), 52, p.panel)
+	vector.StrokeRect(dst, 16, 430, float32(g.width-32), 52, 2, p.a, true)
+	label(dst, "Check for update (Enter / A)", 26, 462, p.ink)
+	label(dst, g.updateMessage(), 20, 504, p.muted)
 	lines := []string{
 		"Menu arrows: intensity / browse.",
 		"Game arrows: move. Enter: confirm.",
@@ -169,6 +173,6 @@ func (g *Game) drawSettings(dst *ebiten.Image, p palette) {
 		"creativecommons.org/licenses/by/4.0/",
 	}
 	for i, text := range lines {
-		label(dst, text, 20, 440+i*18, p.muted)
+		label(dst, text, 20, 536+i*18, p.muted)
 	}
 }

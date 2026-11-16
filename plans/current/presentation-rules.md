@@ -11,3 +11,7 @@ Coordinate visible intensity labels and bounded navigation while using intensity
 In progress.
 
 Coordinate the [breathing and sparkles requirement](breathing-sparkles.md) for four additional opt-in levels after vivid.
+
+## Remaining work and closure — 2026-11-16
+
+Resolve the linked intensity/tempo verification and the unchecked accessible-control, assistive-technology and reduced-motion requirements. Record actual target-platform evidence before closing the deliverable; only activated requirements receive plans.
