@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"math"
 	"math/rand/v2"
+	"sync"
 	"sync/atomic"
 
 	"ebe-boilerplate/internal/menu"
@@ -31,6 +32,7 @@ type Game struct {
 	pendingBack                                         atomic.Uint32
 	pendingSuspend                                      atomic.Bool
 	saveSnapshot                                        atomic.Pointer[[]byte]
+	flushMu                                             sync.Mutex
 	saveFailed                                          atomic.Bool
 	store                                               *storage.Store
 	games                                               play.Collection

@@ -40,6 +40,9 @@ func (g *Game) saveGames() { g.snapshot(); g.Flush() }
 
 // Flush writes an immutable snapshot, so Android can save while its view is suspending.
 func (g *Game) Flush() {
+	// Selection and persistence share one order across game/lifecycle callers.
+	g.flushMu.Lock()
+	defer g.flushMu.Unlock()
 	if data := g.saveSnapshot.Load(); data != nil {
 		if err := g.store.Save(*data); err != nil {
 			g.saveFailed.Store(true)
@@ -502,8 +505,7 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 	}
 	changed := false
 	if g.Selected >= play.FlowID {
-		g.updateAddition()
-		changed = g.Selected != play.FlowID && g.Selected != play.DeductionID && g.Selected != play.ShiftID
+		changed = g.updateAddition()
 	}
 	switch g.Selected {
 	case play.SnakeID:
@@ -549,6 +551,10 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 			g.saveClock = 0
 			g.Flush()
 		}
+	} else if g.saveClock > 0 && (g.Selected == play.EchoID || g.Selected == play.ClusterID) {
+		// Persist the final changed tick once when these games become idle.
+		g.saveClock = 0
+		g.Flush()
 	}
 }
 func (g *Game) statusText() string {

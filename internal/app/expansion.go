@@ -223,7 +223,7 @@ func heldDirection() (left, right, up, down bool) {
 	}
 	return
 }
-func (g *Game) updateExpansion() {
+func (g *Game) updateExpansion() bool {
 	switch g.Selected {
 	case play.DriftID:
 		d := &g.games.Drift
@@ -245,7 +245,7 @@ func (g *Game) updateExpansion() {
 	case play.StackID:
 		g.games.Stack.Tick()
 	case play.ClusterID:
-		g.games.Cluster.Tick()
+		return g.games.Cluster.Tick()
 	case play.WaveID:
 		left, right, _, _ := heldDirection()
 		if left {
@@ -257,7 +257,10 @@ func (g *Game) updateExpansion() {
 		g.games.Wave.Tick()
 	case play.CrossingID:
 		g.games.Crossing.Tick()
+	default:
+		return false
 	}
+	return true
 }
 func (g *Game) deductionKeys() {
 	for i, key := range []ebiten.Key{ebiten.Key1, ebiten.Key2, ebiten.Key3, ebiten.Key4, ebiten.Key5, ebiten.Key6, ebiten.Key7, ebiten.Key8, ebiten.Key9} {

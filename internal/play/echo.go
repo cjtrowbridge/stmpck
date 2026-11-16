@@ -28,18 +28,21 @@ func (e *Echo) Cue() int {
 	}
 	return -1
 }
-func (e *Echo) Tick() {
+func (e *Echo) Tick() bool {
+	changed := e.Flash > 0
 	if e.Flash > 0 {
 		e.Flash--
 	}
 	switch e.Phase {
 	case EchoShow:
+		changed = true
 		e.Clock++
 		if e.Clock >= len(e.Sequence)*45 {
 			e.Phase = EchoInput
 			e.Clock = 0
 		}
 	case EchoSuccess:
+		changed = true
 		e.Clock++
 		if e.Clock >= 60 {
 			if len(e.Sequence) >= 32 {
@@ -50,6 +53,7 @@ func (e *Echo) Tick() {
 			}
 		}
 	}
+	return changed
 }
 func (e *Echo) Press(pad int) bool {
 	if e.Phase != EchoInput || pad < 0 || pad > 3 {

@@ -188,10 +188,9 @@ func laneAt(x, y float64) int {
 	angle := math.Atan2(y-.5, x-.5) + math.Pi/2
 	return (int(math.Round(angle*play.CalibanLanes/(2*math.Pi))) + play.CalibanLanes) % play.CalibanLanes
 }
-func (g *Game) updateAddition() {
+func (g *Game) updateAddition() bool {
 	if g.Selected >= play.DriftID {
-		g.updateExpansion()
-		return
+		return g.updateExpansion()
 	}
 	switch g.Selected {
 	case play.CalibanID:
@@ -199,7 +198,7 @@ func (g *Game) updateAddition() {
 	case play.BloomID:
 		g.games.Bloom.Tick()
 	case play.EchoID:
-		g.games.Echo.Tick()
+		return g.games.Echo.Tick()
 	case play.BrickID:
 		left, right := ebiten.IsKeyPressed(ebiten.KeyArrowLeft), ebiten.IsKeyPressed(ebiten.KeyArrowRight)
 		for _, id := range ebiten.AppendGamepadIDs(nil) {
@@ -217,7 +216,10 @@ func (g *Game) updateAddition() {
 		g.games.Brick.Tick()
 	case play.PlanetsID:
 		g.games.Planets.Tick()
+	default:
+		return false
 	}
+	return true
 }
 func (g *Game) additionStatus() string {
 	if g.Selected >= play.DriftID {

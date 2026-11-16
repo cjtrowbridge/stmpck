@@ -169,9 +169,9 @@ func (c *Cluster) attach(hit int) {
 	c.Cells[best] = c.Color
 	c.resolve(best)
 }
-func (c *Cluster) Tick() {
+func (c *Cluster) Tick() bool {
 	if !c.Flying || c.Over || c.Won {
-		return
+		return false
 	}
 	for step := 0; step < 4; step++ {
 		c.X += c.VX / 240
@@ -199,7 +199,8 @@ func (c *Cluster) Tick() {
 		}
 		if hit >= 0 || c.Y <= .06 {
 			c.attach(hit)
-			return
+			return true
 		}
 	}
+	return true
 }

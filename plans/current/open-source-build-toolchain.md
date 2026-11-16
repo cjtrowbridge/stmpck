@@ -2,16 +2,14 @@
 
 For [Choose the first release target](../../ROADMAP.md#2-choose-the-first-release-target), address **Require and use an open-source alternative to the JDK (Debian's OpenJDK 21 package) and Debian's adb package as the canonical local build toolchain, verified by the setup helper.** The earlier setup path left the Java toolchain and Platform-Tools as unowned manual steps, which made fresh-host setup unreproducible and silently dependent on a proprietary-default JDK.
 
-## Outcome
+## Implemented outcome
 
-- `scripts/setup_android.py` installs the pinned SDK/NDK archives as before, then verifies the canonical open-source toolchain: `java`, `javac`, `jar`, `keytool` on `PATH` at OpenJDK major version 21, and `adb` on `PATH`. A mismatching major (e.g. 25) is fatal, not a warning, because `javac -source 8 -target 8` (used by APK packaging) is removed after 21. The helper prints the exact remedy (`sudo apt-get install -y openjdk-21-jdk-headless adb`) and never runs `sudo` itself.
-- `scripts/build_android.py` reports a missing Java tool with the canonical package name in its prerequisite message.
-- README and AGENTS record Debian `openjdk-21-jdk-headless` and `adb` as canonical; the `.tools/jdk` fallback remains accepted but is no longer the documented path.
+`scripts/android_toolchain.py` resolves the JDK containing the PATH compiler, or the existing local `.tools/jdk` fallback only when no PATH compiler exists. It requires executable java/javac/jar/keytool from that home and successful, parseable major-21 runtime/compiler version commands. Both setup and packaging call it; packaging sets JAVA_HOME and prioritizes that JDK on PATH. Setup checks ADB and Java before SDK downloads and never runs sudo. Executable validation does not prove Debian package provenance.
 
-## Verification
+## Verification and remaining scope
 
-Reviewed source diff; deterministic local checks run against the changed scripts. The operator installs the packages; a fresh canonical `build.py --verify --launch-android` run on this machine with the packages present is required before this entry is considered fully verified on-device. No app behavior changes: menu, games, saves, and sensory controls are untouched by this toolchain-policy change.
+Ten Python regressions pass, including runtime/compiler mismatch, failed/unparseable commands, missing sibling tools, PATH versus local fallback, and shared setup/build rejection. The canonical build verifies Linux/amd64 and WebAssembly with local test prerequisites. Android SDK/NDK, Java and ADB are unavailable in this environment; actual Android packaging/phone launch remains pending. This requirement remains unchecked in the roadmap until that evidence exists.
 
-## Status
+## Authorized alignment — 2026-11-15
 
-Implemented locally on Debian 13 (trixie, OpenJDK 21.0.x in main). Awaiting operator package installation and a canonical build/launch run for on-device evidence.
+The user approved aligning setup and packaging. Resolve one JDK directory (canonical PATH compiler, with the documented local fallback only if no PATH compiler exists); verify java and javac major 21 plus jar/keytool availability from that directory. Use the same resolved directory as JAVA_HOME and first on PATH during packaging. Reject malformed/nonzero version results and mixed Java/compiler majors. Setup checks this before downloading SDK archives. Add focused mocked regressions without downloading tools in tests. This validates the selected executable toolchain; it does not prove Debian package provenance.

@@ -5,37 +5,34 @@ import shutil
 import subprocess
 import zipfile
 
+from android_toolchain import java_environment
+
 ROOT = Path(__file__).resolve().parent.parent
 SDK = ROOT / '.tools/android-sdk'
 NDK = SDK / 'ndk/27.2.12479018'
 BUILD_TOOLS = SDK / 'build-tools/35.0.0'
 PLATFORM = SDK / 'platforms/android-35/android.jar'
-JDK = ROOT / '.tools/jdk'
 
 
 def unavailable_reason():
     if not PLATFORM.exists() or not (NDK / 'source.properties').exists() or not (BUILD_TOOLS / 'aapt2').exists():
         return 'Android SDK/NDK missing; run python scripts/setup_android.py on Linux'
-    for command in ('java', 'javac', 'jar', 'keytool'):
-        if not (JDK / 'bin' / command).exists() and not shutil.which(command):
-            return ('Android debug packaging requires the canonical open-source '
-                    'OpenJDK 21 toolchain: missing ' + command
-                    + '; install Debian package openjdk-21-jdk-headless')
+    try:
+        java_environment()
+    except RuntimeError as error:
+        return str(error)
     return ''
 
 
 def build(output: Path, go: str, env: dict):
-    env = dict(env)
+    env = java_environment(env)
     # Match desktop/WASM builds: temporary gomobile packages do not need Git stamping.
     env['GOFLAGS'] = (env.get('GOFLAGS', '') + ' -buildvcs=false').strip()
     binary = ROOT / '.tools/bin'
     binary.mkdir(exist_ok=True)
     env.update(ANDROID_HOME=str(SDK), ANDROID_NDK_HOME=str(NDK),
                GOPATH=str(ROOT / '.tools/go-work'), GOBIN=str(binary))
-    if (JDK / 'bin/java').exists():
-        env['JAVA_HOME'] = str(JDK)
-        env['PATH'] = str(JDK / 'bin') + os.pathsep + env['PATH']
-    env['PATH'] = str(Path(go).parent) + os.pathsep + str(binary) + os.pathsep + env['PATH']
+    env['PATH'] = str(Path(env['JAVA_HOME']) / 'bin') + os.pathsep + str(Path(go).parent) + os.pathsep + str(binary) + os.pathsep + env['PATH']
     work = ROOT / '.tools/android-build'
     work.mkdir(exist_ok=True)
 
