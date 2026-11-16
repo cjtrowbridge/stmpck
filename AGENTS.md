@@ -58,7 +58,7 @@ Pricing, subscriptions, permanent ownership, accounts, cross-device purchases, a
 - **Build ownership:** only `scripts/build.py` and its direct callers perform builds. `pipeline.py run` is optional governance scaffolding and never performs a host build.
 - **Artifacts:** `releases/{goos}/{goarch}/app/latest[.exe]`; Windows uses `.exe`, and the Android arm64 debug target uses `.apk`.
 - **Target feedback:** build preflight lists every matrix target, its intended output, local feasibility, and reason. Do not claim platform or store support without verification.
-- **Pinned stack:** Go 1.26.4 and Ebitengine v2.9.9, as recorded in `go.mod`.
+- **Pinned stack:** Go 1.26.4 and Ebitengine v2.9.9, as recorded in `go.mod`. The Java toolchain is canonically Debian's open-source `openjdk-21-jdk-headless` package (major 21 is the last `javac` accepting `-source 8 -target 8`; a different major is fatal, not a warning), and ADB is Debian's `adb` package. The setup helper verifies both and prints the exact apt remedy; it never runs `sudo` itself.
 - **Canonical development launch:** `.vscode/launch.json` builds and pushes the current Android debug APK to the authorized test phone through `scripts/build.py --verify --launch-android`. Require a successful Android build from the current invocation before deploying; never launch a stale APK after build failure. This device-testing workflow is authorized and separate from store publishing.
 - **Deployment:** keep deployment unconfigured until the operator selects the target, credentials mechanism, signing policy, and release destination. App-store intent alone does not select these details.
 

@@ -18,7 +18,7 @@ def main():
     local = ROOT / '.tools/platform-tools/adb'
     adb = str(local) if local.exists() else shutil.which('adb')
     if not adb:
-        parser.error('ADB is missing; install Android SDK Platform-Tools')
+        parser.error('ADB is missing; install the canonical Debian package: sudo apt-get install -y adb')
     if not APK.exists():
         parser.error('APK is missing; run python scripts/build.py --verify first')
     output = subprocess.check_output([adb, 'devices'], text=True)

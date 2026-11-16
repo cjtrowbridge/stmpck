@@ -30,6 +30,7 @@ Plan: [plans/current/release-target.md](plans/current/release-target.md)
 - [x] Produce a native Windows executable automatically when the canonical build runs on Windows. Verified on Windows/amd64; native interactive and accessibility checks remain separate. Plan: [plans/current/windows-build.md](plans/current/windows-build.md)
 - [x] Set up ADB, connect and authorize the test phone, deploy the debug APK, and verify the first successful on-device launch. Plan: [plans/past/adb-setup.md](plans/past/adb-setup.md)
 - [x] Build a locally signed Android debug APK of the opening menu for the first phone test. Plan: [plans/past/android-debug-build.md](plans/past/android-debug-build.md)
+- [ ] **Canonicalize the open-source build toolchain:** require Debian's `openjdk-21-jdk-headless` package and Debian's `adb` package, verified by the setup helper with an explicit apt remedy. Plan: [plans/current/open-source-build-toolchain.md](plans/current/open-source-build-toolchain.md)
 - [x] Make VS Code `launch.json` build, install, and launch the current Android debug app on the connected test phone as the canonical development launch action. Plan: [plans/current/test-phone-launch.md](plans/current/test-phone-launch.md)
 - [ ] Verify that the app builds and runs on each selected release target.
 - [ ] Complete broader touch, screen sizing, suspension, and native accessibility verification on the selected platform. Initial portrait touch, Back, and restart-save checks pass for all five games; these do not establish accessibility or every-device support.

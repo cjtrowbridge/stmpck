@@ -18,7 +18,9 @@ def unavailable_reason():
         return 'Android SDK/NDK missing; run python scripts/setup_android.py on Linux'
     for command in ('java', 'javac', 'jar', 'keytool'):
         if not (JDK / 'bin' / command).exists() and not shutil.which(command):
-            return 'Android debug packaging requires a JDK: missing ' + command
+            return ('Android debug packaging requires the canonical open-source '
+                    'OpenJDK 21 toolchain: missing ' + command
+                    + '; install Debian package openjdk-21-jdk-headless')
     return ''
 
 
