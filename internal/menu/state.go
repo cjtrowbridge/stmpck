@@ -19,7 +19,7 @@ const (
 // Synthetic familiarity weights, not measured market share. See menu-tabs plan.
 var PlaceholderPopularity = [Count]int{90, 100, 60, 70, 80, 55, 50, 65, 75, 85, 58, 78, 98, 92, 72, 82, 76, 68}
 
-var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce", "Flow", "Caliban", "Bloom", "Echo", "Brick", "Planets", "Drift", "Stack", "Deduction", "Cluster", "Wave", "Crossing", "Shift"}
+var Names = [Count]string{"Merge", "Snake", "Territory", "Linear", "Bounce", "Flow", "Caliban", "Bloom", "Echo", "Brick", "Planets", "Drift", "Stack", "Deduction", "Bubble Volley", "Wave", "Crossing", "Shift"}
 
 const (
 	Personal = iota
@@ -43,6 +43,7 @@ const (
 var IntensityLabels = [...]string{"🙂", "🙂", "🙂", "🤩", "🤩", "🤩", "🤩", "🤩"}
 
 type State struct {
+	CompactGallery   bool
 	RowHeight        int
 	Tab              int
 	Sound            bool
@@ -123,8 +124,15 @@ func (s *State) SetTab(tab int) {
 	s.Scroll = 0
 }
 
+func (s *State) HeaderHeight() int {
+	if s.CompactGallery && s.Selected < 0 {
+		return 48
+	}
+	return Header
+}
+
 func (s *State) Clamp(height int) {
-	limit := math.Max(0, float64(s.Rows()*s.RowHeight+Header+Footer-height))
+	limit := math.Max(0, float64(s.Rows()*s.RowHeight+s.HeaderHeight()+Footer-height))
 	s.Scroll = math.Max(0, math.Min(limit, s.Scroll))
 }
 
@@ -135,8 +143,8 @@ func (s *State) Move(delta, height int) {
 	if top < 0 {
 		s.Scroll += top
 	}
-	if bottom > float64(height-Header-Footer) {
-		s.Scroll += bottom - float64(height-Header-Footer)
+	if bottom > float64(height-s.HeaderHeight()-Footer) {
+		s.Scroll += bottom - float64(height-s.HeaderHeight()-Footer)
 	}
 	s.Clamp(height)
 }
@@ -176,11 +184,11 @@ func (s *State) TileRect(index, width int) (x, y, w, h float64) {
 	w = TileWidth(width)
 	h = float64(s.RowHeight - 14)
 	x = 16 + float64(index%Columns)*(w+Gap)
-	y = float64(Header+(index/Columns)*s.RowHeight) - s.Scroll
+	y = float64(s.HeaderHeight()+(index/Columns)*s.RowHeight) - s.Scroll
 	return
 }
 func (s *State) TileAt(x, y float64, width int) int {
-	if y < Header {
+	if y < float64(s.HeaderHeight()) {
 		return -1
 	}
 	for i := range s.Order() {

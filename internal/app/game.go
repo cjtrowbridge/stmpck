@@ -2,6 +2,7 @@
 package app
 
 import (
+	"image"
 	"image/color"
 	"math"
 	"math/rand/v2"
@@ -19,29 +20,32 @@ import (
 )
 
 type Game struct {
-	updateMu                                            sync.Mutex
-	updateCheck                                         func()
-	updateStatus                                        atomic.Pointer[string]
-	territoryDrafts                                     [3]play.Territory
-	territoryMaps                                       [3]uint64
-	territoryStarts                                     uint64
-	opponents                                           int
-	galleryOrder                                        []int
-	mergeBefore                                         [36]int
-	mergeTargets                                        [36]int
-	mergeAnimation                                      int
-	mergeQueue                                          []int
-	demoMergeAnimation                                  int
-	pendingBack                                         atomic.Uint32
-	pendingSuspend                                      atomic.Bool
-	saveSnapshot                                        atomic.Pointer[[]byte]
-	flushMu                                             sync.Mutex
-	saveFailed                                          atomic.Bool
-	store                                               *storage.Store
-	games                                               play.Collection
-	previews                                            galleryImages
-	setup, paused, restartConfirm, symbols, wasSettings bool
-	option, cursor, aiClock, flash, saveClock           int
+	updateMu                                                        sync.Mutex
+	updateCheck                                                     func()
+	updateStatus                                                    atomic.Pointer[string]
+	embedded                                                        bool
+	OffsetX, OffsetY                                                int
+	InputScale                                                      float64
+	territoryDrafts                                                 [3]play.Territory
+	territoryMaps                                                   [3]uint64
+	territoryStarts                                                 uint64
+	opponents                                                       int
+	galleryOrder                                                    []int
+	mergeBefore                                                     [36]int
+	mergeTargets                                                    [36]int
+	mergeAnimation                                                  int
+	mergeQueue                                                      []int
+	demoMergeAnimation                                              int
+	pendingBack                                                     atomic.Uint32
+	pendingSuspend                                                  atomic.Bool
+	saveSnapshot                                                    atomic.Pointer[[]byte]
+	flushMu                                                         sync.Mutex
+	saveFailed                                                      atomic.Bool
+	store                                                           *storage.Store
+	games                                                           play.Collection
+	previews                                                        galleryImages
+	resumeMenu, setup, paused, restartConfirm, symbols, wasSettings bool
+	option, cursor, aiClock, flash, saveClock                       int
 	menu.State
 	mockOptions               [4]bool
 	width, height             int
@@ -61,9 +65,22 @@ type Game struct {
 	bloomChoice               int
 }
 
-func NewGame() *Game {
+func NewGame() *Game { return newGame("") }
+func NewEmbedded(root string) *Game {
+	g := newGame(root)
+	g.embedded = true
+	g.CompactGallery = true
+	return g
+}
+func (g *Game) local(x, y int) (int, int) {
+	if g.InputScale == 0 {
+		return x, y
+	}
+	return int(float64(x-g.OffsetX) / g.InputScale), int(float64(y-g.OffsetY) / g.InputScale)
+}
+func newGame(root string) *Game {
 	g := &Game{State: menu.New(), mockOptions: [4]bool{false, true, false, false}, sparkleSeed: rand.Uint64(), width: 480, height: 800}
-	g.initGames()
+	g.initGames(root)
 	return g
 }
 
@@ -136,16 +153,19 @@ func (g *Game) Update() error {
 			g.Settings = !g.Settings
 		}
 	}
+	if g.embedded && (g.Selected < 0 || g.Settings) {
+		up, down, left, right, enter, back = false, false, false, false, false, false
+	}
 	if back {
 		g.Back()
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyH) || inpututil.IsKeyJustPressed(ebiten.KeyF1) {
 		g.Settings = !g.Settings
 	}
-	if g.Settings && (enter || inpututil.IsKeyJustPressed(ebiten.KeyU)) {
+	if !g.embedded && g.Settings && (enter || inpututil.IsKeyJustPressed(ebiten.KeyU)) {
 		g.checkForUpdate()
 	}
-	if !g.Settings && g.Selected < 0 {
+	if !g.Settings && g.Selected < 0 && (!g.embedded || !ebiten.IsKeyPressed(ebiten.KeyAlt)) {
 		if inpututil.IsKeyJustPressed(ebiten.Key1) {
 			g.SetTab(menu.Personal)
 		}
@@ -155,11 +175,11 @@ func (g *Game) Update() error {
 		if inpututil.IsKeyJustPressed(ebiten.Key3) {
 			g.SetTab(menu.Discover)
 		}
-		if inpututil.IsKeyJustPressed(ebiten.KeyTab) {
+		if !g.embedded && inpututil.IsKeyJustPressed(ebiten.KeyTab) {
 			g.SetTab((g.Tab + 1) % 3)
 		}
 		for _, id := range ebiten.AppendGamepadIDs(nil) {
-			if ebiten.IsStandardGamepadLayoutAvailable(id) {
+			if !g.embedded && ebiten.IsStandardGamepadLayoutAvailable(id) {
 				if inpututil.IsStandardGamepadButtonJustPressed(id, ebiten.StandardGamepadButtonFrontTopRight) {
 					g.SetTab((g.Tab + 1) % 3)
 				}
@@ -211,16 +231,16 @@ func (g *Game) Update() error {
 		if len(ids) > 0 {
 			g.touch = true
 			g.touchID = ids[0]
-			x, y := ebiten.TouchPosition(g.touchID)
+			x, y := g.local(ebiten.TouchPosition(g.touchID))
 			g.begin(float64(x), float64(y))
 		} else if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 			g.touch = false
-			x, y := ebiten.CursorPosition()
+			x, y := g.local(ebiten.CursorPosition())
 			g.begin(float64(x), float64(y))
 		}
 	}
 	if g.pressed {
-		x, y := ebiten.CursorPosition()
+		x, y := g.local(ebiten.CursorPosition())
 		held := ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft)
 		if g.touch {
 			held = false
@@ -230,7 +250,7 @@ func (g *Game) Update() error {
 				}
 			}
 			if held {
-				x, y = ebiten.TouchPosition(g.touchID)
+				x, y = g.local(ebiten.TouchPosition(g.touchID))
 			} else {
 				x, y = int(g.lx), int(g.ly)
 			}
@@ -240,7 +260,7 @@ func (g *Game) Update() error {
 		if g.gesture == "" && g.travel >= 12 {
 			g.gesture = menu.Gesture(fx-g.sx, fy-g.sy)
 		}
-		if held && g.gesture == "vertical" && g.Selected < 0 && !g.Settings && g.sy >= menu.Header {
+		if held && g.gesture == "vertical" && g.Selected < 0 && !g.Settings && g.sy >= float64(g.HeaderHeight()) {
 			g.Scroll -= fy - g.ly
 			g.Clamp(g.height)
 		}
@@ -294,7 +314,7 @@ func (g *Game) Update() error {
 						}
 					}
 				}
-			} else if g.gesture == "horizontal" && math.Abs(fx-g.sx) > 48 && !g.Settings && g.sy >= menu.Header {
+			} else if g.gesture == "horizontal" && math.Abs(fx-g.sx) > 48 && !g.Settings && g.sy >= float64(g.HeaderHeight()) {
 				if fx < g.sx {
 					g.Cycle(1)
 				} else {
@@ -307,6 +327,9 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) begin(x, y float64) {
+	if y < 0 || (g.embedded && (x < 0 || x >= float64(g.width) || y >= float64(g.height))) {
+		return
+	}
 	g.pressed = true
 	g.sx = x
 	g.sy = y
@@ -335,7 +358,7 @@ func (g *Game) activate(x, y float64) {
 			g.Back()
 			return
 		}
-		if x >= 16 && x <= float64(g.width-16) && y >= 430 && y < 482 {
+		if !g.embedded && x >= 16 && x <= float64(g.width-16) && y >= 430 && y < 482 {
 			g.checkForUpdate()
 			return
 		}
@@ -345,7 +368,25 @@ func (g *Game) activate(x, y float64) {
 		}
 		return
 	}
-	if y < menu.Header {
+	if g.embedded && g.Selected < 0 && y < float64(g.HeaderHeight()) {
+		for i := 0; i < 6; i++ {
+			if image.Pt(int(x), int(y)).In(g.ToolbarRect(i)) {
+				switch i {
+				case 0:
+					g.Cycle(-1)
+				case 5:
+					g.Cycle(1)
+				case 4:
+					g.Settings = true
+				default:
+					g.SetTab(i - 1)
+				}
+				break
+			}
+		}
+		return
+	}
+	if y < float64(g.HeaderHeight()) {
 		if y < 44 {
 			switch {
 			case x >= float64(g.width-56):
@@ -408,3 +449,6 @@ func dot(dst *ebiten.Image, x, y, r float64, c color.Color) {
 func label(dst *ebiten.Image, s string, x, y int, c color.Color) {
 	text.Draw(dst, s, basicfont.Face7x13, x, y, c)
 }
+
+// ActivateMenu applies the same hit testing as a pointer release in the embedded menu.
+func (g *Game) ActivateMenu(x, y float64) { g.activate(x, y) }

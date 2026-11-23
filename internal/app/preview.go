@@ -62,7 +62,7 @@ func (g *Game) updatePreviews() {
 	var visible [play.Count]bool
 	for i, id := range g.galleryOrder {
 		_, y, _, h := g.TileRect(i, g.width)
-		visible[id] = y+h > menu.Header && y < float64(g.height)
+		visible[id] = y+h > float64(g.HeaderHeight()) && y < float64(g.height)
 	}
 	protected := func(key previewKey) bool { return key.style == style && visible[key.id] }
 	select {

@@ -138,3 +138,5 @@ Completed implementation scopes and explicitly retired historical placeholders. 
 - [Wave: Movement and action](wave-movement-and-action.md)
 - [Wave: Waves and integration](wave-waves-and-integration.md)
 - [Native Windows build artifact](windows-build.md)
+
+- [Shared game surface](shared-game-surface.md)

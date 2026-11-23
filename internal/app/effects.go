@@ -75,7 +75,7 @@ func (g *Game) drawSparkles(dst *ebiten.Image, p palette) {
 		x := 8 + sparkleRandom(seed)*math.Max(0, float64(g.width)-16)
 		y := 8 + sparkleRandom(seed+1)*math.Max(0, float64(g.height)-16)
 		// Preserve the header controls' hit targets and legibility.
-		if y < menu.Header && (y < 92 || x < 90 || x > float64(g.width-90)) {
+		if y < float64(g.HeaderHeight()) && (y < 92 || x < 90 || x > float64(g.width-90)) {
 			continue
 		}
 		envelope := math.Pow(math.Sin(math.Pi*age/life), 2)

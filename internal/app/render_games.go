@@ -210,30 +210,34 @@ func (g *Game) renderGame(dst *ebiten.Image, c *play.Collection, id int, x, y, w
 	}
 }
 
+func (g *Game) setupLabels() []string {
+	if g.resumeMenu {
+		return []string{"Resume", "New game"}
+	}
+	switch g.Selected {
+	case play.SnakeID, play.BounceID, play.StackID, play.BloomID:
+		return []string{"Slow", "Medium", "Fast"}
+	case play.BrickID:
+		return []string{"Level 1", "Level 2", "Level 3"}
+	}
+	return []string{"Start"}
+}
+
 func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
-	if g.setup && g.Selected == play.PlanetsID {
+	if g.setup && !g.resumeMenu && g.Selected == play.PlanetsID {
 		g.drawPlanetChoices(dst, p)
 		return
 	}
-	if g.setup && g.Selected == play.MergeID {
+	if g.setup && !g.resumeMenu && g.Selected == play.MergeID {
 		g.drawMergeChoices(dst, p)
 		return
 	}
-	if g.setup && g.Selected == play.TerritoryID {
+	if g.setup && !g.resumeMenu && g.Selected == play.TerritoryID {
 		g.drawTerritorySetup(dst, p)
 		return
 	}
 	if g.setup {
-		centered(dst, menu.Names[g.Selected], float64(g.width)/2, menu.Header+20, p.ink)
-		names := []string{"Start"}
-		switch g.Selected {
-		case play.MergeID:
-			names = []string{"4 x 4", "5 x 5", "6 x 6"}
-		case play.SnakeID, play.BounceID:
-			names = []string{"Slow", "Medium", "Fast"}
-		case play.LinearID:
-			names = []string{"Computer"}
-		}
+		names := g.setupLabels()
 		width := float64(g.width) / float64(len(names))
 		for i, name := range names {
 			x := float64(i)*width + 8
@@ -280,6 +284,9 @@ func (g *Game) drawPlay(dst *ebiten.Image, p palette) {
 	}
 	if g.setup {
 		names[0] = "Start"
+		if g.resumeMenu || g.optionCount() == 1 {
+			names[0] = ""
+		}
 		names[1] = "Back"
 	}
 	if !g.setup {

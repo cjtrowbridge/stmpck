@@ -6,7 +6,7 @@ The [README's foundational principles and promises](README.md#foundational-princ
 
 **Current state:** Merge, Snake, Territory, Linear, and Bounce are playable, with a three-column mosaic of bundled gameplay sprite previews, placeholder global popularity and never-played discovery, eight intensity levels, local session saves, pause/resume, deliberate new-game controls, and Android Back navigation. Android and WebAssembly builds pass; all five were exercised on the Pixel 10 Pro XL. Territory is real-time with immutable fixed-speed orders, one starting territory per player, and neutral territory expansion. Territory accepts swipe/drag orders on release as well as tap selection. Merge supports immediate grid selection and quick tile slides with swipe/drag or keyboard/controller input; its on-screen directional arrows are removed. Linear is computer-only. The gear screen previews 1–8 columns but remains non-functional. Model tests cover rules, movement, opponents, collisions, sorting/filtering, mosaic hit targets, save round trips, and corrupt-save recovery. Physical controller/screen-reader verification, broader accessibility, long playtests, the audio suite, working settings overrides, and store packaging remain open. Native Linux compilation still needs X11 headers.
 
-**Additional games:** Flow, Caliban, Bloom, Echo, Brick, and Planets are implemented, followed by Drift, Stack, Deduction, Cluster, Wave, Crossing, and Shift, bringing the catalog to eighteen. Rule/save/race tests and Android/WebAssembly builds pass. Browser checks exercise all additions and persistence across reload. Phone verification, initial balancing and wider input/device checks remain open. The Planets start/reaction, Caliban drag-anywhere and Bloom pattern refinements are implemented and browser-checked; phone verification remains pending.
+**Additional games:** Flow, Caliban, Bloom, Echo, Brick, and Planets are implemented, followed by Drift, Stack, Deduction, Bubble Volley, Wave, Crossing, and Shift, bringing the catalog to eighteen. Rule/save/race tests and Android/WebAssembly builds pass. Browser checks exercise all additions and persistence across reload. Phone verification, initial balancing and wider input/device checks remain open. The Planets start/reaction, Caliban drag-anywhere and Bloom pattern refinements are implemented and browser-checked; phone verification remains pending.
 
 **Checklist meaning:** checked items have their stated implementation scope completed with recorded checks. This does not imply every device/input/accessibility check has passed; remaining verification has explicit unchecked entries. Requirements that previously combined completed menu work with future gameplay have been split, preserving both scopes. Historical phone checks describe the revision tested, not automatic verification of later changes.
 
@@ -95,6 +95,8 @@ Build the API needed to associate the player's devices with a profile, synchroni
 Sections 4–6 record the requested future foundation scope. No telemetry endpoint, SQLite migration, profile service, sync, or subscription gate is implemented by these entries. Create one deliverable plan per activated section and a separate linked plan for each requirement as detailed planning begins. Align the product promises and existing persistence/settings plans with the new direction in that work.
 
 ### 7. Define the smallest shared experience
+
+- [x] Share the catalog, setup, and resumable game surface with Apparat. [Implementation plan](plans/past/shared-game-surface.md)
 
 Plan: [plans/current/shared-experience.md](plans/current/shared-experience.md)
 
@@ -358,7 +360,7 @@ The five refinements above are implemented with rule/save/race tests, browser in
 
 ## Seven further game additions
 
-The seven further additions are **Drift (provisional name), Stack, Deduction, Cluster, Wave, Crossing, and Shift**. These seven games now have initial playable implementations. Rule/save tests and race checks pass; Android and WebAssembly builds succeed. Browser interaction and reload-persistence checks pass. Phone, physical-controller, accessibility and balance verification remain open. The linked plans record the implemented defaults.
+The seven further additions are **Drift (provisional name), Stack, Deduction, Bubble Volley, Wave, Crossing, and Shift**. These seven games now have initial playable implementations. Rule/save tests and race checks pass; Android and WebAssembly builds succeed. Browser interaction and reload-persistence checks pass. Phone, physical-controller, accessibility and balance verification remain open. The linked plans record the implemented defaults.
 
 All seven inherit the shared completion criteria: offline and silent play, no ads or telemetry, minimal visible text, accessible input alternatives and non-color cues, intensity-independent rules, local saves, deliberate restart, shared navigation, and previews driven by actual game code.
 
@@ -389,7 +391,9 @@ A Sudoku game; **Deduction** is the selected STMPCK name.
 - [x] **Puzzle rules:** 9×9 Sudoku with 3×3 regions. Shuffle a valid completed grid, then remove clues only while a solver proves uniqueness; aim for 36 clues. Plan: [plans/past/deduction-puzzle-rules.md](plans/past/deduction-puzzle-rules.md).
 - [x] **Interaction and integration:** Cell selection and visible digit palette, keyboard digits and controller cycling, erase, one-step undo, immutable clues and conflict/completion feedback. Save clues/entries/solution/undo; actual solving preview. Notes/hints deferred. Plan: [plans/past/deduction-interaction-and-integration.md](plans/past/deduction-interaction-and-integration.md).
 
-### Cluster
+<a id="cluster"></a>
+
+### Bubble Volley
 
 Plan: [plans/current/cluster.md](plans/current/cluster.md)
 

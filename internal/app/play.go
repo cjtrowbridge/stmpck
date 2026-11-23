@@ -12,9 +12,12 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
-func (g *Game) initGames() {
+func (g *Game) initGames(root string) {
 	g.games = play.NewCollection()
-	g.store = &storage.Store{Root: storage.DefaultRoot()}
+	if root == "" {
+		root = storage.DefaultRoot()
+	}
+	g.store = &storage.Store{Root: root}
 	g.loadGames()
 	g.initPreviews()
 	installLifecycle(g)
@@ -87,27 +90,11 @@ func (g *Game) Open(row int) {
 		return
 	}
 	id := g.Selected
-	g.setup = !g.games.Ready[id]
-	created := false
-	if (id == play.LinearID || id >= play.FlowID && id != play.PlanetsID) && g.setup {
-		g.games.New(id, 0, rand.Uint64())
-		created = true
-		g.setup = false
-	}
-	if id == play.TerritoryID && g.setup {
-		g.prepareTerritorySetup()
-	}
+	g.setup = true
+	g.resumeMenu = g.games.Ready[id]
 	g.option = 0
-	if g.games.Ready[id] {
-		switch id {
-		case play.MergeID:
-			g.option = g.games.Merge.N - 4
-		case play.SnakeID:
-			g.option = g.games.Snake.Speed
-
-		case play.BounceID:
-			g.option = g.games.Bounce.Speed
-		}
+	if !g.resumeMenu {
+		g.prepareNewGame()
 	}
 	g.cursor = 0
 	g.bloomPicker = false
@@ -121,18 +108,35 @@ func (g *Game) Open(row int) {
 	}
 	g.restartConfirm = false
 	g.pressed = false
-	if !g.setup {
-		if !created {
-			g.games.Plays[id]++
-		}
-		g.Plays = g.games.Plays
-		g.saveGames()
-	}
 }
 func (g *Game) SetTab(tab int) { g.State.SetTab(tab); g.galleryOrder = g.State.Order() }
 
+func (g *Game) prepareNewGame() {
+	g.resumeMenu = false
+	g.setup = true
+	g.option = 0
+	switch g.Selected {
+	case play.TerritoryID:
+		g.prepareTerritorySetup()
+	case play.BloomID, play.StackID:
+		g.option = 1
+	}
+}
+
 func (g *Game) startGame() {
 	if g.Selected < 0 {
+		return
+	}
+	if g.resumeMenu {
+		if g.option == 1 {
+			g.prepareNewGame()
+			return
+		}
+		g.resumeMenu = false
+		g.setup = false
+		g.games.Plays[g.Selected]++
+		g.Plays = g.games.Plays
+		g.saveGames()
 		return
 	}
 	if g.Selected == play.TerritoryID {
@@ -141,12 +145,18 @@ func (g *Game) startGame() {
 		g.games.Plays[play.TerritoryID]++
 	} else {
 		g.games.New(g.Selected, g.option, rand.Uint64())
+		switch g.Selected {
+		case play.BloomID:
+			g.games.Bloom.Speed = g.option
+		case play.StackID:
+			g.games.Stack.Pace = g.option
+		}
 	}
 	g.mergeAnimation = 0
 	g.mergeQueue = nil
 	g.Plays = g.games.Plays
 	g.setup = false
-	g.paused = false
+	g.paused = g.Selected == play.BloomID
 	g.restartConfirm = false
 	g.cursor = 0
 	g.aiClock = 0
@@ -189,26 +199,15 @@ func (g *Game) gameAction(slot int) {
 		case 0:
 			g.startGame()
 		case 1:
-			g.setup = false
-			g.restartConfirm = false
-			if !g.games.Ready[g.Selected] {
-				g.Back()
-			}
+			g.Back()
 		}
 		return
 	}
 	switch slot {
 	case 0:
 		if g.restartConfirm {
-			g.setup = true
 			g.restartConfirm = false
-			g.option = 0
-			if g.Selected == play.TerritoryID {
-				g.prepareTerritorySetup()
-			}
-			if g.Selected == play.LinearID || g.Selected >= play.FlowID && g.Selected != play.PlanetsID {
-				g.startGame()
-			}
+			g.prepareNewGame()
 			return
 		}
 		switch g.Selected {
@@ -365,20 +364,21 @@ func (g *Game) dropLinear(col int) {
 	}
 }
 func (g *Game) optionCount() int {
+	if g.resumeMenu {
+		return 2
+	}
 	switch g.Selected {
-	case play.MergeID, play.SnakeID, play.BounceID, play.PlanetsID:
-		return 3
-	case play.TerritoryID:
+	case play.MergeID, play.PlanetsID, play.TerritoryID:
 		return 3
 	}
-	return 1
+	return len(g.setupLabels())
 }
 func (g *Game) playTap(x, y float64) {
 	if g.Selected == play.BloomID && g.bloomPicker {
 		g.bloomPickerTap(x, y)
 		return
 	}
-	if g.setup && g.Selected == play.PlanetsID {
+	if g.setup && !g.resumeMenu && g.Selected == play.PlanetsID {
 		for i := 0; i < 3; i++ {
 			bx, by, bw, bh := g.planetChoiceRect(i)
 			if x >= bx && x < bx+bw && y >= by && y < by+bh {
@@ -389,7 +389,7 @@ func (g *Game) playTap(x, y float64) {
 		}
 		return
 	}
-	if g.setup && g.Selected == play.MergeID {
+	if g.setup && !g.resumeMenu && g.Selected == play.MergeID {
 		for i := 0; i < 3; i++ {
 			bx, by, bw, bh := g.mergeChoiceRect(i)
 			if x >= bx && x <= bx+bw && y >= by && y <= by+bh {
@@ -400,20 +400,29 @@ func (g *Game) playTap(x, y float64) {
 		}
 		return
 	}
-	if g.setup && g.Selected == play.TerritoryID {
+	if g.setup && !g.resumeMenu && g.Selected == play.TerritoryID {
 		g.territorySetupTap(x, y)
 		return
 	}
 	if y >= float64(g.height-62) {
 		slot := int(x * 4 / float64(g.width))
+		if g.setup && slot == 0 && (g.resumeMenu || g.optionCount() == 1) {
+			return
+		}
 		if slot >= 0 && slot < 4 {
 			g.gameAction(slot)
 		}
 		return
 	}
 	if g.setup {
-		if y >= menu.Header+45 && y < menu.Header+145 {
-			g.option = min(g.optionCount()-1, max(0, int(x*float64(g.optionCount())/float64(g.width))))
+		width := float64(g.width) / float64(g.optionCount())
+		index := int(x / width)
+		left := float64(index)*width + 8
+		if index >= 0 && index < g.optionCount() && x >= left && x < left+width-16 && y >= menu.Header+50 && y < menu.Header+132 {
+			g.option = index
+			if g.resumeMenu || g.optionCount() == 1 {
+				g.startGame()
+			}
 		}
 		return
 	}
@@ -446,7 +455,7 @@ func (g *Game) updatePlay(up, down, left, right, enter bool) {
 	if g.Selected == play.BloomID && inpututil.IsKeyJustPressed(ebiten.KeyP) {
 		g.toggleBloomPicker()
 	}
-	if g.setup && g.Selected == play.TerritoryID {
+	if g.setup && !g.resumeMenu && g.Selected == play.TerritoryID {
 		g.territorySetupKeys()
 	}
 	if g.mergeAnimation > 0 && !g.paused {

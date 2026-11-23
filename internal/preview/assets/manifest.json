@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source_sha256": "e3b476394b8b4e5379bcdd0ee4e83515a4482962775658dd65a91279a4be34f8",
+  "source_sha256": "fbe984bea40f1136725956da34e0f64204d468bbd6d77f5d65d666c94fe49b05",
   "size": 96,
   "fps": 12,
   "columns": 8,
@@ -73,14 +73,6 @@
       ],
       "bytes": 636
     },
-    "snake-1-sheet.png": {
-      "sha256": "369267b982151c5109b93524f97c1837b0cc402ed6f83487360dee5c90110eb1",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 11995
-    },
     "snake-1-still.png": {
       "sha256": "18cff8cff92a680bbb5f78f8f871d911ce42c9fb91f9c253d0c0e9e888a62d07",
       "size": [
@@ -89,13 +81,13 @@
       ],
       "bytes": 515
     },
-    "snake-2-still.png": {
-      "sha256": "42db16344af10da20e04e415c2e2ad02e7bda09ae9aaf1cc9977e3a1bd520fe8",
+    "snake-1-sheet.png": {
+      "sha256": "369267b982151c5109b93524f97c1837b0cc402ed6f83487360dee5c90110eb1",
       "size": [
-        96,
-        96
+        768,
+        1152
       ],
-      "bytes": 507
+      "bytes": 11995
     },
     "snake-2-sheet.png": {
       "sha256": "1e0456443963757cac71990f29b0d9d8215334eef1bb5b2f8aed714dbfc974a5",
@@ -105,6 +97,14 @@
       ],
       "bytes": 11908
     },
+    "snake-2-still.png": {
+      "sha256": "42db16344af10da20e04e415c2e2ad02e7bda09ae9aaf1cc9977e3a1bd520fe8",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 507
+    },
     "territory-0-still.png": {
       "sha256": "6eaf53c708763ada13bc0426af8f780ef6a64f21cc369d909e78ec53160147ae",
       "size": [
@@ -113,14 +113,6 @@
       ],
       "bytes": 7890
     },
-    "territory-1-still.png": {
-      "sha256": "034456b2fb7689ef708f14952c771b5a942446f7c6fac5261abb77ccd8c83bf3",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 8868
-    },
     "territory-1-sheet.png": {
       "sha256": "cb0c058867c304b0ea7c53c36ee7204ec5a757031c5457249117e4dd60db0a0d",
       "size": [
@@ -128,6 +120,14 @@
         1152
       ],
       "bytes": 166696
+    },
+    "territory-1-still.png": {
+      "sha256": "034456b2fb7689ef708f14952c771b5a942446f7c6fac5261abb77ccd8c83bf3",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 8868
     },
     "territory-2-still.png": {
       "sha256": "c8020570c6ab41a869c4b8685a7267c5918898cce478299e198e9fe3e72e5bf3",
@@ -249,14 +249,6 @@
       ],
       "bytes": 66200
     },
-    "flow-2-still.png": {
-      "sha256": "b5b9a783edf2827f12ecaa8451b16ae7aab09bbb64b963e02ea85d2503bac34a",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 3460
-    },
     "flow-2-sheet.png": {
       "sha256": "957d04347e6f21b961591344faddf8132f22c47e8b84effe54cb181775eae2e3",
       "size": [
@@ -264,6 +256,14 @@
         1152
       ],
       "bytes": 65339
+    },
+    "flow-2-still.png": {
+      "sha256": "b5b9a783edf2827f12ecaa8451b16ae7aab09bbb64b963e02ea85d2503bac34a",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3460
     },
     "caliban-0-still.png": {
       "sha256": "d5dc46b2509f6c0c017539656d721a0e45e15c791298cc14e4b79052123c2e60",
@@ -273,14 +273,6 @@
       ],
       "bytes": 3061
     },
-    "caliban-1-still.png": {
-      "sha256": "812d36e21e2de1850156f4367256c083a0dc6024913fb7fef6a33fe01a9e0f6c",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 3104
-    },
     "caliban-1-sheet.png": {
       "sha256": "cc3a33006354fa975d2fed00afc44c017e679d8b40384b1f6ec08ad6c62da275",
       "size": [
@@ -288,6 +280,14 @@
         1152
       ],
       "bytes": 78125
+    },
+    "caliban-1-still.png": {
+      "sha256": "812d36e21e2de1850156f4367256c083a0dc6024913fb7fef6a33fe01a9e0f6c",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 3104
     },
     "caliban-2-still.png": {
       "sha256": "418490c2a7fe734cec062dff83b3401d72eb02e20e0647f8a6610496c41268b8",
@@ -529,14 +529,6 @@
       ],
       "bytes": 61673
     },
-    "stack-2-still.png": {
-      "sha256": "b84dd4f8126d6b8b85fc95a5ca39f5479aeb00739c19c152cc34b814bda9ff0e",
-      "size": [
-        96,
-        96
-      ],
-      "bytes": 2018
-    },
     "stack-2-sheet.png": {
       "sha256": "7dde017d0201a4b105887ad75066bb31c3280b53b1a139415312b83ff9ac1340",
       "size": [
@@ -544,6 +536,14 @@
         1152
       ],
       "bytes": 64313
+    },
+    "stack-2-still.png": {
+      "sha256": "b84dd4f8126d6b8b85fc95a5ca39f5479aeb00739c19c152cc34b814bda9ff0e",
+      "size": [
+        96,
+        96
+      ],
+      "bytes": 2018
     },
     "deduction-0-still.png": {
       "sha256": "8f5161a5d4201ee65a3f3a41fe609562b20525aa616051810b9a016216c47da7",
@@ -689,14 +689,6 @@
       ],
       "bytes": 43463
     },
-    "crossing-2-sheet.png": {
-      "sha256": "1ed1bf73ab0c63702173b376b1f82768935bef695f6dcf9a02e3643d78f73e9d",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 43149
-    },
     "crossing-2-still.png": {
       "sha256": "490aadff031a4ee23235b021b1b13e179141338bf155a4689b41913ba8317c84",
       "size": [
@@ -704,6 +696,14 @@
         96
       ],
       "bytes": 1196
+    },
+    "crossing-2-sheet.png": {
+      "sha256": "1ed1bf73ab0c63702173b376b1f82768935bef695f6dcf9a02e3643d78f73e9d",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 43149
     },
     "shift-0-still.png": {
       "sha256": "d764bb9ec4b92fabcee1a592fc1698abc14594bfda7c26b0b33668387fc91723",
@@ -729,14 +729,6 @@
       ],
       "bytes": 16781
     },
-    "shift-2-sheet.png": {
-      "sha256": "b4941a65acca16cf5778ca7b534be3ad47219966037acf5c4f1b2354cd9f49c1",
-      "size": [
-        768,
-        1152
-      ],
-      "bytes": 16848
-    },
     "shift-2-still.png": {
       "sha256": "d894bdbaecad3d5aa77629df68ed1697f5b21dcb8481370e89d0bea218b9c6ce",
       "size": [
@@ -744,6 +736,14 @@
         96
       ],
       "bytes": 649
+    },
+    "shift-2-sheet.png": {
+      "sha256": "b4941a65acca16cf5778ca7b534be3ad47219966037acf5c4f1b2354cd9f49c1",
+      "size": [
+        768,
+        1152
+      ],
+      "bytes": 16848
     }
   },
   "bytes": 2218104

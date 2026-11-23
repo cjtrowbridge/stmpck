@@ -33,14 +33,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 	screen.Fill(p.background)
 	if g.Selected < 0 {
-		body := screen.SubImage(image.Rect(0, min(menu.Header, g.height), g.width, g.height)).(*ebiten.Image)
+		header := g.HeaderHeight()
+		body := screen.SubImage(image.Rect(0, min(header, g.height), g.width, g.height)).(*ebiten.Image)
 		order := g.galleryOrder
 		if len(order) == 0 {
-			centered(body, "All games explored", float64(g.width)/2, menu.Header+60, p.ink)
+			centered(body, "All games explored", float64(g.width)/2, float64(header+60), p.ink)
 		}
 		for i, id := range order {
 			x, y, w, _ := g.TileRect(i, g.width)
-			if y+float64(g.RowHeight) < menu.Header || y > float64(g.height) {
+			if y+float64(g.RowHeight) < float64(header) || y > float64(g.height) {
 				continue
 			}
 			rect(body, x, y, w, float64(g.RowHeight-14), p.panel)
@@ -53,20 +54,26 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			line(body, x+w-22, y+18, x+w-14, y+18, 1, p.muted)
 			line(body, x+w-14, y+18, x+w-14, y+26, 1, p.muted)
 		}
-		if float64(g.Rows()*g.RowHeight+menu.Header+menu.Footer) > float64(g.height) {
-			track := float64(g.height - menu.Header - menu.Footer)
+		if float64(g.Rows()*g.RowHeight+header+menu.Footer) > float64(g.height) {
+			track := float64(g.height - header - menu.Footer)
 			thumb := math.Max(20, track*track/float64(g.Rows()*g.RowHeight))
-			y := menu.Header + g.Scroll/(float64(g.Rows()*g.RowHeight)-track)*(track-thumb)
+			y := float64(header) + g.Scroll/(float64(g.Rows()*g.RowHeight)-track)*(track-thumb)
 			rect(screen, float64(g.width)-6, y, 2, thumb, p.muted)
 		}
 	} else {
 		g.drawPlay(screen, p)
 	}
 
+	if g.embedded && g.Selected < 0 {
+		g.drawGalleryToolbar(screen, p)
+		g.drawSparkles(screen, p)
+		return
+	}
 	// Header is fixed while the gallery scrolls.
 	rect(screen, 0, 0, float64(g.width), menu.Header, p.background)
 	if g.Selected >= 0 {
 		chevron(screen, 28, 26, -1, p.ink)
+		centered(screen, menu.Names[g.Selected], float64(g.width)/2, 26, p.ink)
 	} else {
 		if g.Tab == menu.Worldwide && !g.HasGlobalRanking {
 			label(screen, "Popularity estimate", 16, 31, p.muted)
@@ -158,12 +165,20 @@ func (g *Game) drawSettings(dst *ebiten.Image, p palette) {
 		}
 		centered(dst, fmt.Sprint(i), x+(choiceWidth-4)/2, 386, p.ink)
 	}
-	rect(dst, 16, 430, float64(g.width-32), 52, p.panel)
-	vector.StrokeRect(dst, 16, 430, float32(g.width-32), 52, 2, p.a, true)
-	label(dst, "Check for update (Enter / A)", 26, 462, p.ink)
-	label(dst, g.updateMessage(), 20, 504, p.muted)
+	helpY := 440
+	if !g.embedded {
+		rect(dst, 16, 430, float64(g.width-32), 52, p.panel)
+		vector.StrokeRect(dst, 16, 430, float32(g.width-32), 52, 2, p.a, true)
+		label(dst, "Check for update (Enter / A)", 26, 462, p.ink)
+		label(dst, g.updateMessage(), 20, 504, p.muted)
+		helpY = 536
+	}
+	menuHelp := "Menu arrows: intensity / browse."
+	if g.embedded {
+		menuHelp = "Arrows / D-pad: move focus. Enter / A: choose."
+	}
 	lines := []string{
-		"Menu arrows: intensity / browse.",
+		menuHelp,
 		"Game arrows: move. Enter: confirm.",
 		"Space / pad Y: pause. R: new game.",
 		"Merge U: undo. S: symbols.",
@@ -173,6 +188,6 @@ func (g *Game) drawSettings(dst *ebiten.Image, p palette) {
 		"creativecommons.org/licenses/by/4.0/",
 	}
 	for i, text := range lines {
-		label(dst, text, 20, 536+i*18, p.muted)
+		label(dst, text, 20, helpY+i*18, p.muted)
 	}
 }

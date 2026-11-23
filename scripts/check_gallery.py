@@ -86,9 +86,12 @@ def main():
                 key("\ue00c")
                 assert browser.js('return localStorage.getItem("stmpck/games.json")') is None
                 key("\ue006")
+                shot("setup")
+                assert browser.js('return localStorage.getItem("stmpck/games.json")') is None, "opening setup wrote a save"
+                key("\ue006")
                 shot("game")
                 saved = json.loads(browser.js('return localStorage.getItem("stmpck/games.json")'))
-                assert sum(saved["Plays"]) == 1, "game opening did not record exactly one play"
+                assert sum(saved["Plays"]) == 1, "starting the game did not record exactly one play"
                 key("\ue00c")
                 shot("returned")
                 result["checks"] = ["still freeze", "wireframe", "same-frame still return", "animation resume", "maximum intensity", "scroll", "settings", "game entry/return", "no preview saves or counts"]
